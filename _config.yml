@@ -30,10 +30,10 @@ twitter_username: msrsiddik
 github_username:  msrsiddik
 
 # Build settings
-theme: minimal-mistakes-jekyll
+# theme: minimal-mistakes-jekyll
 # remote_theme: "mmistakes/minimal-mistakes@4.24.0"
+remote_theme: mmistakes/minimal-mistakes
 plugins:
-  - jekyll-remote-theme
   - jekyll-paginate
   - jekyll-sitemap
   - jekyll-gist
