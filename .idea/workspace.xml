@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6ed02ada-400d-4c29-aa30-03d82d70f8a2" name="Changes" comment="initial commit" />
+    <list default="true" id="6ed02ada-400d-4c29-aa30-03d82d70f8a2" name="Changes" comment="initial commit">
+      <change beforePath="$PROJECT_DIR$/hugo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/hugo.toml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -67,8 +69,8 @@
       <window_info id="Merge Requests" />
       <window_info id="Backup and Sync History" />
       <window_info id="Commit_Guest" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.33036405" />
-      <window_info id="Commit" order="1" weight="0.33036405" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.33036405" />
+      <window_info active="true" id="Commit" order="1" visible="true" weight="0.33036405" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info id="Pull Requests" order="3" weight="0.33036405" />
       <window_info id="Learn" order="4" weight="0.33036405" />
