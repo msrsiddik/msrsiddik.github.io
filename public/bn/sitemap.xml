@@ -2,64 +2,64 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/bn/authors/</loc>
+    <loc>//localhost:1313/bn/authors/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/authors/"
+                href="//localhost:1313/authors/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="bn"
-                href="http://localhost:1313/bn/authors/"
+                href="//localhost:1313/bn/authors/"
                 />
   </url><url>
-    <loc>http://localhost:1313/bn/categories/</loc>
+    <loc>//localhost:1313/bn/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/categories/"
+                href="//localhost:1313/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="bn"
-                href="http://localhost:1313/bn/categories/"
+                href="//localhost:1313/bn/categories/"
                 />
   </url><url>
-    <loc>http://localhost:1313/bn/</loc>
+    <loc>//localhost:1313/bn/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/"
+                href="//localhost:1313/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="bn"
-                href="http://localhost:1313/bn/"
+                href="//localhost:1313/bn/"
                 />
   </url><url>
-    <loc>http://localhost:1313/bn/series/</loc>
+    <loc>//localhost:1313/bn/series/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/series/"
+                href="//localhost:1313/series/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="bn"
-                href="http://localhost:1313/bn/series/"
+                href="//localhost:1313/bn/series/"
                 />
   </url><url>
-    <loc>http://localhost:1313/bn/tags/</loc>
+    <loc>//localhost:1313/bn/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/tags/"
+                href="//localhost:1313/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="bn"
-                href="http://localhost:1313/bn/tags/"
+                href="//localhost:1313/bn/tags/"
                 />
   </url>
 </urlset>
