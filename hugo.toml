@@ -1,4 +1,4 @@
-baseURL = "https://msrsiddik.github.io/msrsiddik.github.io"
+baseURL = "http://example.org"
 title = "MSR"
 theme = "hugo-coder"
 languageCode = "en"
