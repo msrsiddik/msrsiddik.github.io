@@ -6,6 +6,14 @@
     <description>Recent content on MSR</description>
     <generator>Hugo</generator>
     <language>bn</language>
+    <lastBuildDate>Fri, 17 Oct 2025 08:45:49 +0600</lastBuildDate>
     <atom:link href="http://localhost:1313/bn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>http://localhost:1313/bn/about/</link>
+      <pubDate>Fri, 17 Oct 2025 08:45:49 +0600</pubDate>
+      <guid>http://localhost:1313/bn/about/</guid>
+      <description>&lt;p&gt;আমি একজন ফুলস্ট্যাক ডেভেলপার। ওয়েব, ব্যাকএন্ড, এপিআই, ডেস্কটপ এবং মোবাইল অ্যাপ ডেভেলপমেন্টে কাজ করি।&lt;br&gt;&#xA;পরিচ্ছন্ন কোড লেখা, দ্রুত প্রোটোটাইপ তৈরি এবং উচ্চ পারফরম্যান্স নিশ্চিত করাই আমার মূল লক্ষ্য।&lt;/p&gt;&#xA;&lt;p&gt;আমি মূলত &lt;strong&gt;জাভা&lt;/strong&gt;, &lt;strong&gt;জাভাস্ক্রিপ্ট&lt;/strong&gt; এবং &lt;strong&gt;গো&lt;/strong&gt; ভাষায় কাজ করি।&lt;br&gt;&#xA;ওপেন সোর্স প্রোজেক্ট &lt;strong&gt;&lt;a href=&#34;https://sourceforge.net/projects/floreantpos/&#34;  class=&#34;external-link&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;FloreantPOS&lt;/a&gt;&lt;/strong&gt;-এর অংশ হতে পেরে গর্বিত।&lt;br&gt;&#xA;এছাড়া &lt;strong&gt;OroPOS&lt;/strong&gt;, &lt;strong&gt;Octave&lt;/strong&gt;, &lt;strong&gt;Oro Cloud&lt;/strong&gt;, &lt;strong&gt;Siiopa&lt;/strong&gt;, &lt;strong&gt;Menugreat&lt;/strong&gt;, &lt;strong&gt;Medlogics&lt;/strong&gt;, এবং &lt;strong&gt;Byzlogics&lt;/strong&gt; সহ আরও বহু প্রোজেক্টে কাজ করেছি।&lt;br&gt;&#xA;আমার কিছু ব্যক্তিগত প্রোজেক্টও &lt;strong&gt;&lt;a href=&#34;https://github.com/msrsiddik&#34;  class=&#34;external-link&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;GitHub&lt;/a&gt;&lt;/strong&gt;-এ উন্মুক্ত রয়েছে।&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;প্রযুক্তি স্ট্যাক:&lt;/strong&gt; Swing, Spring Boot, Hibernate, React, Next.js, Fiber, Echo, GORM, Android&lt;br&gt;&#xA;&lt;strong&gt;ফোকাস:&lt;/strong&gt; স্কেলেবল আর্কিটেকচার, পরিচ্ছন্ন ডিজাইন, এবং বাস্তব জীবনের সমস্যার টেকনিক্যাল সমাধান।&lt;/p&gt;</description>
+    </item>
   </channel>
 </rss>

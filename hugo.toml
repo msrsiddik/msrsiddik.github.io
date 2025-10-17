@@ -182,11 +182,11 @@ url = "https://facebook.com/0MSR1"
 [languages.en]
 languageName = ":uk:"
 
-#[[languages.en.menu.main]]
-#name = "About"
-#weight = 1
-#url = "about/"
-#
+[[languages.en.menu.main]]
+name = "Me"
+weight = 1
+url = "about/"
+
 #[[languages.en.menu.main]]
 #name = "Blog"
 #weight = 2
@@ -212,11 +212,11 @@ info = ["ফুল স্ট্যাক ডেভঅপস", "ম্যাজ�
 description = "পার্সোনাল ওয়েবসাইট সিদ্দিকুর রহমান"
 keywords = "blog,desenvolvedor,pessoal"
 
-#[[languages.bn.menu.main]]
-#name = "Sobre"
-#weight = 1
-#url = "about/"
-#
+[[languages.bn.menu.main]]
+name = "আমি"
+weight = 1
+url = "about/"
+
 #[[languages.bn.menu.main]]
 #name = "Blog"
 #weight = 2

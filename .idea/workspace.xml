@@ -5,7 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ed02ada-400d-4c29-aa30-03d82d70f8a2" name="Changes" comment="initial commit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hugo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/hugo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/authors/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/authors/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/authors/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/authors/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/categories/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/categories/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/series/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/series/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/sitemap.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/tags/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/tags/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/categories/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/en/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/en/sitemap.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/series/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/series/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/sitemap.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,8 +87,8 @@
       <window_info id="Merge Requests" />
       <window_info id="Backup and Sync History" />
       <window_info id="Commit_Guest" show_stripe_button="false" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.27846628" />
-      <window_info active="true" id="Commit" order="1" visible="true" weight="0.27846628" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27846628" />
+      <window_info id="Commit" order="1" weight="0.27846628" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info id="Pull Requests" order="3" weight="0.33036405" />
       <window_info id="Learn" order="4" weight="0.33036405" />

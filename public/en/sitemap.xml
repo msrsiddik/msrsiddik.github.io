@@ -2,6 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://localhost:1313/about/</loc>
+    <lastmod>2025-10-17T08:42:59+06:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="bn"
+                href="http://localhost:1313/bn/about/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="http://localhost:1313/about/"
+                />
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2025-10-17T08:42:59+06:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="bn"
+                href="http://localhost:1313/bn/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="http://localhost:1313/"
+                />
+  </url><url>
     <loc>http://localhost:1313/authors/</loc>
     <xhtml:link
                 rel="alternate"
@@ -24,18 +50,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="http://localhost:1313/categories/"
-                />
-  </url><url>
-    <loc>http://localhost:1313/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="bn"
-                href="http://localhost:1313/bn/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="http://localhost:1313/"
                 />
   </url><url>
     <loc>http://localhost:1313/series/</loc>
