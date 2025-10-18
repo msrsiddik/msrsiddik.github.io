@@ -32,7 +32,7 @@ avatarURL = "https://avatars.githubusercontent.com/u/26040352?v=4"
 dateFormat = "January 2, 2006"
 since = 2025
 # Git Commit in Footer, uncomment the line below to enable it
-commit = "https://github.com/msrsiddik/"
+commit = "https://github.com/msrsiddik/msrsiddik.github.io"
 # Right To Left, shift content direction for languages such as Arabic
 rtl = false
 # Specify light/dark colorscheme
@@ -46,7 +46,7 @@ hideColorSchemeToggle = false
 # Series see also post count
 maxSeeAlsoItems = 5
 # Custom CSS
-customCSS = ["css/custom.css","css/magic.css"]
+customCSS = ["css/magic.css"]
 # Custom SCSS, file path is relative to Hugo's asset folder (default: {your project root}/assets)
 customSCSS = []
 

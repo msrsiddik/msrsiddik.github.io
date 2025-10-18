@@ -15,7 +15,7 @@
 }
 
 /* ========== MAIN CONTAINER ========== */
-/* Glass-morphism card with blur effect */
+/* Glass-morphism card with blur effect and 3D tilt */
 
 .about {
     text-align: center;
@@ -28,10 +28,19 @@
     position: relative;
     overflow: hidden;
     max-width: 600px;
-    transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    /* 3D tilt effect setup */
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out, box-shadow 0.3s ease;
+    will-change: transform;
+}
+
+/* Enhanced shadow on tilt */
+.about.tilting {
+    box-shadow: 0 15px 50px 0 rgba(31, 38, 135, 0.5);
 }
 
 /* Custom cursor - Magic wand */

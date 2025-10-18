@@ -374,4 +374,64 @@ document.addEventListener('DOMContentLoaded', function() {
         attributeFilter: ['class', 'data-theme']
     });
 
-});
+    // ========== 3D TILT EFFECT ON CARD ==========
+    // Card tilts based on mouse position - smooth and responsive
+
+    (function initTiltEffect() {
+        let tiltTimeout;
+        const maxTilt = 10; // Maximum tilt angle in degrees
+
+        about.addEventListener('mousemove', function(e) {
+            // Get card boundaries
+            const rect = about.getBoundingClientRect();
+
+            // Calculate mouse position relative to card center
+            const cardCenterX = rect.left + rect.width / 2;
+            const cardCenterY = rect.top + rect.height / 2;
+
+            // Calculate offset from center (normalized to -1 to 1)
+            const offsetX = (e.clientX - cardCenterX) / (rect.width / 2);
+            const offsetY = (e.clientY - cardCenterY) / (rect.height / 2);
+
+            // Calculate tilt angles
+            const tiltX = offsetY * maxTilt; // Vertical tilt
+            const tiltY = offsetX * -maxTilt; // Horizontal tilt (inverted for natural feel)
+
+            // Apply 3D transform with perspective
+            about.style.transform = `
+        perspective(1000px) 
+        rotateX(${tiltX}deg) 
+        rotateY(${tiltY}deg) 
+        scale3d(1.02, 1.02, 1.02)
+      `;
+
+            // Add tilting class for enhanced shadow
+            about.classList.add('tilting');
+
+            // Clear previous timeout
+            clearTimeout(tiltTimeout);
+        });
+
+        about.addEventListener('mouseleave', function() {
+            // Smooth return to original position
+            about.style.transition = 'transform 0.5s ease-out, box-shadow 0.3s ease';
+            about.style.transform = `
+        perspective(1000px) 
+        rotateX(0deg) 
+        rotateY(0deg) 
+        scale3d(1, 1, 1)
+      `;
+
+            // Remove tilting class after animation
+            tiltTimeout = setTimeout(() => {
+                about.classList.remove('tilting');
+            }, 300);
+
+            // Reset transition speed for next interaction
+            setTimeout(() => {
+                about.style.transition = 'transform 0.1s ease-out, box-shadow 0.3s ease';
+            }, 500);
+        });
+    })();
+
+}); // End of DOMContentLoaded
