@@ -24,7 +24,7 @@ unsafe = true
 [params]
 author = "Siddiqur Rahman"
 # license = '<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA-4.0</a>'
-description = "Siddiqur Rahman's personal website"
+description = "Siddiqur Rahman's portfolio"
 keywords = "blog,developer,personal"
 info = ["Full Stack DevOps", "Magician"]
 avatarURL = "https://avatars.githubusercontent.com/u/26040352?v=4"

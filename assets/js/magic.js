@@ -5,23 +5,58 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // ========== THEME COLOR DETECTION ==========
-    // Automatically detects and uses existing theme colors
+    // Automatically detects and uses existing theme colors with light/dark mode support
 
     function getThemeColors() {
         const root = getComputedStyle(document.documentElement);
+        const bodyBg = getComputedStyle(document.body).backgroundColor;
 
-        return {
-            primary: root.getPropertyValue('--color-primary') ||
-                root.getPropertyValue('--accent') || '#667eea',
-            secondary: root.getPropertyValue('--color-secondary') ||
-                root.getPropertyValue('--accent-alt') || '#764ba2',
-            accent: root.getPropertyValue('--color-accent') ||
-                root.getPropertyValue('--accent') || '#ffd700',
-            text: root.getPropertyValue('--color-text') ||
-                root.getPropertyValue('--fg') || '#333',
-            bg: root.getPropertyValue('--color-bg') ||
-                root.getPropertyValue('--bg') || '#fff'
-        };
+        // Detect if light or dark mode based on background brightness
+        function isLightMode() {
+            // Check if body has light background
+            const rgb = bodyBg.match(/\d+/g);
+            if (rgb) {
+                const brightness = (parseInt(rgb[0]) * 299 + parseInt(rgb[1]) * 587 + parseInt(rgb[2]) * 114) / 1000;
+                return brightness > 128; // Light mode if brightness > 128
+            }
+
+            // Fallback: check for common light mode classes
+            return document.documentElement.classList.contains('light') ||
+                document.body.classList.contains('light') ||
+                document.documentElement.getAttribute('data-theme') === 'light';
+        }
+
+        const lightMode = isLightMode();
+
+        // Get base colors from theme
+        const basePrimary = root.getPropertyValue('--color-primary') ||
+            root.getPropertyValue('--accent') || '#667eea';
+        const baseSecondary = root.getPropertyValue('--color-secondary') ||
+            root.getPropertyValue('--accent-alt') || '#764ba2';
+        const baseAccent = root.getPropertyValue('--color-accent') ||
+            root.getPropertyValue('--accent') || '#ffd700';
+
+        if (lightMode) {
+            // Light mode - darker, more saturated colors for better visibility
+            return {
+                primary: '#5568d3',        // Darker blue
+                secondary: '#6b3fa0',      // Darker purple
+                accent: '#f59e0b',         // Amber/Orange instead of gold
+                text: '#1f2937',           // Dark gray text
+                bg: '#ffffff'              // White background
+            };
+        } else {
+            // Dark mode - use theme colors or defaults
+            return {
+                primary: basePrimary,
+                secondary: baseSecondary,
+                accent: baseAccent,
+                text: root.getPropertyValue('--color-text') ||
+                    root.getPropertyValue('--fg') || '#e5e7eb',
+                bg: root.getPropertyValue('--color-bg') ||
+                    root.getPropertyValue('--bg') || '#1f2937'
+            };
+        }
     }
 
     const themeColors = getThemeColors();
@@ -91,6 +126,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Move existing image into container
     const img = originalImg.cloneNode(true);
+
+    // Remove alt text completely
+    img.removeAttribute('alt');
+    img.alt = ''; // Empty alt
+
     avatarContainer.appendChild(img);
 
     // Replace avatar content
@@ -368,10 +408,15 @@ document.addEventListener('DOMContentLoaded', function() {
         document.documentElement.style.setProperty('--magic-bg', newColors.bg);
     });
 
-    // Watch for class or data-theme attribute changes on html element
+    // Watch for class or data-theme attribute changes on html and body
     observer.observe(document.documentElement, {
         attributes: true,
-        attributeFilter: ['class', 'data-theme']
+        attributeFilter: ['class', 'data-theme', 'style']
+    });
+
+    observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style']
     });
 
     // ========== 3D TILT EFFECT ON CARD ==========
