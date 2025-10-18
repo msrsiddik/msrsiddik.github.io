@@ -4,61 +4,54 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6ed02ada-400d-4c29-aa30-03d82d70f8a2" name="Changes" comment="added about page">
-      <change afterPath="$PROJECT_DIR$/assets/css/magic.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/js/magic.js" afterDir="false" />
+    <list default="true" id="6ed02ada-400d-4c29-aa30-03d82d70f8a2" name="Changes" comment="added magic effect">
+      <change afterPath="$PROJECT_DIR$/static/images/apple-touch-icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/images/favicon-16x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/images/favicon-32x32.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/images/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/images/favicon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/images/web-app-manifest-192x192.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/images/web-app-manifest-512x512.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/site.webmanifest" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hugo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/hugo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/404.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/about/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/authors/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/authors/index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/authors/page/1/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bn/404.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bn/about/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bn/authors/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bn/authors/index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bn/authors/page/1/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bn/categories/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bn/categories/index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bn/categories/page/1/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bn/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bn/index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bn/series/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bn/series/index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bn/series/page/1/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bn/sitemap.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bn/tags/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bn/tags/index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/bn/tags/page/1/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/categories/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/categories/index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/categories/page/1/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/coder-dark.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/coder-dark.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/coder.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/coder.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/custom.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/en/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/en/sitemap.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/fonts/LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/fonts/fa-brands-400.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/fonts/fa-brands-400.woff2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/fonts/fa-regular-400.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/fonts/fa-regular-400.woff2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/fonts/fa-solid-900.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/fonts/fa-solid-900.woff2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/avatar.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/coder.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/series/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/series/index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/series/page/1/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/sitemap.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/tags/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/tags/index.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/tags/page/1/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/magic.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/magic.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/magic.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/magic.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/authors/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/authors/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/authors/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/authors/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/authors/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/authors/page/1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/authors/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/authors/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/authors/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/authors/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/authors/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/authors/page/1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/categories/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/categories/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/categories/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/categories/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/categories/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/categories/page/1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/series/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/series/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/series/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/series/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/series/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/series/page/1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/sitemap.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/tags/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/tags/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/tags/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/tags/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/bn/tags/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/bn/tags/page/1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/categories/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/categories/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/categories/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/categories/page/1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/magic.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/magic.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/en/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/en/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/en/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/en/sitemap.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/magic.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/magic.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/series/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/series/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/series/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/series/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/series/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/series/page/1/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/sitemap.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/index.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/index.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/tags/page/1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/tags/page/1/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,6 +80,9 @@
     "accountId": "9c40d35a-67ec-411d-8eb3-375e5bd0fb5a"
   }
 }]]></component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -108,7 +104,7 @@
     "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "/home/siddik/GolandProjects/myportfolio/layouts/_partials",
+    "last_opened_file_path": "/home/siddik/GolandProjects/myportfolio/static/images",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
@@ -122,8 +118,8 @@
       <window_info id="Merge Requests" />
       <window_info id="Backup and Sync History" />
       <window_info id="Commit_Guest" show_stripe_button="false" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.27846628" />
-      <window_info active="true" id="Commit" order="1" visible="true" weight="0.27846628" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27846628" />
+      <window_info id="Commit" order="1" weight="0.27846628" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info id="Pull Requests" order="3" weight="0.33036405" />
       <window_info id="Learn" order="4" weight="0.33036405" />
@@ -151,11 +147,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/layouts/_partials" />
       <recent name="$PROJECT_DIR$/static/images" />
+      <recent name="$PROJECT_DIR$/static" />
+      <recent name="$PROJECT_DIR$/layouts/_partials" />
       <recent name="$PROJECT_DIR$/layouts/_partials/head" />
       <recent name="$PROJECT_DIR$/images" />
-      <recent name="$PROJECT_DIR$/i18n" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/static" />
@@ -185,7 +181,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit" />
     <MESSAGE value="added about page" />
-    <option name="LAST_COMMIT_MESSAGE" value="added about page" />
+    <MESSAGE value="added magic effect" />
+    <option name="LAST_COMMIT_MESSAGE" value="added magic effect" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
