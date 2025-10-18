@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6ed02ada-400d-4c29-aa30-03d82d70f8a2" name="Changes" comment="added magic effect">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/static.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/static.yml" afterDir="false" />
+    <list default="true" id="6ed02ada-400d-4c29-aa30-03d82d70f8a2" name="Changes" comment="hide cursor on avatar area">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -74,8 +73,8 @@
       <window_info id="Merge Requests" />
       <window_info id="Backup and Sync History" />
       <window_info id="Commit_Guest" show_stripe_button="false" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.33036405" />
-      <window_info active="true" id="Commit" order="1" visible="true" weight="0.33036405" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.33036405" />
+      <window_info id="Commit" order="1" weight="0.33036405" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info id="Pull Requests" order="3" weight="0.33036405" />
       <window_info id="Learn" order="4" weight="0.33036405" />
@@ -138,7 +137,10 @@
     <MESSAGE value="initial commit" />
     <MESSAGE value="added about page" />
     <MESSAGE value="added magic effect" />
-    <option name="LAST_COMMIT_MESSAGE" value="added magic effect" />
+    <MESSAGE value="changed static.yml and deploy logic" />
+    <MESSAGE value="clear public folder" />
+    <MESSAGE value="hide cursor on avatar area" />
+    <option name="LAST_COMMIT_MESSAGE" value="hide cursor on avatar area" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
