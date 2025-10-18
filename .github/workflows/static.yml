@@ -1,43 +1,79 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+# .github/workflows/static.yml
 
+# Workflow name
+name: Deploy Hugo site to GitHub Pages
+
+# Controls when the workflow will run
 on:
-  # Runs on pushes targeting the default branch
+  # Triggers the workflow on push events but only for the "myportfolio" branch
   push:
     branches: ["myportfolio"]
 
-  # Allows you to run this workflow manually from the Actions tab
+  # Allows you to run this workflow manually from the Actions tab in GitHub
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# Sets the permissions of the GITHUB_TOKEN for this workflow.
+# This is required for the new GitHub Pages deployment process.
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: read      # To check out the repository's code.
+  pages: write         # To deploy to GitHub Pages.
+  id-token: write      # To authenticate with GitHub Pages.
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+# Allows only one concurrent deployment.
+# It will cancel any runs that are queued up, but not the one already in progress.
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel.
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  # This job builds the Hugo site.
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      # Step 1: Checks out your repository under $GITHUB_WORKSPACE, so the workflow can access it.
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          submodules: true  # Fetches Git submodules, which is necessary if your theme is a submodule.
+
+      # Step 2: Sets up the Hugo CLI.
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest' # Uses the latest version of Hugo.
+          # extended: true # Uncomment this if your theme requires the Hugo extended version (for SASS/SCSS).
+
+      # Step 3: Configures GitHub Pages to get the correct base URL.
       - name: Setup Pages
+        id: pages
         uses: actions/configure-pages@v5
+
+      # Step 4: Builds the site using Hugo. This is the most important step for fixing your issue.
+      - name: Build with Hugo
+        # The `--baseURL` flag overrides the baseURL in your config file.
+        # It uses the URL provided by the 'Setup Pages' step, ensuring all links are correct for GitHub Pages.
+        # `--minify` makes the output files smaller for faster loading.
+        run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+
+      # Step 5: Uploads the built site (the 'public' folder) as an artifact.
+      # This artifact will be used by the 'deploy' job.
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
           path: ./public
+
+  # This job deploys the artifact to GitHub Pages.
+  deploy:
+    # Requires the 'build' job to have completed successfully.
+    needs: build
+    runs-on: ubuntu-latest
+    # Sets the deployment environment.
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }} # The URL of the deployed site.
+    steps:
+      # Step 1: Deploys the artifact that was uploaded in the 'build' job.
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
