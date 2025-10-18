@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MSR</title>
+    <link>http://localhost:1313/msrsiddik/msrsiddik.github.io/</link>
+    <description>Recent content on MSR</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 17 Oct 2025 08:42:59 +0600</lastBuildDate>
+    <atom:link href="http://localhost:1313/msrsiddik/msrsiddik.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>http://localhost:1313/msrsiddik/msrsiddik.github.io/about/</link>
+      <pubDate>Fri, 17 Oct 2025 08:42:59 +0600</pubDate>
+      <guid>http://localhost:1313/msrsiddik/msrsiddik.github.io/about/</guid>
+      <description>&lt;p&gt;I’m a full-stack developer experienced in Web, Backend, API, Desktop, and Mobile App development.&lt;br&gt;&#xA;I focus on &lt;strong&gt;clean code&lt;/strong&gt;, &lt;strong&gt;fast prototyping&lt;/strong&gt;, and &lt;strong&gt;high-performance&lt;/strong&gt; software solutions.&lt;/p&gt;&#xA;&lt;p&gt;My core languages are &lt;strong&gt;Java&lt;/strong&gt;, &lt;strong&gt;JavaScript&lt;/strong&gt;, and &lt;strong&gt;Go&lt;/strong&gt;.&lt;br&gt;&#xA;I’m proud to have contributed to the open-source project &lt;strong&gt;&lt;a href=&#34;https://sourceforge.net/projects/floreantpos/&#34;  class=&#34;external-link&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;FloreantPOS&lt;/a&gt;&lt;/strong&gt;.&lt;br&gt;&#xA;I’ve also worked on several projects like OroPOS, Octave, Oro Cloud, Siiopa, Menugreat, Medlogics, and Byzlogics.&lt;br&gt;&#xA;Some of my personal projects are available on my &lt;strong&gt;&lt;a href=&#34;https://github.com/msrsiddik&#34;  class=&#34;external-link&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;GitHub profile&lt;/a&gt;&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
