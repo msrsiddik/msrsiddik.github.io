@@ -1,6 +1,7 @@
 +++
 date = '2025-10-17T08:42:59+06:00'
-title = 'About'
+draft = false
+title = 'A Glimpse Into My World'
 +++
 
 I’m a full-stack developer experienced in Web, Backend, API, Desktop, and Mobile App development.  
