@@ -1,6 +1,6 @@
 +++
 date = '2025-10-18T22:04:14+06:00'
-draft = true
+draft = false
 title = 'যোগাযোগ করুন'
 markup = 'html'
 +++

@@ -1,6 +1,6 @@
 +++
 date = '2025-10-18T22:03:55+06:00'
-draft = true
+draft = false
 title = 'Contact Me'
 markup = 'html'
 +++
