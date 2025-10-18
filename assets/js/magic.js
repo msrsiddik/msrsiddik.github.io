@@ -57,7 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const h2 = about.querySelector('h2');
     const ul = about.querySelector('ul');
 
-    if (h1) h1.classList.add('magic-item');
+    // h1 will have typewriter effect, not magic-item
+    // if (h1) h1.classList.add('magic-item');  // COMMENTED OUT
     if (h2) h2.classList.add('magic-item');
     if (ul) ul.classList.add('magic-item');
 
@@ -244,6 +245,34 @@ document.addEventListener('DOMContentLoaded', function() {
     function stopStorm() {
         rainContainer.classList.remove('active');
         windContainer.classList.remove('active');
+    }
+
+    // ========== TYPEWRITER EFFECT FOR NAME ==========
+    // Types out the name character by character
+
+    if (h1) {
+        const originalText = h1.textContent;
+        h1.textContent = ''; // Clear the text
+        h1.classList.add('typing'); // Add typing cursor
+
+        let charIndex = 0;
+
+        // Start typing after wand animation (1.5s delay)
+        setTimeout(() => {
+            const typingInterval = setInterval(() => {
+                if (charIndex < originalText.length) {
+                    h1.textContent += originalText.charAt(charIndex);
+                    charIndex++;
+                } else {
+                    clearInterval(typingInterval);
+                    // Remove typing cursor after 0.5s
+                    // setTimeout(() => {
+                    //     h1.classList.remove('typing');
+                    //     h1.classList.add('typing-done');
+                    // }, 500);
+                }
+            }, 100); // Type speed: 100ms per character
+        }, 1500);
     }
 
     // ========== BACKGROUND STARS ==========

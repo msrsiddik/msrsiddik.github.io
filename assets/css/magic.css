@@ -195,16 +195,16 @@
 }
 
 .lightning-overlay.flash {
-    animation: lightningFlash 0.4s ease-out;
+    animation: lightningFlash 0.5s ease-out;
 }
 
 @keyframes lightningFlash {
     0% { opacity: 0; }
-    10% { opacity: 0.8; }
+    10% { opacity: 0.05; }
     20% { opacity: 0; }
-    30% { opacity: 0.9; }
+    30% { opacity: 0.08; }
     40% { opacity: 0; }
-    50% { opacity: 0.7; }
+    50% { opacity: 0.05; }
     100% { opacity: 0; }
 }
 
@@ -215,20 +215,20 @@
     height: 0;
     border-left: 2px solid transparent;
     border-right: 2px solid transparent;
-    border-top: 100px solid var(--magic-primary);
+    border-top: 80px solid var(--magic-primary);
     opacity: 0;
     pointer-events: none;
     z-index: 9998;
-    filter: drop-shadow(0 0 10px var(--magic-primary)) drop-shadow(0 0 20px var(--magic-secondary));
+    filter: drop-shadow(0 0 3px var(--magic-primary)) drop-shadow(0 0 5px var(--magic-secondary));
 }
 
 .lightning.strike {
-    animation: lightningStrike 0.3s ease-out;
+    animation: lightningStrike 0.4s ease-out;
 }
 
 @keyframes lightningStrike {
     0%, 100% { opacity: 0; }
-    10%, 40%, 70% { opacity: 1; }
+    10%, 40%, 70% { opacity: 0.2; }
     20%, 50%, 80% { opacity: 0; }
 }
 
@@ -384,13 +384,34 @@
 
 /* ========== TYPOGRAPHY ========== */
 
-/* Name heading */
+/* Name heading with typewriter effect */
 .about h1 {
     font-size: 2.5rem;
     margin: 20px 0;
     color: var(--magic-text);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    display: inline-block;
 }
+
+/* Typing cursor */
+.about h1.typing::after {
+    content: '|';
+    color: var(--magic-accent);
+    animation: blink 1.2s infinite;
+    margin-left: 2px;
+}
+
+/* Blinking cursor animation */
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* Hide the cursor after typing is done */
+/*.about h1.typing-done::after {*/
+/*    display: none;*/
+/*}*/
 
 /* Subtitle/role */
 .about h2 {
