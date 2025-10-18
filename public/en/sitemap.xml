@@ -2,78 +2,65 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>https://msrsiddik.github.io/</loc>
     <lastmod>2025-10-17T08:42:59+06:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="bn"
-                href="http://localhost:1313/bn/about/"
+                href="https://msrsiddik.github.io/bn/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/about/"
+                href="https://msrsiddik.github.io/"
                 />
   </url><url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2025-10-17T08:42:59+06:00</lastmod>
+    <loc>https://msrsiddik.github.io/authors/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="bn"
-                href="http://localhost:1313/bn/"
+                href="https://msrsiddik.github.io/bn/authors/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/"
+                href="https://msrsiddik.github.io/authors/"
                 />
   </url><url>
-    <loc>http://localhost:1313/authors/</loc>
+    <loc>https://msrsiddik.github.io/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="bn"
-                href="http://localhost:1313/bn/authors/"
+                href="https://msrsiddik.github.io/bn/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/authors/"
+                href="https://msrsiddik.github.io/categories/"
                 />
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://msrsiddik.github.io/series/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="bn"
-                href="http://localhost:1313/bn/categories/"
+                href="https://msrsiddik.github.io/bn/series/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/categories/"
+                href="https://msrsiddik.github.io/series/"
                 />
   </url><url>
-    <loc>http://localhost:1313/series/</loc>
+    <loc>https://msrsiddik.github.io/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="bn"
-                href="http://localhost:1313/bn/series/"
+                href="https://msrsiddik.github.io/bn/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/series/"
-                />
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="bn"
-                href="http://localhost:1313/bn/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="http://localhost:1313/tags/"
+                href="https://msrsiddik.github.io/tags/"
                 />
   </url>
 </urlset>
