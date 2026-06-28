@@ -1,0 +1,139 @@
+{{ define "main" }}
+{{ $lang := .Site.Language.Lang }}
+{{ $skills := index .Site.Data $lang "skills" }}
+{{ $experience := index .Site.Data $lang "experience" }}
+{{ $projects := index .Site.Data $lang "projects" }}
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero-inner">
+    <p class="hero-eyebrow">{{ i18n "hero_eyebrow" }}</p>
+    <h1 class="hero-name">{{ .Site.Params.author }}</h1>
+    <h2 class="hero-role">{{ i18n "role" }}</h2>
+    <p class="hero-tagline">{{ i18n "tagline" }}</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#projects">{{ i18n "btn_projects" }}</a>
+      <a class="btn btn-ghost" href="mailto:{{ .Site.Params.email }}">{{ i18n "btn_contact" }}</a>
+    </div>
+    <div class="hero-meta">
+      <span class="dot"></span> {{ i18n "available" }} · Bangladesh
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-index">01</span>
+      <h2>{{ i18n "sec_about" }}</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        {{ with .Site.GetPage "/about" }}{{ .Content }}{{ end }}
+      </div>
+      <aside class="about-side">
+        <h3>{{ i18n "sec_skills" }}</h3>
+        <div class="skills">
+          {{ range $skills }}
+          <div class="skill-group">
+            <h4>{{ .category }}</h4>
+            <ul>
+              {{ range .items }}<li>{{ . }}</li>{{ end }}
+            </ul>
+          </div>
+          {{ end }}
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="section section-alt">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-index">02</span>
+      <h2>{{ i18n "sec_experience" }}</h2>
+    </div>
+    <ol class="timeline">
+      {{ range $experience }}
+      <li class="timeline-item">
+        <div class="timeline-period">{{ .period }}</div>
+        <div class="timeline-body">
+          <h3>{{ .role }} <span class="at">@</span> {{ if and .url (ne .url "#") }}<a href="{{ .url }}" target="_blank" rel="noopener">{{ .company }}</a>{{ else }}<span class="company">{{ .company }}</span>{{ end }}</h3>
+          <p>{{ .summary }}</p>
+          {{ with .highlights }}
+          <ul>
+            {{ range . }}<li>{{ . }}</li>{{ end }}
+          </ul>
+          {{ end }}
+        </div>
+      </li>
+      {{ end }}
+    </ol>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-index">03</span>
+      <h2>{{ i18n "sec_projects" }}</h2>
+    </div>
+    <div class="projects-grid">
+      {{ range (sort $projects "featured" "desc") }}
+      <article class="project-card{{ if .featured }} featured{{ end }}">
+        <div class="project-top">
+          <h3>{{ .name }}</h3>
+          <div class="project-links">
+            {{ with .repo }}{{ if ne . "#" }}<a href="{{ . }}" target="_blank" rel="noopener" aria-label="Source">code</a>{{ end }}{{ end }}
+            {{ with .url }}{{ if ne . "#" }}<a href="{{ . }}" target="_blank" rel="noopener" aria-label="Live">live ↗</a>{{ end }}{{ end }}
+          </div>
+        </div>
+        <p>{{ .description }}</p>
+        <ul class="tech-list">
+          {{ range .tech }}<li>{{ . }}</li>{{ end }}
+        </ul>
+      </article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+{{ $posts := where site.RegularPages "Section" "blog" }}
+{{ $posts = $posts.ByDate.Reverse }}
+{{ if $posts }}
+<section id="writing" class="section section-alt">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-index">04</span>
+      <h2>{{ i18n "sec_writing" }}</h2>
+      <a class="section-more" href="{{ "/blog" | relLangURL }}">{{ i18n "all_posts" }}</a>
+    </div>
+    <ul class="post-list">
+      {{ range first 3 $posts }}
+      <li>
+        <a href="{{ .RelPermalink }}">
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+          <span class="post-title">{{ .Title }}</span>
+        </a>
+      </li>
+      {{ end }}
+    </ul>
+  </div>
+</section>
+{{ end }}
+
+<!-- CONTACT -->
+<section id="contact" class="section contact">
+  <div class="container contact-inner">
+    <h2>{{ i18n "contact_title" }}</h2>
+    <p>{{ i18n "contact_text" }}</p>
+    <a class="btn btn-primary btn-lg" href="mailto:{{ .Site.Params.email }}">{{ .Site.Params.email }}</a>
+  </div>
+</section>
+
+{{ end }}

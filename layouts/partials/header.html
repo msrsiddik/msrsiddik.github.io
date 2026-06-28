@@ -1,0 +1,33 @@
+<header class="site-header">
+  <nav class="nav container">
+    <a class="brand" href="{{ "/" | relLangURL }}">
+      <span class="brand-mark">SR</span>
+      <span class="brand-name">{{ .Site.Params.author }}</span>
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      {{ range .Site.Menus.main }}
+        <li><a href="{{ .PageRef | default .URL | relLangURL }}">{{ .Name }}</a></li>
+      {{ end }}
+      <li><a class="nav-cta" href="mailto:{{ .Site.Params.email }}">{{ i18n "nav_contact" }}</a></li>
+      {{ if gt (len .Site.Sites) 1 }}
+      <li class="lang-switch">
+        {{ $cur := .Site.Language.Lang }}
+        {{ $page := . }}
+        {{ range .Site.Sites }}
+          {{ if eq .Language.Lang $cur }}
+            <span class="lang-active">{{ .Language.Lang | upper }}</span>
+          {{ else }}
+            {{ $href := .Home.RelPermalink }}
+            {{ $targetLang := .Language.Lang }}
+            {{ range $page.Translations }}{{ if eq .Language.Lang $targetLang }}{{ $href = .RelPermalink }}{{ end }}{{ end }}
+            <a href="{{ $href }}" hreflang="{{ .Language.Lang }}">{{ .Language.Lang | upper }}</a>
+          {{ end }}
+        {{ end }}
+      </li>
+      {{ end }}
+    </ul>
+  </nav>
+</header>

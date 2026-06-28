@@ -1,0 +1,11 @@
+# Banglish version. Skill naam gulo same rakha holo (proper noun), category Banglish.
+- category: "Bhasha (Languages)"
+  items: ["Go", "Java", "JavaScript", "TypeScript", "Kotlin", "SQL"]
+- category: "Backend"
+  items: ["Spring Boot", "Vaadin", "Go (net/http, gRPC)", "REST APIs", "PostgreSQL", "Redis"]
+- category: "Frontend"
+  items: ["React", "TypeScript", "HTML / CSS", "Tailwind"]
+- category: "Mobile"
+  items: ["Android (Kotlin/Java)"]
+- category: "Tooling & Infra"
+  items: ["Docker", "Git", "CI/CD", "Linux"]

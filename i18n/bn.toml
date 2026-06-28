@@ -1,0 +1,47 @@
+[hero_eyebrow]
+other = "Hi, ami"
+[role]
+other = "Full-stack Developer"
+[tagline]
+other = "Ami backend theke frontend porjonto product banai — Go, Java/Spring Boot, ar React diye."
+[available]
+other = "Kaj er jonno available"
+
+[btn_projects]
+other = "Project dekho"
+[btn_contact]
+other = "Jogajog koro"
+[nav_contact]
+other = "Jogajog"
+
+[sec_about]
+other = "Porichoy"
+[sec_skills]
+other = "Skills"
+[sec_experience]
+other = "Obhiggota"
+[sec_projects]
+other = "Project"
+[sec_writing]
+other = "Notun Lekha"
+[all_posts]
+other = "Shob lekha →"
+
+[contact_title]
+other = "Cholo kichu banai."
+[contact_text]
+other = "Kono project niye kotha bolte chao? Email koro — ami druto reply kori."
+
+[blog_title]
+other = "Blog"
+[blog_intro]
+other = "Software banano, debugging, ar ja kichu shikhi — tar opor lekha."
+[back_to_blog]
+other = "← Blog e fire jao"
+[min_read]
+other = "min read"
+[no_posts]
+other = "Akhono kono post nei."
+
+[footer_built]
+other = "Hugo diye banano."

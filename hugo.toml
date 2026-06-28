@@ -1,0 +1,74 @@
+baseURL = 'https://msrsiddik.github.io/'
+title = 'Siddiqur Rahman'
+# Custom theme lives in this project's own /layouts and /assets — no external theme.
+
+defaultContentLanguage = 'en'
+defaultContentLanguageInSubdir = false   # English at /, Banglish at /bn/
+enableRobotsTXT = true
+
+[params]
+  # Language-neutral params. Translatable text lives in i18n/*.toml.
+  author = "Siddiqur Rahman"
+  email = "msrsiddik2@gmail.com"
+
+  # Social links — replace the placeholder handles/URLs with your real ones.
+  github = "https://github.com/msrsiddik"
+  linkedin = "https://www.linkedin.com/in/msrsiddik"
+  twitter = "https://x.com/msrsiddik"
+
+[languages]
+  [languages.en]
+    languageCode = 'en-US'
+    languageName = 'English'
+    contentDir = 'content/en'
+    weight = 1
+  [languages.bn]
+    languageCode = 'bn'
+    languageName = 'Banglish'
+    contentDir = 'content/bn'
+    weight = 2
+
+[markup]
+  [markup.highlight]
+    style = "github-dark"
+    noClasses = false
+
+# Menus are defined per language below so labels translate.
+[languages.en.menus]
+  [[languages.en.menus.main]]
+    name = "About"
+    pageRef = "/#about"
+    weight = 10
+  [[languages.en.menus.main]]
+    name = "Experience"
+    pageRef = "/#experience"
+    weight = 20
+  [[languages.en.menus.main]]
+    name = "Projects"
+    pageRef = "/#projects"
+    weight = 30
+  [[languages.en.menus.main]]
+    name = "Blog"
+    pageRef = "/blog"
+    weight = 40
+
+[languages.bn.menus]
+  [[languages.bn.menus.main]]
+    name = "Porichoy"
+    pageRef = "/#about"
+    weight = 10
+  [[languages.bn.menus.main]]
+    name = "Obhiggota"
+    pageRef = "/#experience"
+    weight = 20
+  [[languages.bn.menus.main]]
+    name = "Project"
+    pageRef = "/#projects"
+    weight = 30
+  [[languages.bn.menus.main]]
+    name = "Blog"
+    pageRef = "/blog"
+    weight = 40
+
+[taxonomies]
+  tag = "tags"

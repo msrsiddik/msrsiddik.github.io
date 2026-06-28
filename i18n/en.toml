@@ -1,0 +1,47 @@
+[hero_eyebrow]
+other = "Hi, I'm"
+[role]
+other = "Full-stack Developer"
+[tagline]
+other = "I build products end-to-end, from backend to frontend — with Go, Java/Spring Boot, and React."
+[available]
+other = "Available for work"
+
+[btn_projects]
+other = "View Projects"
+[btn_contact]
+other = "Get in touch"
+[nav_contact]
+other = "Contact"
+
+[sec_about]
+other = "About"
+[sec_skills]
+other = "Skills"
+[sec_experience]
+other = "Experience"
+[sec_projects]
+other = "Projects"
+[sec_writing]
+other = "Latest Writing"
+[all_posts]
+other = "All posts →"
+
+[contact_title]
+other = "Let's build something."
+[contact_text]
+other = "Want to talk about a project? Send an email — I reply fast."
+
+[blog_title]
+other = "Blog"
+[blog_intro]
+other = "Notes on building software, debugging, and whatever I'm learning."
+[back_to_blog]
+other = "← Back to blog"
+[min_read]
+other = "min read"
+[no_posts]
+other = "No posts yet."
+
+[footer_built]
+other = "Built with Hugo."

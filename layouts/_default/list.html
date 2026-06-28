@@ -1,0 +1,23 @@
+{{ define "main" }}
+<section class="section section-page">
+  <div class="container narrow">
+    <div class="section-head">
+      <h1>{{ .Title }}</h1>
+    </div>
+    {{ with .Content }}<div class="prose">{{ . }}</div>{{ end }}
+    <ul class="post-list post-list-full">
+      {{ range .Pages.ByDate.Reverse }}
+      <li>
+        <a href="{{ .RelPermalink }}">
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+          <span class="post-title">{{ .Title }}</span>
+          {{ with .Description }}<span class="post-desc">{{ . }}</span>{{ end }}
+        </a>
+      </li>
+      {{ else }}
+      <li class="muted">{{ i18n "no_posts" }}</li>
+      {{ end }}
+    </ul>
+  </div>
+</section>
+{{ end }}

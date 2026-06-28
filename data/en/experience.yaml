@@ -1,0 +1,42 @@
+# Real experience — Orocube Technologies (2022–present) + Floreant POS open source.
+# Most recent first.
+- role: "Software Engineer"
+  company: "Orocube Technologies"
+  url: "https://www.linkedin.com/company/orocube-technologies/"
+  period: "Jan 2025 — Present"
+  summary: "Part of the team building point-of-sale and online-ordering products for restaurants and retail — desktop POS, cloud POS, self-service kiosks, and cloud-connected ordering, spanning Java/Spring Boot backends to web and Android clients."
+  highlights:
+    - "Continue working on Siiopa — a cloud-based POS for modern restaurants with order management, kitchen display, and multi-location support — a product I've helped build from its early days."
+    - "Contribute to Medlogics — a cloud, offline-first healthcare platform for clinics, hospitals, pharmacies and diagnostics, delivered as a client project."
+    - "Contribute to features across Orocube's POS ecosystem (ORO POS, OroKiosk, online ordering)."
+    - "Build backend services and APIs that connect offline POS terminals with cloud and online-ordering platforms."
+    - "Collaborate with the team on features from API design to the user-facing client."
+
+- role: "Assistant Software Engineer"
+  company: "Orocube Technologies"
+  url: "https://www.linkedin.com/company/orocube-technologies/"
+  period: "Jan 2024 — Dec 2024"
+  summary: "Took on broader ownership of POS and healthcare features, working with the team across backend and client applications."
+  highlights:
+    - "Kept building Siiopa, the cloud POS I'd been working on from early on."
+    - "Joined Medlogics — a cloud, offline-first healthcare platform — as a client project."
+    - "Worked with Java/Spring Boot on the backend and Android on the client side."
+    - "Collaborated on API design, integration, and bug fixing across the product suite."
+
+- role: "Junior Software Engineer"
+  company: "Orocube Technologies"
+  url: "https://www.linkedin.com/company/orocube-technologies/"
+  period: "Jan 2022 — Dec 2023"
+  summary: "Started my career at Orocube, learning the POS domain and contributing to the team's restaurant and retail products."
+  highlights:
+    - "Started working on Siiopa, Orocube's cloud POS, early on — a product I've continued to build ever since."
+    - "Worked on features and fixes in Java-based desktop POS applications."
+    - "Learned the point-of-sale domain — orders, kitchen flow, and cash control."
+
+- role: "Open Source Contributor"
+  company: "FloreantPOS"
+  url: "#"
+  period: "2022 — Present"
+  summary: "Contributing to FloreantPOS — a free, open-source restaurant point-of-sale system built in Java, deployed across thousands of restaurants worldwide and maintained alongside Orocube's product work."
+  highlights:
+    - "Contribute features and fixes to the Java desktop POS used by restaurants, cafes and pizzerias."

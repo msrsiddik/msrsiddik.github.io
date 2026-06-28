@@ -1,0 +1,42 @@
+# Banglish version — Orocube Technologies (2022–ekhon) + Floreant POS open source.
+# Notun ta age.
+- role: "Software Engineer"
+  company: "Orocube Technologies"
+  url: "https://www.linkedin.com/company/orocube-technologies/"
+  period: "Jan 2025 — Ekhon"
+  summary: "Restaurant ar retail er jonno point-of-sale ar online-ordering product team-er sathe banai — desktop POS, cloud POS, self-service kiosk, ar cloud-connected ordering. Java/Spring Boot backend theke web ar Android client porjonto puro stack jure kaj kori."
+  highlights:
+    - "Siiopa niye ekhono kaj kori — modern restaurant er jonno ekta cloud-based POS, order management, kitchen display ar multi-location support soho. Eta amar shurur dik thekei gore tola ekta product."
+    - "Medlogics e contribute kori — clinic, hospital, pharmacy ar diagnostics er jonno ekta cloud, offline-first healthcare platform, ekta client project hisebe."
+    - "Orocube er POS ecosystem (ORO POS, OroKiosk, online ordering) er feature e contribute kora."
+    - "Offline POS terminal ke cloud ar online-ordering platform er sathe jukto kora backend service ar API te kaj kora."
+    - "Team-er sathe feature gulo API design theke user-facing client porjonto kaj kora."
+
+- role: "Assistant Software Engineer"
+  company: "Orocube Technologies"
+  url: "https://www.linkedin.com/company/orocube-technologies/"
+  period: "Jan 2024 — Dec 2024"
+  summary: "POS ar healthcare feature er aro boro dayitto nilam, team-er sathe backend ar client application duitatei kaj korechi."
+  highlights:
+    - "Siiopa, je cloud POS ta age thekei korchilam, sheta banano cholte thake."
+    - "Medlogics e jog dei — ekta cloud, offline-first healthcare platform — ekta client project hisebe."
+    - "Backend e Java/Spring Boot ar client e Android niye kaj kora."
+    - "Product suite jure API design, integration ar bug fixing e collaborate kora."
+
+- role: "Junior Software Engineer"
+  company: "Orocube Technologies"
+  url: "https://www.linkedin.com/company/orocube-technologies/"
+  period: "Jan 2022 — Dec 2023"
+  summary: "Orocube e amar career shuru, POS domain shekha ar team-er restaurant o retail product e contribute kora."
+  highlights:
+    - "Shurutei Siiopa, Orocube er cloud POS, niye kaj shuru kora — ja ekhono porjonto banaye choleche."
+    - "Java-based desktop POS application e feature ar fix niye kaj kora."
+    - "Point-of-sale domain shekha — order, kitchen flow, ar cash control."
+
+- role: "Open Source Contributor"
+  company: "FloreantPOS"
+  url: "#"
+  period: "2022 — Ekhon"
+  summary: "FloreantPOS e contribute kori — ekta free, open-source restaurant point-of-sale system, Java diye banano, prithibir hajar hajar restaurant e use hoy. Orocube er product kaj er pashapashi etao maintain hoy."
+  highlights:
+    - "Restaurant, cafe ar pizzeria te use howa Java desktop POS e feature ar fix contribute kora."
