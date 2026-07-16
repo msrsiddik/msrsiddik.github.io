@@ -125,7 +125,8 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
   border: 1px solid transparent;
 }
 .btn:hover { transform: translateY(-2px); }
-.btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #ffffff; font-weight: 700; }
+.btn-primary { background: var(--accent); color: var(--bg); font-weight: 700; }
+.btn-primary:hover { background: var(--accent-2); }
 .btn-ghost { border-color: var(--border); color: var(--text); font-weight: 600; }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 .btn-lg { padding: .9rem 1.8rem; font-size: 1.05rem; }
@@ -136,7 +137,7 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
   display: flex; align-items: center;
   padding: clamp(1rem, 3vh, 2rem) 0;
 }
-.hero > .container { width: 100%; }
+.hero > .container { width: 100%; padding: 0 .75rem; }
 
 /* Window chrome */
 .hero-window {
@@ -166,6 +167,7 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
 
 /* Web view (preview) */
 .hero-webview {
+  position: relative;
   padding: clamp(1.4rem, 3.5vw, 2.2rem);
   background:
     radial-gradient(120% 90% at 100% 0%, var(--accent-soft), transparent 60%),
@@ -173,6 +175,22 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
   border-right: 1px solid var(--border);
   display: flex; flex-direction: column; justify-content: center; gap: .85rem;
 }
+
+/* Loading state: shown briefly before the scripted animation takes over */
+.hero-loading {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center; gap: .3rem;
+  background: var(--bg);
+  opacity: 1; transition: opacity .4s ease;
+  pointer-events: none;
+}
+.hero-loading.is-hidden { opacity: 0; }
+.hero-loading .d {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--text-mute);
+  animation: think 1.2s infinite;
+}
+.hero-loading .d:nth-child(2) { animation-delay: .2s; }
+.hero-loading .d:nth-child(3) { animation-delay: .4s; }
 .wv-block {
   opacity: 0; transform: translateY(14px);
   transition: opacity .55s ease, transform .55s ease;
@@ -257,6 +275,7 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
 /* Reduced motion: no animation, everything static */
 @media (prefers-reduced-motion: reduce) {
   .wv-block { opacity: 1; transform: none; transition: none; }
+  .hero-loading { display: none; }
   .dot { animation: none; }
   .hero-caret { animation: none; }
   .hero-chat { display: none; }

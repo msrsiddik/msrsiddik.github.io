@@ -88,12 +88,10 @@ if (themeToggle) {
   const placeholder = hero.querySelector('[data-input-placeholder]');
   const chatLog = hero.querySelector('[data-chat-log]');
   const blocks = hero.querySelectorAll('.wv-block');
+  const loading = hero.querySelector('[data-loading]');
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const rand = (a, b) => a + Math.random() * (b - a);
-
-  // Hide preview blocks so they can reveal in sync with the answers.
-  blocks.forEach((b) => b.classList.remove('is-visible'));
 
   async function typeInto(el, text) {
     el.textContent = '';
@@ -126,13 +124,6 @@ if (themeToggle) {
     });
   }
 
-  function reset() {
-    chatLog.innerHTML = '';
-    inputText.textContent = '';
-    blocks.forEach((b) => b.classList.remove('is-visible'));
-    if (placeholder) placeholder.style.display = '';
-  }
-
   async function runOnce() {
     for (const step of script) {
       // Type the question in the input bar.
@@ -158,20 +149,24 @@ if (themeToggle) {
     }
   }
 
-  async function loop() {
-    while (true) {
-      await runOnce();
-      await sleep(2600);
-      reset();
-      await sleep(700);
-    }
+  async function boot() {
+    // Blocks start hidden in markup (loading dots cover the web-view), so
+    // there's nothing to flash — just hold briefly, then hand off to the
+    // scripted animation.
+    await sleep(500);
+    if (loading) loading.classList.add('is-hidden');
+  }
+
+  async function run() {
+    await boot();
+    await runOnce(); // plays once, then stays on the final state
   }
 
   // Start only when the hero scrolls into view (perf).
   const heroIO = new IntersectionObserver((entries, obs) => {
     if (entries[0].isIntersecting) {
       obs.disconnect();
-      loop();
+      run();
     }
   }, { threshold: 0.4 });
   heroIO.observe(hero);

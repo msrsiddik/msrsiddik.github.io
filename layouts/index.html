@@ -18,20 +18,23 @@
       <div class="hero-body">
         <!-- WEB VIEW (preview) -->
         <div class="hero-webview" aria-label="Preview">
-          <div class="wv-block is-visible" data-block="name">
+          <div class="hero-loading" data-loading>
+            <span class="d"></span><span class="d"></span><span class="d"></span>
+          </div>
+          <div class="wv-block" data-block="name">
             <p class="hero-eyebrow">{{ i18n "hero_eyebrow" }}</p>
             <h1 class="hero-name">{{ .Site.Params.author }}</h1>
           </div>
-          <div class="wv-block is-visible" data-block="role">
+          <div class="wv-block" data-block="role">
             <h2 class="hero-role">{{ i18n "role" }}</h2>
             <p class="hero-tagline">{{ i18n "tagline" }}</p>
           </div>
-          <div class="wv-block is-visible" data-block="stack">
+          <div class="wv-block" data-block="stack">
             <ul class="hero-stack">
               {{ range $skills }}{{ range .items }}<li>{{ . }}</li>{{ end }}{{ end }}
             </ul>
           </div>
-          <div class="wv-block is-visible" data-block="status">
+          <div class="wv-block" data-block="status">
             <div class="hero-meta">
               <span class="dot"></span> {{ i18n "available" }} · Bangladesh
             </div>
