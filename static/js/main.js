@@ -33,3 +33,28 @@ const io = new IntersectionObserver(
   { threshold: 0.08 }
 );
 document.querySelectorAll('.section').forEach((s) => io.observe(s));
+
+// Theme toggle (dark/light mode)
+const themeToggle = document.querySelector('.theme-toggle');
+const html = document.documentElement;
+const THEME_KEY = 'theme-preference';
+
+function setTheme(theme) {
+  html.setAttribute('data-theme', theme);
+  localStorage.setItem(THEME_KEY, theme);
+  themeToggle.textContent = theme === 'light' ? '☀️' : '🌙';
+}
+
+function getTheme() {
+  const stored = localStorage.getItem(THEME_KEY);
+  if (stored) return stored;
+  return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+}
+
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme') || 'dark';
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  });
+  setTheme(getTheme());
+}

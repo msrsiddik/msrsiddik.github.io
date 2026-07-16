@@ -1,7 +1,7 @@
 <header class="site-header">
   <nav class="nav container">
     <a class="brand" href="{{ "/" | relLangURL }}">
-      <span class="brand-mark">SR</span>
+      <img class="brand-avatar" src="/avatar.jpg" alt="{{ .Site.Params.author }}" width="40" height="40">
       <span class="brand-name">{{ .Site.Params.author }}</span>
     </a>
     <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
@@ -12,6 +12,11 @@
         <li><a href="{{ .PageRef | default .URL | relLangURL }}">{{ .Name }}</a></li>
       {{ end }}
       <li><a class="nav-cta" href="mailto:{{ .Site.Params.email }}">{{ i18n "nav_contact" }}</a></li>
+      <li class="theme-switch">
+        <button class="theme-toggle" aria-label="Toggle dark/light mode" title="Toggle theme">
+          <span class="theme-icon">🌙</span>
+        </button>
+      </li>
       {{ if gt (len .Site.Sites) 1 }}
       <li class="lang-switch">
         {{ $cur := .Site.Language.Lang }}

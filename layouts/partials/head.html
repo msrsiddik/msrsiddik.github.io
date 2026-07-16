@@ -11,6 +11,7 @@
 <meta property="og:description" content="{{ .Description | default (i18n "tagline") }}">
 <meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}">
 <meta property="og:url" content="{{ .Permalink }}">
+{{ if .Params.image }}<meta property="og:image" content="{{ .Params.image | absURL }}">{{ else }}<meta property="og:image" content="{{ "images/og-default.svg" | absURL }}">{{ end }}
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="canonical" href="{{ .Permalink }}">
@@ -29,4 +30,15 @@
 {{ $style := resources.Get "css/main.css" | resources.Minify | resources.Fingerprint }}
 <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
 
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⌘</text></svg>">
+<link rel="icon" href="/avatar.jpg" type="image/jpeg">
+<link rel="apple-touch-icon" href="/avatar.jpg">
+
+<!-- Theme initialization (runs before page renders) -->
+<script>
+(function() {
+  const THEME_KEY = 'theme-preference';
+  const stored = localStorage.getItem(THEME_KEY);
+  const theme = stored || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  document.documentElement.setAttribute('data-theme', theme);
+})();
+</script>

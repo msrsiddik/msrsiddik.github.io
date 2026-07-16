@@ -2,41 +2,35 @@
 - name: "ApiCoreX"
   description: "A stateless, multi-tenant API gateway with a language-agnostic HTTP plugin system. The core handles JWT auth, routing, streaming (file upload, SSE, WebSocket) and resilience — circuit breaker, rate limiting, bulkhead — while business logic lives in plugins written in any language. Ships with Prometheus metrics and OpenTelemetry tracing."
   tech: ["Go", "JWT", "Redis", "Prometheus", "OpenTelemetry"]
-  url: "#"
   repo: "https://github.com/msrsiddik/apicorex"
   featured: true
 
 - name: "ApiCoreX Identity"
   description: "The authentication and tenant-management plugin for ApiCoreX. Owns its own PostgreSQL database, issues HS256 access + rotating refresh tokens, and runs a compensating saga to provision each tenant's dedicated schema. Supports multi-tenant accounts (one credential, many tenants) with Redis-backed logout."
   tech: ["Go", "Gin", "PostgreSQL", "JWT", "Redis"]
-  url: "#"
   repo: "https://github.com/msrsiddik/apicorex-identity"
   featured: true
 
 - name: "ApiCoreX Sync"
   description: "An offline-first data sync plugin for ApiCoreX. Any offline-capable app can push local changes and pull server changes with no custom sync logic — idempotent change batches, monotonic server cursors, last-write-wins conflict resolution, and soft-delete tombstones with periodic GC."
   tech: ["Go", "PostgreSQL", "Offline-first"]
-  url: "#"
   repo: "https://github.com/msrsiddik/apicorex-sync"
   featured: true
 
 - name: "CineHub"
   description: "A Go service over the dvdrental sample database that exposes the same domain model through both REST (Fiber + GORM) and GraphQL (gqlgen). Clean service → repository → db architecture with graceful shutdown and health checks."
   tech: ["Go", "Fiber", "GORM", "GraphQL", "PostgreSQL"]
-  url: "#"
   repo: "https://github.com/msrsiddik/cinehub"
   featured: false
 
 - name: "Attendance System"
   description: "A multi-application attendance platform built in Java with separate Admin, Desktop, Teacher and Student clients sharing a common backend."
   tech: ["Java", "Desktop"]
-  url: "#"
   repo: "https://github.com/msrsiddik/AttendanceSystemAdmin"
   featured: false
 
 - name: "Hospital Management"
   description: "A hospital management desktop application built in Java, handling patient and hospital workflows."
   tech: ["Java", "Desktop"]
-  url: "#"
   repo: "https://github.com/msrsiddik/HospitalManagement"
   featured: false

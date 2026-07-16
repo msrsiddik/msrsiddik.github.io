@@ -2,41 +2,35 @@
 - name: "ApiCoreX"
   description: "Ekta stateless, multi-tenant API gateway — language-agnostic HTTP plugin system soho. Core ta JWT auth, routing, streaming (file upload, SSE, WebSocket) ar resilience (circuit breaker, rate limiting, bulkhead) handle kore, ar business logic thake plugin e — je kono language e lekha jay. Sathe Prometheus metrics ar OpenTelemetry tracing ache."
   tech: ["Go", "JWT", "Redis", "Prometheus", "OpenTelemetry"]
-  url: "#"
   repo: "https://github.com/msrsiddik/apicorex"
   featured: true
 
 - name: "ApiCoreX Identity"
   description: "ApiCoreX er authentication ar tenant-management plugin. Nijer PostgreSQL database rakhe, HS256 access + rotating refresh token issue kore, ar protita tenant er alada schema banate ekta compensating saga chalay. Multi-tenant account support kore (ekta credential, onek tenant), sathe Redis-backed logout."
   tech: ["Go", "Gin", "PostgreSQL", "JWT", "Redis"]
-  url: "#"
   repo: "https://github.com/msrsiddik/apicorex-identity"
   featured: true
 
 - name: "ApiCoreX Sync"
   description: "ApiCoreX er offline-first data sync plugin. Je kono offline app local change push ar server change pull korte pare — kono custom sync logic chara. Idempotent change batch, monotonic server cursor, last-write-wins conflict resolution, ar soft-delete tombstone soho."
   tech: ["Go", "PostgreSQL", "Offline-first"]
-  url: "#"
   repo: "https://github.com/msrsiddik/apicorex-sync"
   featured: true
 
 - name: "CineHub"
   description: "dvdrental sample database er upor ekta Go service ja ekoi domain model ke REST (Fiber + GORM) ar GraphQL (gqlgen) — duitar maddhome expose kore. Porishkar service → repository → db architecture, graceful shutdown ar health check soho."
   tech: ["Go", "Fiber", "GORM", "GraphQL", "PostgreSQL"]
-  url: "#"
   repo: "https://github.com/msrsiddik/cinehub"
   featured: false
 
 - name: "Attendance System"
   description: "Java te banano ekta multi-application attendance platform — alada Admin, Desktop, Teacher ar Student client, sob ekta common backend share kore."
   tech: ["Java", "Desktop"]
-  url: "#"
   repo: "https://github.com/msrsiddik/AttendanceSystemAdmin"
   featured: false
 
 - name: "Hospital Management"
   description: "Java te banano ekta hospital management desktop application — patient ar hospital workflow handle kore."
   tech: ["Java", "Desktop"]
-  url: "#"
   repo: "https://github.com/msrsiddik/HospitalManagement"
   featured: false
