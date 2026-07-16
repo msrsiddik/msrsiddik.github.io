@@ -6,6 +6,12 @@ other = "Full-stack Developer"
 other = "I build products end-to-end, from backend to frontend — with Go, Java/Spring Boot, and React."
 [available]
 other = "Available for work"
+[hero_window_title]
+other = "msrsiddik.dev — agent"
+[hero_ask_placeholder]
+other = "Ask about me…"
+[hero_thinking]
+other = "thinking"
 
 [btn_projects]
 other = "View Projects"

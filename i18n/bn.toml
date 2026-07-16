@@ -6,6 +6,12 @@ other = "Full-stack Developer"
 other = "Ami backend theke frontend porjonto product banai — Go, Java/Spring Boot, ar React diye."
 [available]
 other = "Kaj er jonno available"
+[hero_window_title]
+other = "msrsiddik.dev — agent"
+[hero_ask_placeholder]
+other = "Amake niye jiggesh koro…"
+[hero_thinking]
+other = "vabche"
 
 [btn_projects]
 other = "Project dekho"

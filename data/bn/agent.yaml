@@ -1,0 +1,14 @@
+# Scripted agent conversation that drives the hero animation.
+# `render` maps the answer to a web-view block (name | role | stack | status).
+- q: "Tumi ke?"
+  a: "Ami Siddiqur Rahman — Bangladesh theke ekjon full-stack developer."
+  render: name
+- q: "Tumi ki koro?"
+  a: "Ami product banai end-to-end, backend theke frontend porjonto — Go, Java/Spring Boot ar React diye."
+  render: role
+- q: "Tomar stack ta dekhao."
+  a: "Obossoi — ei je protidin jegulo niye kaj kori."
+  render: stack
+- q: "Tumi ki available?"
+  a: "Ha, ami notun kajer jonno open. Cholo kotha boli."
+  render: status

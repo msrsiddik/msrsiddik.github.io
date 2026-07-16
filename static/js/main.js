@@ -58,3 +58,121 @@ if (themeToggle) {
   });
   setTheme(getTheme());
 }
+
+// Agentic hero: scripted conversation drives the web-view preview.
+(function () {
+  const hero = document.querySelector('[data-agent-hero]');
+  if (!hero) return;
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) return; // static fallback stays visible
+
+  // Hugo's jsonify inside a script tag can emit the payload double-encoded
+  // (a JSON string wrapping the real JSON), so parse until we get the array.
+  function parseJSON(id) {
+    let v = document.getElementById(id).textContent;
+    for (let i = 0; i < 3 && typeof v === 'string'; i++) v = JSON.parse(v);
+    return v;
+  }
+
+  let script, labels;
+  try {
+    script = parseJSON('agent-script');
+    labels = parseJSON('agent-labels');
+  } catch (_) {
+    return; // leave static content in place
+  }
+  if (!Array.isArray(script) || !script.length) return;
+
+  const inputText = hero.querySelector('[data-input-text]');
+  const placeholder = hero.querySelector('[data-input-placeholder]');
+  const chatLog = hero.querySelector('[data-chat-log]');
+  const blocks = hero.querySelectorAll('.wv-block');
+
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const rand = (a, b) => a + Math.random() * (b - a);
+
+  // Hide preview blocks so they can reveal in sync with the answers.
+  blocks.forEach((b) => b.classList.remove('is-visible'));
+
+  async function typeInto(el, text) {
+    el.textContent = '';
+    for (const ch of text) {
+      el.textContent += ch;
+      await sleep(rand(28, 70));
+    }
+  }
+
+  function addBubble(cls, text) {
+    const el = document.createElement('div');
+    el.className = 'chat-bubble ' + cls;
+    el.textContent = text;
+    chatLog.appendChild(el);
+    return el;
+  }
+
+  function showThinking() {
+    const el = document.createElement('div');
+    el.className = 'chat-bubble agent thinking';
+    el.setAttribute('title', labels.thinking || 'thinking');
+    el.innerHTML = '<span class="d"></span><span class="d"></span><span class="d"></span>';
+    chatLog.appendChild(el);
+    return el;
+  }
+
+  function revealBlock(name) {
+    blocks.forEach((b) => {
+      if (b.getAttribute('data-block') === name) b.classList.add('is-visible');
+    });
+  }
+
+  function reset() {
+    chatLog.innerHTML = '';
+    inputText.textContent = '';
+    blocks.forEach((b) => b.classList.remove('is-visible'));
+    if (placeholder) placeholder.style.display = '';
+  }
+
+  async function runOnce() {
+    for (const step of script) {
+      // Type the question in the input bar.
+      if (placeholder) placeholder.style.display = 'none';
+      await typeInto(inputText, step.q);
+      await sleep(500);
+
+      // Send: move question into chat as a user bubble.
+      addBubble('user', step.q);
+      inputText.textContent = '';
+      if (placeholder) placeholder.style.display = '';
+      await sleep(350);
+
+      // Agent thinks, then answers while the preview reveals.
+      const thinking = showThinking();
+      await sleep(rand(600, 900));
+      thinking.remove();
+
+      const bubble = addBubble('agent', '');
+      revealBlock(step.render);
+      await typeInto(bubble, step.a);
+      await sleep(900);
+    }
+  }
+
+  async function loop() {
+    while (true) {
+      await runOnce();
+      await sleep(2600);
+      reset();
+      await sleep(700);
+    }
+  }
+
+  // Start only when the hero scrolls into view (perf).
+  const heroIO = new IntersectionObserver((entries, obs) => {
+    if (entries[0].isIntersecting) {
+      obs.disconnect();
+      loop();
+    }
+  }, { threshold: 0.4 });
+  heroIO.observe(hero);
+})();

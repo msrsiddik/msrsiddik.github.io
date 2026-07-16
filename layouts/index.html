@@ -5,20 +5,59 @@
 {{ $projects := index .Site.Data $lang "projects" }}
 
 <!-- HERO -->
+{{ $agent := index .Site.Data $lang "agent" }}
 <section class="hero">
-  <div class="container hero-inner">
-    <p class="hero-eyebrow">{{ i18n "hero_eyebrow" }}</p>
-    <h1 class="hero-name">{{ .Site.Params.author }}</h1>
-    <h2 class="hero-role">{{ i18n "role" }}</h2>
-    <p class="hero-tagline">{{ i18n "tagline" }}</p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="#projects">{{ i18n "btn_projects" }}</a>
-      <a class="btn btn-ghost" href="mailto:{{ .Site.Params.email }}">{{ i18n "btn_contact" }}</a>
-    </div>
-    <div class="hero-meta">
-      <span class="dot"></span> {{ i18n "available" }} · Bangladesh
+  <div class="container">
+    <div class="hero-window" data-agent-hero>
+      <div class="hero-titlebar">
+        <span class="tl tl-red"></span><span class="tl tl-yellow"></span><span class="tl tl-green"></span>
+        <span class="hero-title">{{ i18n "hero_window_title" }}</span>
+        <span class="hero-badge">⚡ live</span>
+      </div>
+
+      <div class="hero-body">
+        <!-- WEB VIEW (preview) -->
+        <div class="hero-webview" aria-label="Preview">
+          <div class="wv-block is-visible" data-block="name">
+            <p class="hero-eyebrow">{{ i18n "hero_eyebrow" }}</p>
+            <h1 class="hero-name">{{ .Site.Params.author }}</h1>
+          </div>
+          <div class="wv-block is-visible" data-block="role">
+            <h2 class="hero-role">{{ i18n "role" }}</h2>
+            <p class="hero-tagline">{{ i18n "tagline" }}</p>
+          </div>
+          <div class="wv-block is-visible" data-block="stack">
+            <ul class="hero-stack">
+              {{ range $skills }}{{ range .items }}<li>{{ . }}</li>{{ end }}{{ end }}
+            </ul>
+          </div>
+          <div class="wv-block is-visible" data-block="status">
+            <div class="hero-meta">
+              <span class="dot"></span> {{ i18n "available" }} · Bangladesh
+            </div>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#projects">{{ i18n "btn_projects" }}</a>
+              <a class="btn btn-ghost" href="mailto:{{ .Site.Params.email }}">{{ i18n "btn_contact" }}</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHAT / AGENT PANEL -->
+        <div class="hero-chat" aria-hidden="true">
+          <div class="hero-chat-log" data-chat-log></div>
+        </div>
+      </div>
+
+      <div class="hero-input" aria-hidden="true">
+        <span class="hero-prompt">›</span>
+        <span class="hero-input-text" data-input-text></span><span class="hero-caret" data-caret>▍</span>
+        <span class="hero-input-placeholder" data-input-placeholder>{{ i18n "hero_ask_placeholder" }}</span>
+      </div>
     </div>
   </div>
+
+  <script id="agent-script" type="application/json">{{ $agent | jsonify }}</script>
+  <script type="application/json" id="agent-labels">{{ dict "thinking" (i18n "hero_thinking") | jsonify }}</script>
 </section>
 
 <!-- ABOUT -->

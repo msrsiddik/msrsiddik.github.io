@@ -1,0 +1,14 @@
+# Scripted agent conversation that drives the hero animation.
+# `render` maps the answer to a web-view block (name | role | stack | status).
+- q: "Who are you?"
+  a: "I'm Siddiqur Rahman — a full-stack developer based in Bangladesh."
+  render: name
+- q: "What do you do?"
+  a: "I build products end-to-end, from backend to frontend — with Go, Java/Spring Boot, and React."
+  render: role
+- q: "Show me your stack."
+  a: "Sure — here's what I work with day to day."
+  render: stack
+- q: "Are you available?"
+  a: "Yes, I'm open to new work. Let's talk."
+  render: status
