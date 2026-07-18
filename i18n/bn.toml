@@ -12,6 +12,8 @@ other = "msrdev.top — agent"
 other = "আমার সম্পর্কে জিজ্ঞাসা করুন…"
 [hero_thinking]
 other = "ভাবছে"
+[hero_skill_question]
+other = "{skill} কী?"
 
 [btn_projects]
 other = "প্রজেক্ট দেখুন"

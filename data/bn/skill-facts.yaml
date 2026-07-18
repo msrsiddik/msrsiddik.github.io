@@ -1,0 +1,143 @@
+# Short "what is this" answers for the hero's clickable stack badges.
+# 5 variants per skill so repeat clicks don't show the same line twice.
+# Keys must match the exact strings used in data/bn/skills.yaml.
+
+Go:
+  - "Google-এর বানানো একটা compiled language, concurrency আর speed-এর জন্য বিখ্যাত। Goroutine দিয়ে হাজারো connection সামলানো সস্তা হয়ে যায়।"
+  - "Statically typed, compile হয় দ্রুত, আর একরকম বোরিং — মানে ভালো অর্থেই, language নিজে খুব একটা বাধা দেয় না।"
+  - "ব্যাকএন্ড সার্ভিসের জন্য এটাই আমার প্রথম পছন্দ। ছোট binary, দ্রুত startup, আর standard library-তেই বেশিরভাগ কাজ হয়ে যায়।"
+  - "বড় স্কেলের সিস্টেমের জন্য Google-এর বানানো। API আর concurrency-heavy কাজের জন্য বেশি টানে আমাকে।"
+  - "সহজ syntax, strong typing, concurrency built-in। Service যখন দ্রুত আর সহজে চালানো লাগবে, তখন Go-ই বেছে নিই।"
+
+Java:
+  - "অনেক enterprise software-এর পেছনে এটাই আসল কাজ করে। Ecosystem ম্যাচিউর, আর production-এ JVM বেশ ভরসাযোগ্য।"
+  - "Statically typed, object-oriented, আর অনেক পরীক্ষিত। এর উপর Spring Boot নিয়েই আমার বেশিরভাগ ব্যাকএন্ড কাজ চলে।"
+  - "মাঝে মাঝে একটু verbose লাগে, কিন্তু predictable। Tooling দারুণ, ব্যাকএন্ড বা Android — দুই জায়গাতেই বিশাল ecosystem।"
+  - "JVM-এর উপর চলে, মানে performance ভালো আর library-র বিশাল একটা জগৎ হাতের কাছে থাকে।"
+  - "যে language-এ সবচেয়ে বেশি production code লিখেছি — POS system, healthcare platform, সবকিছুর নিচে Java।"
+
+JavaScript:
+  - "যে language-এর উপর পুরো ওয়েব দাঁড়িয়ে। Dynamic, flexible, আর browser নিয়ে কাজ করলে এড়ানো যায় না।"
+  - "Loose typing-এ একটু সময় লাগে অভ্যস্ত হতে, কিন্তু এটা সবখানে — ফ্রন্টএন্ড, tooling, script, সব জায়গায়।"
+  - "Single-threaded, event loop দিয়ে চলে — কিন্তু একবার মাথায় ঢুকে গেলে async handling আশ্চর্যরকম ভালো লাগে।"
+  - "এখন plain JS-এর বদলে বেশিরভাগ সময় TypeScript-ই ব্যবহার করি, তবে নিচের ভিত্তিটা একই থাকে।"
+  - "ওয়েবের প্রায় সব interactive জিনিসের পেছনে এটাই। এড়ানো যায় না, আসলে এড়াতেও চাই না খুব একটা।"
+
+TypeScript:
+  - "JavaScript-এর সাথে type জুড়ে দেওয়া — browser-এ পৌঁছানোর আগেই অনেক bug ধরে ফেলে।"
+  - "এখন ফ্রন্টএন্ড কাজের জন্য এটাই default। শুধু autocomplete-এর জন্যই extra setup-টা worth it।"
+  - "Compile হয়ে plain JS-এই দাঁড়ায়, কিন্তু development-এর সময় type-checking পরে অনেক debugging বাঁচায়।"
+  - "বড় React codebase-কে সত্যিই maintainable রাখে। এটা ছাড়া refactor করাটা তুলনামূলক ঝুঁকিপূর্ণ লাগে।"
+  - "JavaScript-এরই superset — একই language, শুধু বড় প্রজেক্টের জন্য একটা safety net যোগ করা।"
+
+Kotlin:
+  - "Java-এর verbosity-র জবাবে JetBrains-এর বানানো — একই JVM, কিন্তু boilerplate অনেক কম। Android-এর জন্য দারুণ।"
+  - "Type system-এই null safety বসানো, যেটা চুপচাপ একগাদা crash আগেই ঠেকিয়ে দেয়।"
+  - "Java-এর সাথে interop পুরোপুরি smooth, তাই পুরনো codebase-এও ধীরে ধীরে এটা নিয়ে আসা যায়।"
+  - "Android-এর জন্য এখন Google-এরও পছন্দের language, একবার ব্যবহার করলেই কারণটা বোঝা যায়।"
+  - "সংক্ষিপ্ত, আধুনিক, তবু নিচে পুরো JVM-এর শক্তিটা অক্ষত থাকে।"
+
+SQL:
+  - "Relational database-এর সাথে কথা বলার language। খুব আকর্ষণীয় না, কিন্তু ব্যাকএন্ড কাজে এড়ানোও যায় না আসলে।"
+  - "Declarative — কী চাই সেটা বলে দিলেই হয়, কীভাবে পাবে সেটা database নিজেই বের করে নেয়।"
+  - "প্রতিটা ব্যাকএন্ডেই একসময় এমন একটা query লাগে যেটা SQL দিয়েই সবচেয়ে পরিষ্কারভাবে লেখা যায়। ভালোমতো জানাটা কাজে লাগে।"
+  - "Join, index, query plan — বড় স্কেলে দ্রুত আর ধীর app-এর মধ্যে পার্থক্য এখান থেকেই তৈরি হয়।"
+  - "কয়েক দশক পুরনো, তবু structured data নিয়ে কাজ করার standard পথ এখনো এটাই।"
+
+Spring Boot:
+  - "Spring-এর চেনা boilerplate-টা অনেকখানি automatic করে দেয়। Java ব্যাকএন্ড দ্রুত দাঁড় করাতে সাহায্য করে।"
+  - "Java API-র জন্য এটাই আমার default framework — dependency injection, embedded server, শুরু থেকেই sane default।"
+  - "Configuration-এর চেয়ে convention-কে প্রাধান্য দেয়। আগে যেটা এক দিনের XML setup ছিল, এখন কয়েকটা annotation-এই হয়ে যায়।"
+  - "যা লাগবে তার জন্যই starter আছে — security, data access, messaging, সবই মোটামুটি plug-and-play।"
+  - "Production-grade Java service বানানোটা সত্যিই দ্রুত করে দেয়, ঝক্কি অনেক কম।"
+
+Vaadin:
+  - "Java দিয়ে web UI বানানোর framework, প্রায় JavaScript না লিখেই — পুরোটাই server-side থেকে যায়।"
+  - "Full-stack Java app বানাতে চাইলে আর আলাদা frontend stack-এ যেতে না চাইলে বেশ কাজের।"
+  - "Component-based UI, কিন্তু সবকিছুই Java দিয়ে জোড়া। Internal tool আর admin dashboard-এর জন্য মানানসই।"
+  - "ব্যাকএন্ড-কেন্দ্রিক টিমকে আলাদা frontend developer ছাড়াই একটা আসল UI বানাতে দেয়।"
+  - "Internal tooling-এর জন্য ব্যবহার করেছি — দ্রুত বানানো যায়, আর সবকিছু এক language-এই থেকে যায়।"
+
+"Go (net/http, gRPC)":
+  - "Go-র standard library-র HTTP server এতটাই ভালো যে অনেক সময় আলাদা framework-ই লাগে না।"
+  - "Go-র উপর gRPC দিলে দ্রুত, strongly-typed service-to-service communication পাওয়া যায় — internal API-র জন্য দারুণ।"
+  - "net/http REST API-র জন্য জিনিসটা সহজ রাখে, আর service-গুলো একে অপরের সাথে efficiently কথা বলা লাগলে gRPC এগিয়ে আসে।"
+  - "Backend service যখন দ্রুত আর maintain করা সহজ — দুটোই দরকার, তখন এই combo-টাই বেছে নিই।"
+  - "gRPC-র protobuf-based contract অনেক integration bug ঘটার আগেই ধরে ফেলে।"
+
+REST APIs:
+  - "HTTP-র উপর দিয়ে বেশিরভাগ service একে অপরের সাথে এভাবেই কথা বলে। সহজ, stateless, আর সবার কাছে পরিচিত।"
+  - "Resource, verb, status code — খুব glamorous না, কিন্তু ব্যাকএন্ড communication-এর common ভাষা এটাই।"
+  - "ভালোভাবে design করাও সহজ, খারাপভাবেও। শুরুতে resource modeling ঠিকঠাক করে নিলে পরে ঝামেলা কম হয়।"
+  - "বাজারের প্রায় সব client-এর সাথেই কাজ করে, ঠিক এই কারণেই এখনো এটাই default choice।"
+  - "বেশিরভাগ service API-first ভাবেই design করি — implementation শুরুর আগে REST contract-টা আগে ঠিক করে নিই।"
+
+PostgreSQL:
+  - "আমার default relational database। Reliable, feature-rich, আর open source, কোনো লুকানো শর্ত ছাড়াই।"
+  - "Simple CRUD থেকে শুরু করে জটিল JSON query আর full-text search পর্যন্ত অনায়াসে সামলে নেয়।"
+  - "Data integrity-তে শক্তিশালী — constraint, transaction, আর দরকারের সময় নির্ভরযোগ্য ACID guarantee।"
+  - "Extension-এর জগৎটা বিশাল। যা-ই অদ্ভুত জিনিস দরকার হোক না কেন, সম্ভবত একটা Postgres extension আছেই।"
+  - "POS system থেকে sync engine পর্যন্ত সবকিছুর নিচে এটাই ব্যবহার করেছি। এখনো বদলানোর কোনো কারণ পাইনি।"
+
+Redis:
+  - "যখনই কিছু দ্রুত হওয়া দরকার — caching, session, rate limiting — তখন এই in-memory store-এই হাত যায়।"
+  - "Key-value model সহজ দেখতে, কিন্তু নিচের data structure (set, sorted set, stream) আশ্চর্যরকম শক্তিশালী।"
+  - "Database-এর সামনে বসে চাপটা কমিয়ে দেয়। Cache-aside layer হিসেবে এমনিতেই কাজ করে যায়।"
+  - "Token denylist আর session storage-এর জন্য অনেক ব্যবহার করি — যেখানে sub-millisecond read লাগে সেখানেই।"
+  - "Database-এর বদলি না, কিন্তু যা করে সেটার জন্য এর চেয়ে দ্রুত কিছু আসলে নেই।"
+
+React:
+  - "Component-based UI library — ছোট ছোট অংশ বানিয়ে পুরো interface একসাথে জুড়ে দেওয়া যায়।"
+  - "Ecosystem বিশাল, মানে যা-ই বানাতে চান না কেন, কেউ না কেউ এর একটা অংশ আগেই সমাধান করে রেখেছে।"
+  - "Declarative UI — screen কেমন দেখাবে সেটা বলে দিলেই হয়, বাকিটা React নিজেই সামলায়।"
+  - "ফ্রন্টএন্ড কাজে এটাই default। Hooks আসার পর state management যেভাবে সহজ লেগেছে, class component-এ কখনো তেমন লাগেনি।"
+  - "আর সবচেয়ে নতুন কিছু না হলেও, সিরিয়াস ফ্রন্টএন্ড কাজের জন্য এখনো এটাই সবচেয়ে নিরাপদ default।"
+
+"HTML / CSS":
+  - "আসল ভিত্তি, যার উপর বাকি সব কিছু দাঁড়িয়ে। Framework আসে-যায়, এই দুটো থেকেই যায়।"
+  - "CSS এখন সত্যিই ভালো হয়ে গেছে — grid, flexbox, custom property মিলিয়ে বেশিরভাগ layout সমস্যা পরিষ্কারভাবে সামলে দেয়।"
+  - "Semantic HTML মানুষ যতটা ভাবে তার চেয়ে বেশি গুরুত্বপূর্ণ — accessibility আর SEO দুটোই এখান থেকেই শুরু।"
+  - "এই দুটো ভালোভাবে না বুঝে কোনো shortcut নেই। প্রতিটা framework শেষমেশ নিচের HTML/CSS-টা কোথাও না কোথাও দেখিয়ে দেয়।"
+  - "উপর থেকে সহজ লাগে, কিন্তু specificity, cascade, আর layout-এর খুঁটিনাটিতে ঢুকলে বেশ গভীর।"
+
+Tailwind:
+  - "Utility-first CSS — আলাদা stylesheet ফাইলে না গিয়ে সরাসরি markup-এই style করা হয়।"
+  - "প্রথমে একটু অস্বাভাবিক লাগে, কিন্তু class name-গুলো একবার মাথায় বসে গেলে UI বানানো সত্যিই দ্রুত হয়ে যায়।"
+  - "কোন element-কে কী প্রভাবিত করছে খুঁজতে আর CSS ফাইল হাতড়াতে হয় না — style markup-এই থেকে যায়।"
+  - "React-এর মতো component-based framework-এর সাথে দারুণ মানায়। Styling component-এর মধ্যেই local থেকে যায়।"
+  - "Design system-এর সীমা (spacing scale, color palette) চুপচাপ UI-কে অনেক বেশি consistent রাখে।"
+
+"Android (Kotlin/Java)":
+  - "Native Android development — platform API-তে পুরো access, আর platform-এ যতটা performance পাওয়া সম্ভব ততটাই।"
+  - "এভাবেই POS আর attendance app বানিয়েছি — এখন Kotlin-এ, যদিও codebase শুরু হয়েছিল Java দিয়ে।"
+  - "Hardware আর OS-level feature-এ সরাসরি access, যেটা cross-platform framework অনেক সময় পরিষ্কারভাবে দিতে পারে না।"
+  - "Jetpack library-গুলো platform-এর অনেক জটিলতা সামলে দেয় যা আগে বেশ যন্ত্রণার ছিল — lifecycle, navigation, data।"
+  - "শুধু Java-নির্ভর দিনের তুলনায় Kotlin Android development-কে চোখে পড়ার মতো কম verbose করে দিয়েছে।"
+
+Docker:
+  - "একটা app-কে চালাতে যা যা লাগে সব একসাথে প্যাক করে দেয়, তাই 'আমার মেশিনে তো চলছিল' অজুহাতটা আর খাটে না।"
+  - "Container ল্যাপটপ থেকে production পর্যন্ত environment-কে একই রকম রাখে।"
+  - "Local dev setup একদম সহজ করে দেয় — database, cache, যা লাগে সরাসরি install না করেই চালানো যায়।"
+  - "আধুনিক deployment pipeline-এর বেশিরভাগই কোনো না কোনোভাবে এর উপরেই দাঁড়িয়ে।"
+  - "এখন প্রায় সবকিছুই containerize করি। Environment একরকম থাকায় debugging-এ অনেক সময় বেঁচে যায়।"
+
+Git:
+  - "Version control — যেটা টিমে মিলে software বানানোটাকে বিশৃঙ্খলার বদলে গোছানো রাখে।"
+  - "Branch, merge, rebase। একবার মাথায় model-টা বসে গেলে এটা ছাড়া কাজ করাটা কল্পনাই করা যায় না।"
+  - "Distributed করে বানানো, তাই প্রতিটা clone-ই আসলে পুরো project history-র একটা backup।"
+  - "শুধু টিমের জন্যই না — একা কাজ করলেও ভুল undo করার আর change track রাখার এই ক্ষমতাটাই যথেষ্ট মূল্যবান।"
+  - "যে tool সবচেয়ে বেশি ব্যবহার করি, ঘণ্টায় কয়েকবার, প্রায় না ভেবেই।"
+
+CI/CD:
+  - "Code push হওয়ার সাথে সাথেই build, test, deploy — automated pipeline, ভুলে যাওয়ার মতো কোনো manual step থাকে না।"
+  - "কেউ production-এ গিয়ে সমস্যা খুঁজে পাওয়ার আগেই ভাঙা code ধরে ফেলে।"
+  - "'Deploy মানেই মাসে একবারের ভয়ের ইভেন্ট' আর 'deploy মানে স্বাভাবিক একটা মঙ্গলবার' — এই দুইয়ের মধ্যেকার পার্থক্যটাই এটা।"
+  - "একবার ঠিকঠাক বসে গেলে, ছোট change ঘনঘন ship করাটা বড় change কালেভদ্রে ship করার চেয়ে অনেক বেশি নিরাপদ মনে হয়।"
+  - "এই সাইটটার পেছনেও আসলে GitHub Actions-ই pipeline চালায় — build, test, deploy, সবটাই automatic।"
+
+Linux:
+  - "Production-এ বেশিরভাগ ব্যাকএন্ড service আসলে এখানেই চলে, মানুষ ভাবুক আর না ভাবুক।"
+  - "এখানে command line-এ সাচ্ছন্দ্য থাকলে সবসময় কাজে লাগে — debugging, deployment, সবকিছু দ্রুত হয়ে যায়।"
+  - "Open source, ইচ্ছামতো configure করা যায়, আর server-side যেকোনো কিছুর জন্য default লক্ষ্য এটাই।"
+  - "আমার বেশিরভাগ dev environment আর যত server-এ deploy করেছি, প্রায় সবকিছুর নিচেই কোনো না কোনো Linux distro।"
+  - "Linux-এ shell চালাতে জানাটা এমন এক দক্ষতা যেটা চুপচাপ প্রতি সপ্তাহে অনেকটা সময় বাঁচিয়ে দেয়।"

@@ -31,7 +31,7 @@
           </div>
           <div class="wv-block" data-block="stack">
             <ul class="hero-stack">
-              {{ range $skills }}{{ range .items }}<li>{{ . }}</li>{{ end }}{{ end }}
+              {{ range $skills }}{{ range .items }}<li tabindex="0" role="button" data-skill="{{ . }}">{{ . }}</li>{{ end }}{{ end }}
             </ul>
           </div>
           <div class="wv-block" data-block="status">
@@ -48,6 +48,7 @@
         <!-- CHAT / AGENT PANEL -->
         <div class="hero-chat" aria-hidden="true">
           <div class="hero-chat-log" data-chat-log></div>
+          <div class="hero-queue" data-queue></div>
         </div>
       </div>
 
@@ -60,7 +61,9 @@
   </div>
 
   <script id="agent-script" type="application/json">{{ $agent | jsonify }}</script>
-  <script type="application/json" id="agent-labels">{{ dict "thinking" (i18n "hero_thinking") | jsonify }}</script>
+  <script type="application/json" id="agent-labels">{{ dict "thinking" (i18n "hero_thinking") "skillQuestion" (i18n "hero_skill_question") | jsonify }}</script>
+  {{ $skillFacts := index .Site.Data $lang "skill-facts" }}
+  <script id="skill-facts" type="application/json">{{ $skillFacts | jsonify }}</script>
 </section>
 
 <!-- ABOUT -->

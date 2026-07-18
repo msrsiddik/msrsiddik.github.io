@@ -1,0 +1,143 @@
+# Short "what is this" answers for the hero's clickable stack badges.
+# 5 variants per skill so repeat clicks don't show the same line twice.
+# Keys must match the exact strings used in data/en/skills.yaml.
+
+Go:
+  - "A compiled language from Google built for concurrency and speed. Goroutines make handling thousands of connections cheap."
+  - "Statically typed, fast to compile, and famously boring in the best way — the language mostly gets out of your way."
+  - "My go-to for backend services. Small binaries, fast startup, and a standard library that already covers most of what you need."
+  - "Built by Google for large-scale systems. I like it for APIs and anything that needs to handle real concurrency without headaches."
+  - "Simple syntax, strong typing, built-in concurrency. It's what I reach for when a service needs to be fast and easy to operate."
+
+Java:
+  - "The workhorse behind a lot of enterprise software. Mature ecosystem, and the JVM is rock solid in production."
+  - "Statically typed, object-oriented, and battle-tested. Spring Boot on top of it is where most of my backend work lives."
+  - "Verbose sometimes, but predictable. Great tooling and a huge ecosystem for anything backend or Android."
+  - "Runs on the JVM, which means solid performance and a massive library ecosystem to lean on."
+  - "The language I've shipped the most production code in — POS systems, healthcare platforms, all Java under the hood."
+
+JavaScript:
+  - "The language the web runs on. Dynamic, flexible, and unavoidable if you're touching a browser."
+  - "Loose typing takes getting used to, but it's everywhere — frontend, tooling, scripts, all of it."
+  - "Single-threaded with an event loop that somehow handles async really well once it clicks for you."
+  - "I mostly reach for TypeScript over plain JS now, but the fundamentals are the same underneath."
+  - "Powers pretty much every interactive thing on the web. Can't avoid it, don't really want to either."
+
+TypeScript:
+  - "JavaScript with types bolted on — catches a scary number of bugs before they ever reach the browser."
+  - "My default for any frontend work now. The autocomplete alone is worth the extra setup."
+  - "Compiles down to plain JS but the type-checking during development saves a lot of debugging later."
+  - "Makes large React codebases actually maintainable. Refactoring without it feels risky in comparison."
+  - "Superset of JavaScript — same language, just with a safety net for larger projects."
+
+Kotlin:
+  - "JetBrains' answer to Java's verbosity — same JVM, way less boilerplate. Great for Android."
+  - "Null safety built into the type system, which quietly prevents a whole category of crashes."
+  - "Interops cleanly with Java, so you can adopt it gradually in an existing codebase."
+  - "Google's preferred language for Android now, and it's easy to see why once you've used it."
+  - "Concise, modern, and still gives you the full power of the JVM underneath."
+
+SQL:
+  - "The language for talking to relational databases. Not glamorous, but you can't really avoid it in backend work."
+  - "Declarative — you describe what you want, not how to get it. The database figures out the rest."
+  - "Every backend eventually needs a query that only SQL can express cleanly. Worth actually knowing well."
+  - "Joins, indexes, query plans — the stuff that separates a fast app from a slow one at scale."
+  - "Decades old and still the standard way to work with structured data. Not going anywhere soon."
+
+Spring Boot:
+  - "Takes the usual Spring boilerplate and configures most of it automatically. Gets a Java backend running fast."
+  - "My default framework for Java APIs — dependency injection, embedded servers, sane defaults out of the box."
+  - "Convention over configuration. What used to take a day of XML setup now takes a few annotations."
+  - "Huge ecosystem of starters for whatever you need — security, data access, messaging, all plug-and-play."
+  - "Makes building production-grade Java services genuinely fast instead of a chore."
+
+Vaadin:
+  - "A Java framework for building web UIs without writing much JavaScript — the whole thing stays server-side."
+  - "Handy when you want a full-stack Java app and don't want to context-switch into a separate frontend stack."
+  - "Component-based UI, but all wired up in Java. Good fit for internal tools and admin dashboards."
+  - "Lets a backend-focused team ship a real UI without needing a dedicated frontend developer."
+  - "I've used it for internal tooling — fast to build, and it keeps everything in one language."
+
+"Go (net/http, gRPC)":
+  - "Go's standard library HTTP server is solid enough that you often don't need a framework at all."
+  - "gRPC on top of Go gives you fast, strongly-typed service-to-service communication — great for internal APIs."
+  - "net/http keeps things simple for REST APIs; gRPC comes in when services need to talk to each other efficiently."
+  - "This combo is what I reach for when building backend services that need to be both fast and easy to maintain."
+  - "Protobuf-based contracts with gRPC catch a lot of integration bugs before they even happen."
+
+REST APIs:
+  - "The standard way most services talk to each other over HTTP. Simple, stateless, and universally understood."
+  - "Resources, verbs, status codes — not glamorous, but it's the lingua franca of backend communication."
+  - "Easy to design well, easy to design badly. Getting the resource modeling right early saves pain later."
+  - "Works with basically every client out there, which is exactly why it's still the default choice."
+  - "I design most services API-first — the REST contract comes before the implementation."
+
+PostgreSQL:
+  - "My default relational database. Reliable, feature-rich, and open source with no catches."
+  - "Handles everything from simple CRUD to complex JSON queries and full-text search without breaking a sweat."
+  - "Strong on data integrity — constraints, transactions, and solid ACID guarantees when it matters."
+  - "The extension ecosystem is huge. Whatever weird thing you need, there's probably a Postgres extension for it."
+  - "I've used it under everything from POS systems to sync engines. Never really given me a reason to switch."
+
+Redis:
+  - "An in-memory store I reach for whenever something needs to be fast — caching, sessions, rate limiting."
+  - "Simple key-value model, but the data structures underneath (sets, sorted sets, streams) are surprisingly powerful."
+  - "Sits in front of the database to take pressure off it. A cache-aside layer that just works."
+  - "I use it a lot for token denylists and session storage — anything that needs sub-millisecond reads."
+  - "Not a database replacement, but for the things it's good at, nothing else is faster."
+
+React:
+  - "Component-based UI library — build small pieces, compose them into full interfaces."
+  - "The ecosystem is massive, which means whatever you're trying to build, someone's already solved part of it."
+  - "Declarative UI — you describe what the screen should look like, React figures out how to get there."
+  - "My default for frontend work. Hooks made state management click in a way class components never did for me."
+  - "Not the newest kid on the block anymore, but still the safest default for serious frontend work."
+
+"HTML / CSS":
+  - "The actual foundation everything else sits on top of. Frameworks come and go, these don't."
+  - "CSS has gotten genuinely good — grid, flexbox, custom properties cover most layout problems cleanly now."
+  - "Semantic HTML matters more than people think — accessibility and SEO both start here."
+  - "No shortcuts around actually understanding these two. Every framework eventually leaks its underlying HTML/CSS."
+  - "Simple on the surface, deep once you get into specificity, cascade, and layout edge cases."
+
+Tailwind:
+  - "Utility-first CSS — you style directly in markup instead of writing separate stylesheet files."
+  - "Took some getting used to, but it genuinely speeds up building UI once the class names click."
+  - "No more hunting through CSS files to find what's affecting an element — the styles live right in the markup."
+  - "Pairs really well with component-based frameworks like React. Styling stays local to the component."
+  - "The design system constraints (spacing scale, color palette) quietly keep UIs more consistent."
+
+"Android (Kotlin/Java)":
+  - "Native Android development — full access to platform APIs, best performance you can get on the platform."
+  - "I've shipped POS and attendance apps this way — Kotlin now, though the codebases started in Java."
+  - "Direct access to hardware and OS-level features that cross-platform frameworks sometimes can't reach cleanly."
+  - "Jetpack libraries handle a lot of the platform complexity that used to be painful — lifecycle, navigation, data."
+  - "Kotlin makes Android development noticeably less verbose than the Java-only days."
+
+Docker:
+  - "Packages an app with everything it needs to run, so 'works on my machine' stops being an excuse."
+  - "Containers keep environments consistent from a laptop all the way to production."
+  - "Makes local dev setup trivial — spin up a database, cache, whatever you need, without installing any of it directly."
+  - "The foundation most modern deployment pipelines are built on, one way or another."
+  - "I containerize pretty much everything now. Consistent environments save a surprising amount of debugging time."
+
+Git:
+  - "Version control — the thing that makes collaborative software development sane instead of chaos."
+  - "Branches, merges, rebases. Once the mental model clicks, it's hard to imagine working without it."
+  - "Distributed by design, so every clone is a full backup of the project history."
+  - "Not just for teams — even solo, the ability to undo mistakes and track changes is worth it alone."
+  - "The tool I use more than almost anything else, several times an hour, without even thinking about it."
+
+CI/CD:
+  - "Automated pipelines that build, test, and deploy code the moment it's pushed — no manual steps to forget."
+  - "Catches broken code before it reaches production instead of after someone notices in the wild."
+  - "The difference between 'deploy is a scary once-a-month event' and 'deploy is just a normal Tuesday.'"
+  - "Once it's set up right, shipping small changes often feels a lot safer than shipping big ones rarely."
+  - "GitHub Actions runs the pipeline for this very site, actually — build, test, deploy, all automatic."
+
+Linux:
+  - "Where most backend services actually run in production, whether people think about it or not."
+  - "Command line comfort here pays off constantly — debugging, deployment, just getting things done faster."
+  - "Open source, endlessly configurable, and the default target for anything server-side."
+  - "Most of my dev environment and every server I've deployed to has been some Linux distro under the hood."
+  - "Knowing your way around a shell on Linux is one of those skills that quietly saves hours every week."

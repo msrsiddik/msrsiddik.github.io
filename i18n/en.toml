@@ -12,6 +12,8 @@ other = "msrdev.top — agent"
 other = "Ask about me…"
 [hero_thinking]
 other = "thinking"
+[hero_skill_question]
+other = "What's {skill}?"
 
 [btn_projects]
 other = "View Projects"

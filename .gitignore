@@ -4,3 +4,4 @@ resources/
 .DS_Store
 node_modules/
 .idea/
+.playwright-mcp/

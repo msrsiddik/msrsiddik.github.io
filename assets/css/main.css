@@ -167,7 +167,9 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
 
 .hero-body {
   display: grid; grid-template-columns: 1.35fr 1fr;
-  min-height: clamp(300px, 42vh, 420px);
+  grid-template-rows: minmax(0, 1fr);
+  min-height: clamp(300px, 48vh, 560px);
+  max-height: clamp(420px, 62vh, 680px);
 }
 
 /* Web view (preview) */
@@ -178,6 +180,7 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
     radial-gradient(120% 90% at 100% 0%, var(--accent-soft), transparent 60%),
     var(--bg);
   border-right: 1px solid var(--border);
+  overflow: hidden;
   display: flex; flex-direction: column; justify-content: center; gap: .85rem;
 }
 
@@ -210,7 +213,14 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
   font-family: var(--mono); font-size: .74rem; color: var(--accent);
   padding: .25rem .55rem; border-radius: 999px;
   border: 1px solid var(--border); background: var(--accent-soft);
+  cursor: pointer; transition: background .15s ease, border-color .15s ease, transform .15s ease;
 }
+.hero-stack li:hover, .hero-stack li:focus-visible {
+  background: var(--accent); color: var(--bg);
+  border-color: var(--accent); transform: translateY(-1px);
+  outline: none;
+}
+.hero-stack li:active { transform: translateY(0); }
 .hero-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: .3rem; }
 .hero-meta { color: var(--text-mute); font-size: .88rem; font-family: var(--mono); display: flex; align-items: center; gap: .5rem; }
 .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 var(--accent); animation: pulse 2.2s infinite; }
@@ -221,8 +231,8 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
 }
 
 /* Chat panel */
-.hero-chat { padding: 1rem; overflow: hidden; display: flex; flex-direction: column; }
-.hero-chat-log { display: flex; flex-direction: column; gap: .6rem; justify-content: flex-end; height: 100%; }
+.hero-chat { padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; }
+.hero-chat-log { display: flex; flex-direction: column; gap: .6rem; justify-content: flex-end; min-height: 100%; }
 .chat-bubble {
   font-family: var(--mono); font-size: .82rem; line-height: 1.5;
   padding: .55rem .75rem; border-radius: 10px; max-width: 92%;
@@ -236,6 +246,23 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
 .chat-bubble.thinking .d:nth-child(3) { animation-delay: .4s; }
 @keyframes bubble-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @keyframes think { 0%,60%,100% { opacity: .3; } 30% { opacity: 1; } }
+
+/* Queued skill-question chips */
+.hero-queue { display: flex; flex-wrap: wrap; gap: .4rem; padding-top: .5rem; }
+.hero-queue:empty { display: none; padding-top: 0; }
+.queue-chip {
+  display: inline-flex; align-items: center; gap: .35rem;
+  font-family: var(--mono); font-size: .72rem; color: var(--text-mute);
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 999px; padding: .2rem .3rem .2rem .6rem;
+  animation: bubble-in .2s ease both;
+}
+.queue-chip button {
+  all: unset; cursor: pointer; line-height: 1;
+  width: 14px; height: 14px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; color: var(--text-mute);
+}
+.queue-chip button:hover, .queue-chip button:focus-visible { background: var(--border); color: var(--text); }
 
 /* Input bar */
 .hero-input {
