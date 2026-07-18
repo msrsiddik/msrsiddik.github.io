@@ -1,0 +1,53 @@
+<!-- IDE-style file explorer: mirrors the top tab strip as a vertical tree,
+     plus an expandable blog/ folder listing actual posts. -->
+{{ $lang := .Site.Language.Lang }}
+{{ $posts := where site.RegularPages "Section" "blog" }}
+{{ $posts = $posts.ByDate.Reverse }}
+<div class="files-root-label">{{ i18n "files_root" }}</div>
+<ul class="file-tree">
+  <li class="file-node">
+    <a class="file-row" href="{{ "/" | relLangURL }}" data-file-path="{{ i18n "files_root" }}/home.tsx">
+      <span class="file-spacer"></span>
+      <span class="file-icon file-icon-tsx"></span>
+      <span class="file-name">home<span class="file-ext">.tsx</span></span>
+    </a>
+  </li>
+  {{ range .Site.Menus.main }}
+    {{ if eq .PageRef "/blog" }}
+    <li class="file-node file-node-folder">
+      <button type="button" class="file-row file-row-folder" data-folder-toggle aria-expanded="false">
+        <svg class="file-chevron" viewBox="0 0 10 10" width="9" height="9" aria-hidden="true"><path d="M2.5 1.5l4 3.5-4 3.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+        <span class="file-icon file-icon-folder"></span>
+        <span class="file-name">blog</span>
+      </button>
+      <ul class="file-subtree">
+        <li class="file-node">
+          <a class="file-row" href="{{ .PageRef | relLangURL }}" data-file-path="{{ i18n "files_root" }}/blog/index.md">
+            <span class="file-spacer"></span>
+            <span class="file-icon file-icon-md"></span>
+            <span class="file-name">index<span class="file-ext">.md</span></span>
+          </a>
+        </li>
+        {{ range $posts }}
+        <li class="file-node">
+          <a class="file-row" href="{{ .RelPermalink }}" data-file-path="{{ i18n "files_root" }}/blog/{{ .File.TranslationBaseName }}.md">
+            <span class="file-spacer"></span>
+            <span class="file-icon file-icon-md"></span>
+            <span class="file-name">{{ .File.TranslationBaseName }}<span class="file-ext">.md</span></span>
+          </a>
+        </li>
+        {{ end }}
+      </ul>
+    </li>
+    {{ else }}
+    {{ $ext := "tsx" }}
+    <li class="file-node">
+      <a class="file-row" href="{{ .PageRef | default .URL | relLangURL }}" data-file-path="{{ i18n "files_root" }}/home.tsx">
+        <span class="file-spacer"></span>
+        <span class="file-icon file-icon-tsx"></span>
+        <span class="file-name">{{ .Name | lower }}<span class="file-ext">.{{ $ext }}</span></span>
+      </a>
+    </li>
+    {{ end }}
+  {{ end }}
+</ul>

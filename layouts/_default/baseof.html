@@ -4,11 +4,81 @@
   {{ partial "head.html" . }}
 </head>
 <body>
-  {{ partial "header.html" . }}
-  <main>
-    {{ block "main" . }}{{ end }}
-  </main>
-  {{ partial "footer.html" . }}
+  <!-- IDE SHELL: persists across every page. Left file panel, top titlebar,
+       and right chat panel stay mounted; only the editor pane (hero-webview)
+       content changes as the router swaps pages in. -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-window" data-agent-hero>
+        <div class="hero-titlebar">
+          <span class="tl tl-red"></span>
+          <span class="tl tl-yellow"></span>
+          <button type="button" class="tl tl-green" data-win-maximize aria-label="{{ i18n "hero_maximize" }}" title="{{ i18n "hero_maximize" }}"></button>
+          <button type="button" class="hero-files-toggle" data-files-toggle aria-label="{{ i18n "hero_toggle_files" }}" title="{{ i18n "hero_toggle_files" }}" aria-expanded="true">
+            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M1.5 4.5h5l1.2 1.4h6.8v7.6a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1v-9z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </button>
+          {{ $filePath := printf "%s/home.tsx" (i18n "files_root") }}
+          {{ if .IsNode }}
+            {{ if eq .Section "blog" }}{{ $filePath = printf "%s/blog/index.md" (i18n "files_root") }}{{ end }}
+          {{ else if eq .Section "blog" }}
+            {{ $filePath = printf "%s/blog/%s.md" (i18n "files_root") .File.TranslationBaseName }}
+          {{ end }}
+          <span class="hero-title" data-page-title>{{ $filePath }}</span>
+          <span class="hero-badge">⚡ live</span>
+          <button type="button" class="hero-chat-toggle" data-chat-toggle aria-label="{{ i18n "hero_toggle_chat" }}" title="{{ i18n "hero_toggle_chat" }}" aria-expanded="true">
+            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.3"/><line x1="10" y1="2.5" x2="10" y2="13.5" stroke="currentColor" stroke-width="1.3"/></svg>
+          </button>
+        </div>
+
+        <div class="hero-body">
+          <!-- Mobile-only backdrop behind the file drawer; tapping it closes the drawer -->
+          <div class="hero-files-backdrop" data-files-backdrop></div>
+          <!-- FILE EXPLORER (left panel; a slide-in drawer on mobile) -->
+          <div class="hero-files" data-files-panel>
+            {{ partial "file-tree.html" . }}
+          </div>
+          <div class="hero-resizer" data-resizer="files" role="separator" aria-orientation="vertical" aria-label="{{ i18n "resize_files" }}" tabindex="0"></div>
+
+          <!-- WEB VIEW (editor area) — the SPA router swaps this pane's content -->
+          <div class="hero-webview" data-webview aria-label="Preview">
+            <div class="hero-loading" data-loading>
+              <span class="d"></span><span class="d"></span><span class="d"></span>
+            </div>
+            <div data-page-content>
+              {{ block "main" . }}{{ end }}
+            </div>
+          </div>
+
+          <div class="hero-resizer" data-resizer="chat" role="separator" aria-orientation="vertical" aria-label="{{ i18n "resize_chat" }}" tabindex="0"></div>
+          <!-- CHAT / AGENT PANEL (a slide-in drawer on mobile) -->
+          <div class="hero-chat" data-chat-panel aria-hidden="true">
+            <div class="hero-chat-log" data-chat-log></div>
+            <div class="hero-queue" data-queue></div>
+          </div>
+          <!-- Mobile-only backdrop behind the chat drawer; tapping it closes the drawer -->
+          <div class="hero-chat-backdrop" data-chat-backdrop></div>
+        </div>
+
+        <div class="hero-input" aria-hidden="true">
+          <span class="hero-prompt">›</span>
+          <span class="hero-input-text" data-input-text></span><span class="hero-caret" data-caret>▍</span>
+          <span class="hero-input-placeholder" data-input-placeholder>{{ i18n "hero_ask_placeholder" }}</span>
+        </div>
+
+        {{ partial "header.html" . }}
+      </div>
+    </div>
+
+    {{ if .IsHome }}
+    {{ $lang := .Site.Language.Lang }}
+    {{ $agent := index .Site.Data $lang "agent" }}
+    {{ $skillFacts := index .Site.Data $lang "skill-facts" }}
+    <script id="agent-script" type="application/json">{{ $agent | jsonify }}</script>
+    <script type="application/json" id="agent-labels">{{ dict "thinking" (i18n "hero_thinking") "skillQuestion" (i18n "hero_skill_question") | jsonify }}</script>
+    <script id="skill-facts" type="application/json">{{ $skillFacts | jsonify }}</script>
+    {{ end }}
+  </section>
+
   <script src="{{ "js/main.js" | relURL }}" defer></script>
 </body>
 </html>

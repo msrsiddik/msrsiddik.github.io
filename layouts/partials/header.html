@@ -1,38 +1,43 @@
-<header class="site-header">
-  <nav class="nav container">
+<!-- IDE-style status bar: part of the window chrome itself, below the input
+     bar, like VS Code's bottom bar — not page content, so it never scrolls
+     away and stays fixed to the window on every page. -->
+<footer class="site-header">
+  <div class="statusbar">
     <a class="brand" href="{{ "/" | relLangURL }}">
-      <img class="brand-avatar" src="/avatar.jpg" alt="{{ .Site.Params.author }}" width="40" height="40">
+      <img class="brand-avatar" src="/avatar.jpg" alt="{{ .Site.Params.author }}" width="16" height="16">
       <span class="brand-name">{{ .Site.Params.author }}</span>
     </a>
-    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
+    <span class="statusbar-sep" aria-hidden="true"></span>
+    <span class="statusbar-item statusbar-branch">
+      <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><circle cx="4" cy="3" r="1.6" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="4" cy="13" r="1.6" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="12" cy="8" r="1.6" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M4 4.6V11.4M4 6.5c0 3 3.6 1.5 6.6 1.9" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+      main
+    </span>
+
+    <span class="statusbar-spacer"></span>
+
+    <a class="statusbar-item statusbar-cta" href="mailto:{{ .Site.Params.email }}">{{ i18n "nav_contact" }}</a>
+    <button type="button" class="statusbar-item theme-toggle" aria-label="Toggle dark/light mode" title="Toggle theme">
+      <span class="theme-icon">🌙</span>
     </button>
-    <ul class="nav-links">
-      {{ range .Site.Menus.main }}
-        <li><a href="{{ .PageRef | default .URL | relLangURL }}">{{ .Name }}</a></li>
-      {{ end }}
-      <li><a class="nav-cta" href="mailto:{{ .Site.Params.email }}">{{ i18n "nav_contact" }}</a></li>
-      <li class="theme-switch">
-        <button class="theme-toggle" aria-label="Toggle dark/light mode" title="Toggle theme">
-          <span class="theme-icon">🌙</span>
-        </button>
-      </li>
-      {{ if gt (len .Site.Sites) 1 }}
-      <li class="lang-switch">
-        {{ $cur := .Site.Language.Lang }}
-        {{ $page := . }}
-        {{ range .Site.Sites }}
-          {{ if eq .Language.Lang $cur }}
-            <span class="lang-active">{{ .Language.Lang | upper }}</span>
-          {{ else }}
-            {{ $href := .Home.RelPermalink }}
-            {{ $targetLang := .Language.Lang }}
-            {{ range $page.Translations }}{{ if eq .Language.Lang $targetLang }}{{ $href = .RelPermalink }}{{ end }}{{ end }}
-            <a href="{{ $href }}" hreflang="{{ .Language.Lang }}">{{ .Language.Lang | upper }}</a>
-          {{ end }}
+    {{ if gt (len .Site.Sites) 1 }}
+    <span class="statusbar-item lang-switch">
+      {{ $cur := .Site.Language.Lang }}
+      {{ $page := . }}
+      {{ range .Site.Sites }}
+        {{ if eq .Language.Lang $cur }}
+          <span class="lang-active">{{ .Language.Lang | upper }}</span>
+        {{ else }}
+          {{ $href := .Home.RelPermalink }}
+          {{ $targetLang := .Language.Lang }}
+          {{ range $page.Translations }}{{ if eq .Language.Lang $targetLang }}{{ $href = .RelPermalink }}{{ end }}{{ end }}
+          <a href="{{ $href }}" hreflang="{{ .Language.Lang }}">{{ .Language.Lang | upper }}</a>
         {{ end }}
-      </li>
       {{ end }}
-    </ul>
-  </nav>
-</header>
+    </span>
+    {{ end }}
+    <span class="statusbar-sep" aria-hidden="true"></span>
+    <button type="button" class="statusbar-item statusbar-reset" data-reset-layout aria-label="{{ i18n "reset_layout" }}" title="{{ i18n "reset_layout" }}">
+      <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M8 2.5a5.5 5.5 0 1 0 5.2 3.7" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M13.5 2.5v3.7h-3.7" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</footer>

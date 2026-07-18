@@ -14,6 +14,20 @@ other = "Ask about me…"
 other = "thinking"
 [hero_skill_question]
 other = "What's {skill}?"
+[hero_maximize]
+other = "Maximize"
+[hero_toggle_chat]
+other = "Toggle chat panel"
+[hero_toggle_files]
+other = "Toggle file explorer"
+[files_root]
+other = "msrdev"
+[resize_files]
+other = "Resize file explorer"
+[resize_chat]
+other = "Resize chat panel"
+[reset_layout]
+other = "Reset panel layout"
 
 [btn_projects]
 other = "View Projects"

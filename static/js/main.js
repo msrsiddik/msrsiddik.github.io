@@ -1,39 +1,3 @@
-// Mobile nav toggle
-const toggle = document.querySelector('.nav-toggle');
-const links = document.querySelector('.nav-links');
-if (toggle && links) {
-  toggle.addEventListener('click', () => {
-    const open = links.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', String(open));
-  });
-  links.querySelectorAll('a').forEach((a) =>
-    a.addEventListener('click', () => {
-      links.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-    })
-  );
-}
-
-// Header border on scroll
-const header = document.querySelector('.site-header');
-const onScroll = () => header && header.classList.toggle('scrolled', window.scrollY > 8);
-onScroll();
-window.addEventListener('scroll', onScroll, { passive: true });
-
-// Reveal sections on scroll
-const io = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) {
-        e.target.classList.add('is-visible');
-        io.unobserve(e.target);
-      }
-    });
-  },
-  { threshold: 0.08 }
-);
-document.querySelectorAll('.section').forEach((s) => io.observe(s));
-
 // Theme toggle (dark/light mode)
 const themeToggle = document.querySelector('.theme-toggle');
 const html = document.documentElement;
@@ -59,52 +23,399 @@ if (themeToggle) {
   setTheme(getTheme());
 }
 
-// Agentic hero: scripted conversation drives the web-view preview.
+// ===========================================================================
+// Agentic IDE shell: titlebar + left file panel + webview (editor) + right
+// chat panel persist across every page. A client-side router swaps the
+// webview's content when navigating, so the shell never reloads — it feels
+// like opening files in a real editor. Falls back to normal navigation if
+// fetch/history APIs are unavailable or a request fails.
+// ===========================================================================
 (function () {
   const hero = document.querySelector('[data-agent-hero]');
   if (!hero) return;
 
+  const webview = hero.querySelector('[data-webview]');
+  const pageContent = hero.querySelector('[data-page-content]');
+  const pageTitle = hero.querySelector('[data-page-title]');
+  const loading = hero.querySelector('[data-loading]');
+  const heroBody = hero.querySelector('.hero-body');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduced) return; // static fallback stays visible
+  const isMobile = window.matchMedia('(max-width: 720px)').matches;
 
-  // Hugo's jsonify inside a script tag can emit the payload double-encoded
-  // (a JSON string wrapping the real JSON), so parse until we get the array.
-  function parseJSON(id) {
-    const node = document.getElementById(id);
-    if (!node) return null;
-    let v = node.textContent;
-    for (let i = 0; i < 3 && typeof v === 'string'; i++) v = JSON.parse(v);
-    return v;
+  // Page content is already server-rendered on first paint — the loading
+  // overlay only earns its keep during a real SPA fetch (see loadPage), so
+  // hide it immediately here rather than leaving it up for an artificial delay.
+  if (loading) loading.classList.add('is-hidden');
+
+  // --- Panel layout persistence -------------------------------------------
+  // Only panel widths persist across reloads. Collapsed/expanded (open/close)
+  // state is intentionally session-only — every page load starts with both
+  // panels expanded (desktop) or collapsed (mobile), never remembering
+  // whether the user had them open or closed last time.
+  const LAYOUT_KEY = 'ide-layout';
+  const DEFAULT_LAYOUT = { filesW: 220, chatW: 340 };
+  const FILES_MIN = 160, FILES_MAX = 420, CHAT_MIN = 240, CHAT_MAX = 560;
+
+  function loadLayout() {
+    try {
+      const stored = JSON.parse(localStorage.getItem(LAYOUT_KEY));
+      if (!stored || typeof stored !== 'object') return { ...DEFAULT_LAYOUT };
+      return { filesW: stored.filesW || DEFAULT_LAYOUT.filesW, chatW: stored.chatW || DEFAULT_LAYOUT.chatW };
+    } catch (_) {
+      return { ...DEFAULT_LAYOUT };
+    }
   }
 
-  let script, labels, skillFacts;
-  try {
-    script = parseJSON('agent-script');
-    labels = parseJSON('agent-labels');
-    skillFacts = parseJSON('skill-facts') || {};
-  } catch (_) {
-    return; // leave static content in place
+  function saveLayout(layout) {
+    try {
+      localStorage.setItem(LAYOUT_KEY, JSON.stringify({ filesW: layout.filesW, chatW: layout.chatW }));
+    } catch (_) { /* storage unavailable (private mode, quota) — layout just won't persist */ }
   }
-  if (!Array.isArray(script) || !script.length) return;
 
+  let layout = { ...loadLayout(), filesCollapsed: isMobile, chatCollapsed: isMobile };
+
+  function applyLayout() {
+    if (heroBody) {
+      heroBody.style.setProperty('--files-w', layout.filesW + 'px');
+      heroBody.style.setProperty('--chat-w', layout.chatW + 'px');
+    }
+    hero.classList.toggle('is-files-collapsed', layout.filesCollapsed);
+    hero.classList.toggle('is-chat-collapsed', layout.chatCollapsed);
+    if (filesToggle) filesToggle.setAttribute('aria-expanded', String(!layout.filesCollapsed));
+    if (chatToggle) chatToggle.setAttribute('aria-expanded', String(!layout.chatCollapsed));
+  }
+
+  // --- Window controls (maximize / chat + file panel toggles) ------------
+  // Wired unconditionally: these are real UI affordances, not part of the
+  // scripted conversation, so they still work under reduced-motion.
+  const maxBtn = hero.querySelector('[data-win-maximize]');
+  const chatToggle = hero.querySelector('[data-chat-toggle]');
+  const filesToggle = hero.querySelector('[data-files-toggle]');
+  const resetBtn = document.querySelector('[data-reset-layout]');
+  if (maxBtn) {
+    maxBtn.addEventListener('click', () => {
+      hero.classList.toggle('is-maximized');
+    });
+  }
+  applyLayout();
+  if (chatToggle) {
+    chatToggle.addEventListener('click', () => {
+      layout.chatCollapsed = !layout.chatCollapsed;
+      applyLayout(); // collapsed state is never saved — see comment above loadLayout/saveLayout
+    });
+  }
+  if (filesToggle) {
+    filesToggle.addEventListener('click', () => {
+      layout.filesCollapsed = !layout.filesCollapsed;
+      applyLayout();
+    });
+  }
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      layout = { ...DEFAULT_LAYOUT, filesCollapsed: isMobile, chatCollapsed: isMobile };
+      applyLayout();
+      saveLayout(layout);
+    });
+  }
+
+  // --- Drag-to-resize the file panel and chat panel -----------------------
+  function bindResizer(el, side) {
+    if (!el) return;
+    let dragging = false;
+
+    function widthFromEvent(clientX) {
+      const rect = heroBody.getBoundingClientRect();
+      return side === 'files' ? clientX - rect.left : rect.right - clientX;
+    }
+
+    function onMove(e) {
+      if (!dragging) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      let w = widthFromEvent(clientX);
+      w = side === 'files' ? Math.min(FILES_MAX, Math.max(FILES_MIN, w)) : Math.min(CHAT_MAX, Math.max(CHAT_MIN, w));
+      if (side === 'files') layout.filesW = w; else layout.chatW = w;
+      applyLayout();
+    }
+
+    function stop() {
+      if (!dragging) return;
+      dragging = false;
+      el.classList.remove('is-dragging');
+      if (heroBody) heroBody.classList.remove('is-resizing');
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', stop);
+      document.removeEventListener('touchmove', onMove);
+      document.removeEventListener('touchend', stop);
+      saveLayout(layout);
+    }
+
+    function start(e) {
+      // Dragging only makes sense while the panel is expanded.
+      if (side === 'files' && layout.filesCollapsed) return;
+      if (side === 'chat' && layout.chatCollapsed) return;
+      dragging = true;
+      el.classList.add('is-dragging');
+      if (heroBody) heroBody.classList.add('is-resizing');
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', stop);
+      document.addEventListener('touchmove', onMove, { passive: true });
+      document.addEventListener('touchend', stop);
+      e.preventDefault();
+    }
+
+    el.addEventListener('mousedown', start);
+    el.addEventListener('touchstart', start, { passive: false });
+
+    // Keyboard resizing: arrow keys, 10px steps.
+    el.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault();
+      const dir = e.key === 'ArrowRight' ? 1 : -1;
+      const delta = side === 'files' ? dir * 10 : -dir * 10;
+      let w = (side === 'files' ? layout.filesW : layout.chatW) + delta;
+      w = side === 'files' ? Math.min(FILES_MAX, Math.max(FILES_MIN, w)) : Math.min(CHAT_MAX, Math.max(CHAT_MIN, w));
+      if (side === 'files') layout.filesW = w; else layout.chatW = w;
+      applyLayout();
+      saveLayout(layout);
+    });
+  }
+  bindResizer(hero.querySelector('[data-resizer="files"]'), 'files');
+  bindResizer(hero.querySelector('[data-resizer="chat"]'), 'chat');
+
+  // --- Mobile: file explorer is a slide-in drawer over a backdrop ---------
+  // Collapsed, it's off-screen entirely. The titlebar toggle slides it in;
+  // tapping the backdrop or picking a file closes it again.
+  const filesBackdrop = hero.querySelector('[data-files-backdrop]');
+  if (isMobile && filesBackdrop) {
+    filesBackdrop.addEventListener('click', () => {
+      layout.filesCollapsed = true;
+      applyLayout();
+    });
+  }
+  const filesPanel = hero.querySelector('[data-files-panel]');
+  if (isMobile && filesPanel) {
+    filesPanel.addEventListener('click', (e) => {
+      if (e.target.closest('.file-row-folder')) return; // opening a folder shouldn't close the drawer
+      if (!e.target.closest('.file-row')) return;
+      layout.filesCollapsed = true;
+      applyLayout();
+    });
+  }
+
+  // --- Mobile: chat panel is a slide-in drawer over a backdrop, mirroring
+  // the file explorer above (right side instead of left). --------------------
+  const chatBackdrop = hero.querySelector('[data-chat-backdrop]');
+  if (isMobile && chatBackdrop) {
+    chatBackdrop.addEventListener('click', () => {
+      layout.chatCollapsed = true;
+      applyLayout();
+    });
+  }
+
+  // --- File tree: folders expand/collapse ---------------------------------
+  hero.querySelectorAll('[data-folder-toggle]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const node = btn.closest('.file-node-folder');
+      const open = node.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+  });
+  function autoExpandBlogFolder() {
+    if (!/^\/(?:[a-z]{2}\/)?blog(\/|$)/.test(location.pathname)) return;
+    const folder = hero.querySelector('.file-node-folder');
+    if (!folder) return;
+    folder.classList.add('is-open');
+    const btn = folder.querySelector('[data-folder-toggle]');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+  }
+  autoExpandBlogFolder();
+
+  // --- Active state in the file tree (left panel) -------------------------
+  function normalizePath(pathname) {
+    return pathname.replace(/\/$/, '') || '/';
+  }
+
+  function markActiveLinks() {
+    const current = normalizePath(location.pathname);
+    document.querySelectorAll('.file-row').forEach((link) => {
+      if (!link.getAttribute('href')) return;
+      const url = new URL(link.href, location.origin);
+      const same = url.origin === location.origin && normalizePath(url.pathname) === current;
+      // A link with a hash (e.g. #about) is active only when that exact hash
+      // is current. A plain link (e.g. home.tsx) is active only when we're on
+      // its path with no hash at all — otherwise both it and a hash-section
+      // link would be active at once.
+      const isActive = url.hash ? (same && url.hash === location.hash) : (same && !location.hash);
+      link.classList.toggle('is-active', isActive);
+    });
+  }
+
+  // --- SPA router: fetch same-origin pages and swap the webview content --
+  const supportsRouting = 'fetch' in window && 'pushState' in history;
+
+  function isRoutable(link) {
+    if (!link.href) return false;
+    const url = new URL(link.href, location.origin);
+    if (url.origin !== location.origin) return false;
+    if (link.target && link.target !== '_self') return false;
+    if (link.hasAttribute('download')) return false;
+    if (link.hasAttribute('hreflang')) return false; // language switch: needs a full reload (lang, dir, all shell text change)
+    if (/\.(pdf|zip|png|jpg|jpeg|svg|xml|txt)$/i.test(url.pathname)) return false;
+    return true;
+  }
+
+  async function loadPage(url, opts) {
+    opts = opts || {};
+    if (loading) loading.classList.remove('is-hidden');
+    let doc;
+    try {
+      const res = await fetch(url, { headers: { 'X-Requested-With': 'spa-router' } });
+      if (!res.ok) throw new Error('bad status ' + res.status);
+      doc = new DOMParser().parseFromString(await res.text(), 'text/html');
+    } catch (_) {
+      location.href = url; // network error or non-2xx: fall back to a real navigation
+      return;
+    }
+
+    const nextContent = doc.querySelector('[data-page-content]');
+    if (!nextContent) {
+      location.href = url; // markup we don't recognize: fall back rather than show a blank pane
+      return;
+    }
+
+    navId += 1; // cancels any in-flight typing/intro from the page we're leaving
+    pageContent.innerHTML = nextContent.innerHTML;
+    document.title = doc.title;
+    const nextTitleEl = doc.querySelector('[data-page-title]');
+    if (pageTitle && nextTitleEl) pageTitle.textContent = nextTitleEl.textContent;
+
+    if (!opts.isPopState) {
+      const u = new URL(url, location.origin);
+      history.pushState({ spa: true }, '', u.pathname + u.search + u.hash);
+    }
+
+    webview.scrollTop = 0;
+    autoExpandBlogFolder();
+    markActiveLinks();
+    bindRouterLinks(pageContent);
+    initSectionBehavior();
+    initAgentForCurrentPage();
+    if (loading) loading.classList.add('is-hidden');
+
+    const target = location.hash ? pageContent.querySelector(location.hash) : null;
+    if (target) target.scrollIntoView({ block: 'start' });
+  }
+
+  function bindRouterLinks(root) {
+    root.querySelectorAll('a[href]').forEach((link) => {
+      if (link.dataset.routerBound) return;
+      link.dataset.routerBound = '1';
+      link.addEventListener('click', (e) => {
+        if (e.defaultPrevented || e.button !== 0) return;
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        if (!supportsRouting || !isRoutable(link)) return;
+
+        const url = new URL(link.href, location.origin);
+        const samePage = normalizePath(url.pathname) === normalizePath(location.pathname);
+        if (samePage && url.hash) {
+          // In-page anchor (e.g. #about on the home page): just scroll, no fetch.
+          const t = webview.querySelector(url.hash);
+          if (t) {
+            e.preventDefault();
+            history.pushState({ spa: true }, '', url.pathname + url.hash);
+            t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            markActiveLinks();
+          }
+          return;
+        }
+
+        e.preventDefault();
+        loadPage(link.href);
+      });
+    });
+  }
+
+  window.addEventListener('popstate', () => {
+    loadPage(location.href, { isPopState: true });
+  });
+
+  bindRouterLinks(document);
+  markActiveLinks();
+
+  // --- Per-page behavior that needs re-running after every route swap ----
+  let sectionIO = null;
+  let tabIO = null;
+
+  function initSectionBehavior() {
+    if (sectionIO) sectionIO.disconnect();
+    if (!reduced) {
+      sectionIO = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-visible');
+              sectionIO.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.08 }
+      );
+      pageContent.querySelectorAll('.section').forEach((s) => sectionIO.observe(s));
+    } else {
+      pageContent.querySelectorAll('.section').forEach((s) => s.classList.add('is-visible'));
+    }
+
+    if (tabIO) tabIO.disconnect();
+    const hashLinks = document.querySelectorAll('.file-row[href*="#"]');
+    const plainLinks = document.querySelectorAll('.file-row:not([href*="#"])');
+    const sectionsWithIds = [...pageContent.querySelectorAll('[id]')].filter((el) =>
+      [...hashLinks].some((l) => l.hash === '#' + el.id)
+    );
+    if (sectionsWithIds.length) {
+      tabIO = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const id = entry.target.id;
+            hashLinks.forEach((link) => link.classList.toggle('is-active', link.hash === '#' + id));
+            plainLinks.forEach((link) => link.classList.remove('is-active')); // a hash section is active, so home.tsx etc. shouldn't be
+          });
+        },
+        { root: webview, rootMargin: '-40% 0px -50% 0px' }
+      );
+      sectionsWithIds.forEach((el) => tabIO.observe(el));
+    }
+  }
+
+  initSectionBehavior();
+
+  // ===========================================================================
+  // Scripted agent conversation. Its data (agent-script / skill-facts) only
+  // exists on the home page's payload, so this must re-check and re-run every
+  // time the router swaps in new content — not just once at initial load.
+  // ===========================================================================
   const inputText = hero.querySelector('[data-input-text]');
   const placeholder = hero.querySelector('[data-input-placeholder]');
   const chatLog = hero.querySelector('[data-chat-log]');
-  const blocks = hero.querySelectorAll('.wv-block');
-  const loading = hero.querySelector('[data-loading]');
   const queueEl = hero.querySelector('[data-queue]');
-  const skillBadges = hero.querySelectorAll('.hero-stack li[data-skill]');
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const rand = (a, b) => a + Math.random() * (b - a);
 
+  function scrollChatToBottom() {
+    const scroller = chatLog.parentElement; // .hero-chat, the scrollable element
+    scroller.scrollTop = scroller.scrollHeight;
+  }
+
   // typeInto is cancellable: pass a state object with a `cancelled` flag,
   // and it stops mid-character instead of finishing the string.
   async function typeInto(el, text, state) {
+    const isChatBubble = el.parentElement === chatLog;
     el.textContent = '';
     for (const ch of text) {
       if (state && state.cancelled) return false;
       el.textContent += ch;
+      if (isChatBubble) scrollChatToBottom();
       await sleep(rand(28, 70));
     }
     return true;
@@ -115,33 +426,37 @@ if (themeToggle) {
     el.className = 'chat-bubble ' + cls;
     el.textContent = text;
     chatLog.appendChild(el);
+    scrollChatToBottom();
     return el;
   }
+
+  let currentLabels = {};
 
   function showThinking() {
     const el = document.createElement('div');
     el.className = 'chat-bubble agent thinking';
-    el.setAttribute('title', labels.thinking || 'thinking');
+    el.setAttribute('title', currentLabels.thinking || 'thinking');
     el.innerHTML = '<span class="d"></span><span class="d"></span><span class="d"></span>';
     chatLog.appendChild(el);
+    scrollChatToBottom();
     return el;
-  }
-
-  function revealBlock(name) {
-    blocks.forEach((b) => {
-      if (b.getAttribute('data-block') === name) b.classList.add('is-visible');
-    });
   }
 
   // Shared busy flag: only one Q&A (intro script or skill click) types at a time.
   const busy = { active: false };
 
+  // Bumped on every SPA route swap. playTurn/runIntro check it to bail out if
+  // the user navigated away mid-turn, so a stale intro doesn't keep typing
+  // into a chat log that no longer matches the page in the webview.
+  let navId = 0;
+
   async function playTurn(question, answer, opts) {
     opts = opts || {};
+    const myNav = navId;
     busy.active = true;
     if (placeholder) placeholder.style.display = 'none';
     const typed = await typeInto(inputText, question, opts.state);
-    if (!typed) { inputText.textContent = ''; busy.active = false; return; }
+    if (!typed || myNav !== navId) { inputText.textContent = ''; busy.active = false; return; }
     await sleep(400);
 
     addBubble('user', question);
@@ -152,31 +467,16 @@ if (themeToggle) {
     const thinking = showThinking();
     await sleep(rand(500, 800));
     thinking.remove();
-    if (opts.state && opts.state.cancelled) { busy.active = false; return; }
+    if ((opts.state && opts.state.cancelled) || myNav !== navId) { busy.active = false; return; }
 
     const bubble = addBubble('agent', '');
-    if (opts.render) revealBlock(opts.render);
     const finished = await typeInto(bubble, answer, opts.state);
-    if (!finished) bubble.remove();
+    if (!finished || myNav !== navId) { bubble.remove(); busy.active = false; return; }
     await sleep(700);
     busy.active = false;
   }
 
-  async function runOnce() {
-    for (const step of script) {
-      await playTurn(step.q, step.a, { render: step.render });
-    }
-  }
-
-  async function boot() {
-    // Blocks start hidden in markup (loading dots cover the web-view), so
-    // there's nothing to flash — just hold briefly, then hand off to the
-    // scripted animation.
-    await sleep(500);
-    if (loading) loading.classList.add('is-hidden');
-  }
-
-  // --- Skill-click queue -------------------------------------------------
+  // --- Skill-click queue ---------------------------------------------------
   // Clicking a stack badge queues a "what is X" Q&A. Only one turn plays at
   // a time (shared `busy` flag), so clicks made during the intro script or
   // while another answer is typing wait their turn. Each queued item can be
@@ -185,9 +485,10 @@ if (themeToggle) {
   const queue = [];
   const lastVariant = new Map(); // skill -> last shown variant index, avoids immediate repeats
   let queueSeq = 0;
+  let currentSkillFacts = {};
 
   function pickVariant(skill) {
-    const variants = skillFacts[skill];
+    const variants = currentSkillFacts[skill];
     if (!variants || !variants.length) return null;
     if (variants.length === 1) return variants[0];
     let idx = Math.floor(Math.random() * variants.length);
@@ -226,7 +527,7 @@ if (themeToggle) {
   function queueSkill(skill) {
     const answer = pickVariant(skill);
     if (!answer) return; // no facts for this skill, ignore
-    const question = (labels.skillQuestion || '{skill}?').replace('{skill}', skill);
+    const question = (currentLabels.skillQuestion || '{skill}?').replace('{skill}', skill);
     queue.push({ id: ++queueSeq, skill, question, answer, state: { cancelled: false } });
     renderQueue();
     processQueue();
@@ -249,28 +550,72 @@ if (themeToggle) {
     processing = false;
   }
 
-  skillBadges.forEach((badge) => {
-    const skill = badge.getAttribute('data-skill');
-    badge.addEventListener('click', () => queueSkill(skill));
-    badge.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        queueSkill(skill);
-      }
+  function bindSkillBadges() {
+    pageContent.querySelectorAll('.hero-stack li[data-skill]').forEach((badge) => {
+      if (badge.dataset.skillBound) return;
+      badge.dataset.skillBound = '1';
+      const skill = badge.getAttribute('data-skill');
+      badge.addEventListener('click', () => queueSkill(skill));
+      badge.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          queueSkill(skill);
+        }
+      });
     });
-  });
-
-  async function run() {
-    await boot();
-    await runOnce(); // plays once, then stays on the final state — skill clicks still queue after
   }
 
-  // Start only when the hero scrolls into view (perf).
-  const heroIO = new IntersectionObserver((entries, obs) => {
-    if (entries[0].isIntersecting) {
-      obs.disconnect();
-      run();
+  function parseJSON(id) {
+    const node = document.getElementById(id);
+    if (!node) return null;
+    let v = node.textContent;
+    for (let i = 0; i < 3 && typeof v === 'string'; i++) v = JSON.parse(v);
+    return v;
+  }
+
+  let introRanForNav = -1;
+
+  async function runIntro(script, myNav) {
+    await sleep(500); // brief pause before the chat conversation starts typing
+    for (const step of script) {
+      if (myNav !== navId) return;
+      await playTurn(step.q, step.a);
     }
-  }, { threshold: 0.4 });
-  heroIO.observe(hero);
+  }
+
+  // Called on initial load and after every SPA route swap. Only the home
+  // page's payload carries agent-script/skill-facts JSON; when present and
+  // not already played for this exact navigation, it kicks off the intro.
+  function initAgentForCurrentPage() {
+    if (reduced) return; // static fallback stays visible
+
+    let script, labelsData, skillFacts;
+    try {
+      script = parseJSON('agent-script');
+      labelsData = parseJSON('agent-labels');
+      skillFacts = parseJSON('skill-facts');
+    } catch (_) {
+      return;
+    }
+    currentLabels = labelsData || {};
+    currentSkillFacts = skillFacts || {};
+    bindSkillBadges();
+
+    if (!Array.isArray(script) || !script.length) return;
+    if (introRanForNav === navId) return; // already played for this page load
+    introRanForNav = navId;
+    const myNav = navId;
+
+    // Start only once the hero is in view (perf) — on direct home loads the
+    // hero is typically already visible, so this fires almost immediately.
+    const heroIO = new IntersectionObserver((entries, obs) => {
+      if (entries[0].isIntersecting) {
+        obs.disconnect();
+        if (myNav === navId) runIntro(script, myNav);
+      }
+    }, { threshold: 0.4 });
+    heroIO.observe(hero);
+  }
+
+  initAgentForCurrentPage();
 })();
