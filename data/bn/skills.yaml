@@ -1,11 +1,11 @@
-# Banglish version. Skill naam gulo same rakha holo (proper noun), category Banglish.
-- category: "Bhasha (Languages)"
+# Bengali version. Skill names kept as-is (proper nouns), categories translated.
+- category: "ভাষা"
   items: ["Go", "Java", "JavaScript", "TypeScript", "Kotlin", "SQL"]
-- category: "Backend"
+- category: "ব্যাকএন্ড"
   items: ["Spring Boot", "Vaadin", "Go (net/http, gRPC)", "REST APIs", "PostgreSQL", "Redis"]
-- category: "Frontend"
+- category: "ফ্রন্টএন্ড"
   items: ["React", "TypeScript", "HTML / CSS", "Tailwind"]
-- category: "Mobile"
+- category: "মোবাইল"
   items: ["Android (Kotlin/Java)"]
-- category: "Tooling & Infra"
+- category: "টুলিং ও ইনফ্রা"
   items: ["Docker", "Git", "CI/CD", "Linux"]

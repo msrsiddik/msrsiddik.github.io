@@ -1,6 +1,6 @@
 ---
 title: "Blog"
-description: "Backend, frontend, ar software banano niye lekha."
+description: "ব্যাকএন্ড, ফ্রন্টএন্ড আর সফটওয়্যার তৈরি নিয়ে টুকটাক লেখালেখি।"
 ---
 
-Software banano, debugging, ar ja kichu shikhi — tar opor lekha.
+সফটওয়্যার বানানো, ডিবাগিং, আর পথে পথে যা শিখেছি — সেসব নিয়েই লেখা।

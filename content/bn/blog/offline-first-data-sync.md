@@ -1,40 +1,40 @@
 ---
-title: "Offline-first data sync engine banano"
+title: "Offline-first data sync engine তৈরি"
 date: 2026-07-15T10:00:00+06:00
-description: "Local change gulake server er sathe sync kora — idempotent batch, monotonic cursor, last-write-wins conflict resolution."
+description: "Local change server-এর সাথে sync করা — idempotent batch, monotonic cursor, last-write-wins conflict resolution।"
 tags: ["go", "offline-first", "sync", "database", "apicorex"]
 ---
 
-Jkhon app offline hoy, user still kaje lage — SQLite te local change pile up hoy. Network ashe gele, server-e push koro. Sound e simple. Kintu kya hobe:
+App অফলাইন হয়ে গেলেও ব্যবহারকারী কাজ থামান না — SQLite-এ local change জমতে থাকে চুপচাপ। Network ফিরলে সেগুলো server-এ push করতে হয়। শুনতে সহজ। আসল ঝামেলা শুরু হয় এখান থেকে:
 
-- Ekta batch fail hoyle middle-e — kotai change up gese?
-- User ekoi edit dui bar korse offline — two bar push korle?
-- User A row X edit korlo offline. User B korlo online. Ki win hobe?
-- Sync complete hoyle, crash hoy device-e — server ko janbe?
+- একটা batch মাঝপথে fail করলে কতটুকু change আটকে গেল, বোঝার উপায় কী?
+- একই edit অফলাইনে দুইবার হয়ে গেছে — দুইবারই push হলে কী ঘটবে?
+- User A row X এডিট করলেন অফলাইনে থেকে। User B করলেন অনলাইনে। শেষমেশ কোনটা টিকবে?
+- Sync শেষ হওয়ার ঠিক পরে device crash করলে, server আদৌ টের পাবে কি?
 
-Etai **offline-first sync engine** er problem. ApiCoreX-er jonno ekta build korsi — ekhane how.
+এটাই আসলে **offline-first sync engine**-এর আসল মাথাব্যথা। ApiCoreX-এর জন্য এরকম একটা engine বানানো হয়েছে, নিচে দেখাচ্ছি কীভাবে।
 
 ## Contract: Change Batch
 
-Individual change sync kore na. Instead, client change gulake **batch**-e collect kore, ekta atomic unit hisabe send kore. Server guarantee dey: whole batch either succeed hobe, cursor pabe, nay fail hobe, kichui change na.
+প্রতিটা change আলাদা করে sync হয় না এখানে। বরং client সব change জমা করে একটা **batch**-এ, তারপর সেটা পাঠায় একটা atomic unit হিসেবে। Server-এর guarantee পরিষ্কার — পুরো batch succeed করবে আর cursor দেবে, নাহলে পুরোটাই fail, মাঝামাঝি কোনো অবস্থা নেই।
 
 ```go
 type ChangeBatch struct {
-  ClientID    string    // je device theke aslo
+  ClientID    string    // কোন device থেকে এসেছে
   Cursor      string    // local history position
   Changes     []Change  // INSERT, UPDATE, DELETE
-  Timestamp   time.Time // batch banano kobe
+  Timestamp   time.Time // batch তৈরির সময়
 }
 
 type Change struct {
-  Table     string      // kon table
+  Table     string      // কোন table
   PK        interface{} // primary key
   Op        string      // "INSERT", "UPDATE", "DELETE"
   Data      map[string]interface{} // new values
 }
 ```
 
-Server-e, batch handler **idempotent**: same batch dui bar ashe (network issue), second-ta no-op. How? Unique key: `(ClientID, Cursor)` unique hote hobe.
+Server-এর batch handler **idempotent** — একই batch দুইবার এসে গেলে (network সমস্যায় এমন হয়ই), দ্বিতীয়বার সেটা no-op হয়ে যায়। কীভাবে? সহজ — `(ClientID, Cursor)` জোড়াটাকে unique রাখা হয়েছে।
 
 ```sql
 CREATE TABLE sync_batches (
@@ -46,11 +46,11 @@ CREATE TABLE sync_batches (
 );
 ```
 
-First batch from client X, cursor "5" — row insert hoy. Dusro bar unique constraint, skip.
+Client X-এর প্রথম batch, cursor "5" — row insert হয়ে যায় ঠিকঠাক। দ্বিতীয়বার একই জিনিস পাঠালে unique constraint-এ আটকে যায়, skip।
 
 ## Monotonic Server Cursor
 
-Batch process hoyle, server niye **new cursor** bheje dey:
+Batch process হয়ে গেলে server একটা **নতুন cursor** ফেরত পাঠায়:
 
 ```json
 {
@@ -60,35 +60,35 @@ Batch process hoyle, server niye **new cursor** bheje dey:
 }
 ```
 
-Client **must** cursor save kore, batch discard kore. Crash hoy server-e accept hoyle but cursor save na hoyle — next sync purano cursor theke start kore, already-applied change re-send kore. Thik ache, batch idempotent thakle.
+Client-কে এই cursor save করতে হবে, তারপর batch discard। Server accept করে ফেলার পর কিন্তু cursor save হওয়ার আগেই crash হলে কী হবে? পরের sync পুরোনো cursor থেকেই শুরু হবে, already-applied change আবার পাঠাবে বটে — কিন্তু সমস্যা নেই, batch তো idempotent, তাই দ্বিতীয়বার কিছুই বদলায় না।
 
-Server cursor: `server:{unix_ms}:{hash}`. Monotonically increase kore — later sync er later cursor. Server use kore avoid replay: *"Ami already apply korsi up to cursor X etai client-e, skip koro."*
+Server cursor-এর ফরম্যাট: `server:{unix_ms}:{hash}`। এটা monotonically বাড়তেই থাকে — মানে পরের sync-এর cursor সবসময় আগেরটার চেয়ে বড়। Server এই জিনিসটা দিয়েই replay আটকায়: *cursor X পর্যন্ত এই client-এর জন্য already apply হয়ে গেছে, বাকিটা skip*।
 
 ## Conflict Resolution: Last-Write-Wins
 
-Duj user ekoi row edit kore offline. Server-e collide.
+দুইজন ব্যবহারকারী একই row অফলাইনে এডিট করলেন। Server-এ গিয়ে দুটো collide করবে, স্বাভাবিক।
 
-- User A (offline 10 min) sync kore 11:00 AM, row X = "hello"
-- User B (offline 5 min) sync kore 11:01 AM, row X = "world"
+- User A (১০ মিনিট অফলাইন) sync করলেন সকাল ১১:০০টায়, row X = "hello"
+- User B (৫ মিনিট অফলাইন) sync করলেন সকাল ১১:০১টায়, row X = "world"
 
-Last-write-wins: User B win, 11:01 > 11:00.
+Last-write-wins নিয়মে User B জিতবেন — কারণ ১১:০১ > ১১:০০, এটুকুই যুক্তি।
 
-Protita change carry kore `timestamp` client-theke. Server rakhe `last_modified_by` ar `last_modified_at`. Incoming change timestamp newer hole apply koro. Nay, skip.
+প্রতিটা change client থেকেই একটা `timestamp` বয়ে আনে। Server-এর দিকে থাকে `last_modified_by` আর `last_modified_at`। আসা change-এর timestamp যদি নতুন হয় তাহলে apply, নাহলে চুপচাপ skip।
 
 ```sql
 UPDATE user_data
 SET value = $1, last_modified_at = $2, last_modified_by = $3
 WHERE table_name = $4 AND pk = $5
-  AND $2 > last_modified_at;  -- new timestamp holle
+  AND $2 > last_modified_at;  -- নতুন timestamp হলে
 ```
 
-Simple ar works most case. **Selective merge** laglo (field-by-field), JSON rakho merge koro.
+বেশিরভাগ ক্ষেত্রে এটুকুই যথেষ্ট, simple আর কাজও করে। **Selective merge** লাগলে (field-by-field), JSON রেখে merge করার পথও খোলা আছে।
 
-## Soft Delete & Tombstone
+## Soft Delete ও Tombstone
 
-User delete kore row X offline-e. Sync kore. Server pe DELETE command. Kintu User B er device-e row X thake — later sync, re-insert. Oops.
+কোনো ব্যবহারকারী অফলাইনে row X delete করলেন। Sync হলো। Server DELETE command পেল। কিন্তু আরেকজন ব্যবহারকারীর device-এ তখনও row X রয়ে গেছে — পরের sync-এ সেটা আবার insert হয়ে যাবে। Oops।
 
-Solution: **soft delete**. Actually delete na. Mark as deleted, sit koriye rakho:
+সমাধান হলো **soft delete**। Row সত্যিকারের delete না করে, শুধু deleted হিসেবে mark করে রাখা:
 
 ```sql
 UPDATE user_data
@@ -96,33 +96,33 @@ SET deleted_at = NOW(), last_modified_at = NOW()
 WHERE table_name = 'users' AND pk = 123;
 ```
 
-User B-er device sync korle, full row list back pay **minus deleted row**. Local delete pick up kore `deleted_at` marker, remove kore.
+অন্য device sync করলে পুরো row list ফেরত পায় **deleted row বাদ দিয়ে**। Local দিকে delete-এর কাজটা `deleted_at` marker দেখেই হয়ে যায়, remove।
 
-Periodic **garbage collection**: Hard-delete soft-delete rows (N days er purano), sure thakle sab client sync korlo.
+Periodic **garbage collection** — সব client sync সম্পন্ন হয়েছে নিশ্চিত হলে N দিনের পুরোনো soft-delete row একেবারে hard-delete করে দেওয়া যায়। এভাবেই টেবিল আর ফুলতে থাকে না।
 
 ```sql
 DELETE FROM user_data
 WHERE deleted_at < NOW() - INTERVAL '7 days';
 ```
 
-## Full Sync Loop
+## পুরো Sync Loop
 
-1. **Client** collect kore offline change, batch-e
-2. **Client** bheje batch + current cursor server-e
-3. **Server** validate kore batch (PK exist, no constraint error)
-4. **Server** apply kore atomic (all or nothing)
-5. **Server** record kore batch as processed, return cursor
-6. **Client** receive cursor, save locally, clear batch
-7. **Client** fetch kore full state (ya delta) display-er jonno
+1. **Client** অফলাইন change collect করে batch-এ রাখে
+2. **Client** batch আর current cursor পাঠায় server-এ
+3. **Server** batch validate করে — PK আছে কিনা, constraint error আছে কিনা
+4. **Server** পুরো batch atomic ভাবে apply করে, all or nothing
+5. **Server** batch processed হিসেবে record করে, cursor ফেরত দেয়
+6. **Client** cursor receive করে locally save করে, batch clear
+7. **Client** display-এর জন্য full state (বা delta) fetch করে নেয়
 
-Client crash hoy step 2-r por but step 6-er age, next sync retry kore purano cursor-theke — server same batch key dekhe, already-processed recognize kore, cursor return kore bas.
+Step 2-এর পর কিন্তু step 6-এর আগে client crash করলে পরের sync পুরোনো cursor থেকেই আবার চেষ্টা করবে। সমস্যা নেই — server একই batch key দেখেই বুঝে যাবে এটা already-processed, শুধু cursor ফেরত দেবে।
 
-## Why Etai Kaje Lage
+## কেন এই পদ্ধতি কাজ করে
 
-- **Idempotent**: Retry na dile duplicate
-- **Monotonic**: Cursor prevent kore re-apply
-- **Conflict-free**: Last-write-wins deterministic
-- **Offline-safe**: No network means local change; sync ready-te
-- **Crash-safe**: Mid-sync crash-e state corrupt na — retry
+- **Idempotent** — retry করলেও duplicate হয় না
+- **Monotonic** — cursor দিয়ে re-apply আটকানো যায়
+- **Conflict-free** — last-write-wins deterministic, তর্কের সুযোগ নেই
+- **Offline-safe** — network না থাকলেও local change জমা থাকে, sync-এর জন্য তৈরি হয়েই থাকে
+- **Crash-safe** — mid-sync crash-এ state নষ্ট হয় না, retry করলেই চলে
 
-Etai ApiCoreX Sync implement kore. Perfect na sab case-e (selective merge zaata logic), kintu most offline app-er jonno solid base.
+ApiCoreX Sync ঠিক এভাবেই implement করা। সব জায়গায় perfect বলবো না — selective merge-এর জটিল লজিকটা এখনো বাকি — তবে বেশিরভাগ offline app-এর জন্য এটা একটা ভালো, ভরসাযোগ্য base।

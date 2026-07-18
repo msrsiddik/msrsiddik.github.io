@@ -1,42 +1,42 @@
-# Banglish version — Orocube Technologies (2022–ekhon) + Floreant POS open source.
-# Notun ta age.
+# Bengali version — Orocube Technologies (2022–বর্তমান) + Floreant POS open source.
+# নতুনটি আগে।
 - role: "Software Engineer"
   company: "Orocube Technologies"
   url: "https://www.linkedin.com/company/orocube-technologies/"
-  period: "Jan 2025 — Ekhon"
-  summary: "Restaurant ar retail er jonno point-of-sale ar online-ordering product team-er sathe banai — desktop POS, cloud POS, self-service kiosk, ar cloud-connected ordering. Java/Spring Boot backend theke web ar Android client porjonto puro stack jure kaj kori."
+  period: "Jan 2025 — বর্তমান"
+  summary: "রেস্টুরেন্ট আর রিটেইলের জন্য point-of-sale এবং online-ordering প্রোডাক্ট নিয়ে টিমের সাথে কাজ করি — ডেস্কটপ POS, ক্লাউড POS, self-service কিওস্ক, cloud-connected অর্ডারিং। Java/Spring Boot ব্যাকএন্ড থেকে শুরু করে ওয়েব আর Android ক্লায়েন্ট পর্যন্ত — পুরো স্ট্যাক জুড়েই হাত পড়ে।"
   highlights:
-    - "Siiopa niye ekhono kaj kori — modern restaurant er jonno ekta cloud-based POS, order management, kitchen display ar multi-location support soho. Eta amar shurur dik thekei gore tola ekta product."
-    - "Medlogics e contribute kori — clinic, hospital, pharmacy ar diagnostics er jonno ekta cloud, offline-first healthcare platform, ekta client project hisebe."
-    - "Orocube er POS ecosystem (ORO POS, OroKiosk, online ordering) er feature e contribute kora."
-    - "Offline POS terminal ke cloud ar online-ordering platform er sathe jukto kora backend service ar API te kaj kora."
-    - "Team-er sathe feature gulo API design theke user-facing client porjonto kaj kora."
+    - "Siiopa নিয়ে এখনো কাজ করছি — আধুনিক রেস্টুরেন্টের জন্য cloud-based POS, সাথে order management, kitchen display, multi-location support। এটা আমার শুরু থেকেই গড়ে তোলা প্রোডাক্ট, তাই একটু বেশিই attachment আছে।"
+    - "Medlogics-এও contribute করি — ক্লিনিক, হাসপাতাল, ফার্মেসি আর ডায়াগনস্টিকসের জন্য cloud, offline-first healthcare platform। এটা client প্রজেক্ট হিসেবে চলছে।"
+    - "Orocube-এর পুরো POS ইকোসিস্টেমে (ORO POS, OroKiosk, অনলাইন অর্ডারিং) ফিচার contribute করা।"
+    - "Offline POS টার্মিনালকে ক্লাউড আর online-ordering প্ল্যাটফর্মের সাথে জুড়ে দেওয়া ব্যাকএন্ড সার্ভিস ও API নিয়ে কাজ।"
+    - "টিমের সাথে মিলে ফিচার নিয়ে কাজ — API ডিজাইন থেকে শুরু করে user-facing ক্লায়েন্ট পর্যন্ত।"
 
 - role: "Assistant Software Engineer"
   company: "Orocube Technologies"
   url: "https://www.linkedin.com/company/orocube-technologies/"
   period: "Jan 2024 — Dec 2024"
-  summary: "POS ar healthcare feature er aro boro dayitto nilam, team-er sathe backend ar client application duitatei kaj korechi."
+  summary: "POS আর healthcare ফিচারে দায়িত্ব আরেকটু বেড়েছিল এই সময়টায়। ব্যাকএন্ড আর ক্লায়েন্ট অ্যাপ্লিকেশন, দুটোতেই কাজ করেছি টিমের সাথে।"
   highlights:
-    - "Siiopa, je cloud POS ta age thekei korchilam, sheta banano cholte thake."
-    - "Medlogics e jog dei — ekta cloud, offline-first healthcare platform — ekta client project hisebe."
-    - "Backend e Java/Spring Boot ar client e Android niye kaj kora."
-    - "Product suite jure API design, integration ar bug fixing e collaborate kora."
+    - "Siiopa-র কাজ চলতে থাকে, যেটা আগে থেকেই বানাচ্ছিলাম।"
+    - "Medlogics-এ যোগ দিই — একটা cloud, offline-first healthcare platform, client প্রজেক্ট হিসেবে।"
+    - "ব্যাকএন্ডে Java/Spring Boot, ক্লায়েন্ট সাইডে Android।"
+    - "প্রোডাক্ট স্যুট জুড়ে API ডিজাইন, ইন্টিগ্রেশন আর বাগ ফিক্সিং-এ collaborate করা।"
 
 - role: "Junior Software Engineer"
   company: "Orocube Technologies"
   url: "https://www.linkedin.com/company/orocube-technologies/"
   period: "Jan 2022 — Dec 2023"
-  summary: "Orocube e amar career shuru, POS domain shekha ar team-er restaurant o retail product e contribute kora."
+  summary: "ক্যারিয়ারের শুরুটা এখান থেকেই। POS ডোমেইন শিখেছি এই সময়ে, আর টিমের সাথে রেস্টুরেন্ট-রিটেইল প্রোডাক্টে অবদান রাখা শুরু করি।"
   highlights:
-    - "Shurutei Siiopa, Orocube er cloud POS, niye kaj shuru kora — ja ekhono porjonto banaye choleche."
-    - "Java-based desktop POS application e feature ar fix niye kaj kora."
-    - "Point-of-sale domain shekha — order, kitchen flow, ar cash control."
+    - "Siiopa, Orocube-এর ক্লাউড POS, নিয়ে কাজ শুরু এখান থেকেই — যেটা আজও চালিয়ে যাচ্ছি।"
+    - "Java-based ডেস্কটপ POS অ্যাপ্লিকেশনে ফিচার আর ফিক্স।"
+    - "Point-of-sale ডোমেইন শেখা — অর্ডার ফ্লো, কিচেন সাইড, ক্যাশ কন্ট্রোল, সব মিলিয়ে।"
 
 - role: "Open Source Contributor"
   company: "FloreantPOS"
   url: "#"
-  period: "2022 — Ekhon"
-  summary: "FloreantPOS e contribute kori — ekta free, open-source restaurant point-of-sale system, Java diye banano, prithibir hajar hajar restaurant e use hoy. Orocube er product kaj er pashapashi etao maintain hoy."
+  period: "2022 — বর্তমান"
+  summary: "FloreantPOS-এ contribute করি — ফ্রি, ওপেন-সোর্স রেস্টুরেন্ট point-of-sale সিস্টেম, Java দিয়ে বানানো, বিশ্বের হাজার হাজার রেস্টুরেন্টে চলছে। Orocube-এর মূল কাজের ফাঁকে ফাঁকে এটা maintain করি।"
   highlights:
-    - "Restaurant, cafe ar pizzeria te use howa Java desktop POS e feature ar fix contribute kora."
+    - "রেস্টুরেন্ট, ক্যাফে, পিৎজেরিয়ায় ব্যবহৃত Java ডেস্কটপ POS-এ ফিচার আর ফিক্স contribute করা।"

@@ -1,53 +1,53 @@
 [hero_eyebrow]
-other = "Hi, ami"
+other = "Hi, আমি"
 [role]
 other = "Full-stack Developer"
 [tagline]
-other = "Ami backend theke frontend porjonto product banai — Go, Java/Spring Boot, ar React diye."
+other = "ব্যাকএন্ড থেকে ফ্রন্টএন্ড — পুরোটাই বানাই। মূলত Go, Java/Spring Boot আর React দিয়ে।"
 [available]
-other = "Kaj er jonno available"
+other = "কাজের জন্য উপলব্ধ"
 [hero_window_title]
 other = "msrdev.top — agent"
 [hero_ask_placeholder]
-other = "Amake niye jiggesh koro…"
+other = "আমার সম্পর্কে জিজ্ঞাসা করুন…"
 [hero_thinking]
-other = "vabche"
+other = "ভাবছে"
 
 [btn_projects]
-other = "Project dekho"
+other = "প্রজেক্ট দেখুন"
 [btn_contact]
-other = "Jogajog koro"
+other = "যোগাযোগ করুন"
 [nav_contact]
-other = "Jogajog"
+other = "যোগাযোগ"
 
 [sec_about]
-other = "Porichoy"
+other = "পরিচয়"
 [sec_skills]
-other = "Skills"
+other = "দক্ষতা"
 [sec_experience]
-other = "Obhiggota"
+other = "অভিজ্ঞতা"
 [sec_projects]
-other = "Project"
+other = "প্রজেক্ট"
 [sec_writing]
-other = "Notun Lekha"
+other = "সাম্প্রতিক লেখা"
 [all_posts]
-other = "Shob lekha →"
+other = "সব লেখা →"
 
 [contact_title]
-other = "Cholo kichu banai."
+other = "চলুন কিছু একটা তৈরি করি।"
 [contact_text]
-other = "Kono project niye kotha bolte chao? Email koro — ami druto reply kori."
+other = "কোনো প্রজেক্ট নিয়ে কথা বলতে চান? ইমেইল করে ফেলুন — reply পাবেন দ্রুতই।"
 
 [blog_title]
 other = "Blog"
 [blog_intro]
-other = "Software banano, debugging, ar ja kichu shikhi — tar opor lekha."
+other = "সফটওয়্যার বানানো, ডিবাগিং, আর শেখার নানা অভিজ্ঞতা নিয়ে লেখা।"
 [back_to_blog]
-other = "← Blog e fire jao"
+other = "← Blog-এ ফিরে যান"
 [min_read]
 other = "min read"
 [no_posts]
-other = "Akhono kono post nei."
+other = "এখনো কোনো লেখা নেই।"
 
 [footer_built]
-other = "Hugo diye banano."
+other = "Hugo দিয়ে তৈরি।"

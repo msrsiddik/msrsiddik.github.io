@@ -24,7 +24,7 @@ enableRobotsTXT = true
     weight = 1
   [languages.bn]
     languageCode = 'bn'
-    languageName = 'Banglish'
+    languageName = 'বাংলা'
     contentDir = 'content/bn'
     weight = 2
 
@@ -54,15 +54,15 @@ enableRobotsTXT = true
 
 [languages.bn.menus]
   [[languages.bn.menus.main]]
-    name = "Porichoy"
+    name = "পরিচয়"
     pageRef = "/#about"
     weight = 10
   [[languages.bn.menus.main]]
-    name = "Obhiggota"
+    name = "অভিজ্ঞতা"
     pageRef = "/#experience"
     weight = 20
   [[languages.bn.menus.main]]
-    name = "Project"
+    name = "প্রজেক্ট"
     pageRef = "/#projects"
     weight = 30
   [[languages.bn.menus.main]]

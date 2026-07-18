@@ -1,36 +1,36 @@
-# Banglish version — github.com/msrsiddik theke asol project. featured: true mane upore dekhabe.
+# Bengali version — github.com/msrsiddik থেকে আসল প্রজেক্ট। featured: true মানে উপরে দেখাবে।
 - name: "ApiCoreX"
-  description: "Ekta stateless, multi-tenant API gateway — language-agnostic HTTP plugin system soho. Core ta JWT auth, routing, streaming (file upload, SSE, WebSocket) ar resilience (circuit breaker, rate limiting, bulkhead) handle kore, ar business logic thake plugin e — je kono language e lekha jay. Sathe Prometheus metrics ar OpenTelemetry tracing ache."
+  description: "একটা stateless, multi-tenant API gateway — সাথে language-agnostic HTTP plugin সিস্টেম। কোর অংশটা JWT auth, রাউটিং, স্ট্রিমিং (ফাইল আপলোড, SSE, WebSocket) আর resilience (circuit breaker, rate limiting, bulkhead) সামলায়, বাকি business logic থাকে plugin-এ — যেকোনো ভাষায় লেখা যায়। Prometheus metrics আর OpenTelemetry tracing-ও যোগ করা আছে।"
   tech: ["Go", "JWT", "Redis", "Prometheus", "OpenTelemetry"]
   repo: "https://github.com/msrsiddik/apicorex"
   featured: true
 
 - name: "ApiCoreX Identity"
-  description: "ApiCoreX er authentication ar tenant-management plugin. Nijer PostgreSQL database rakhe, HS256 access + rotating refresh token issue kore, ar protita tenant er alada schema banate ekta compensating saga chalay. Multi-tenant account support kore (ekta credential, onek tenant), sathe Redis-backed logout."
+  description: "ApiCoreX-এর authentication আর tenant-management plugin। নিজস্ব PostgreSQL ডেটাবেস আছে, HS256 access আর rotating refresh token issue করে, প্রতিটা tenant-এর জন্য আলাদা schema বানাতে একটা compensating saga চালায়। Multi-tenant account সাপোর্ট করে — একটা credential দিয়ে একাধিক tenant, সাথে Redis-backed logout।"
   tech: ["Go", "Gin", "PostgreSQL", "JWT", "Redis"]
   repo: "https://github.com/msrsiddik/apicorex-identity"
   featured: true
 
 - name: "ApiCoreX Sync"
-  description: "ApiCoreX er offline-first data sync plugin. Je kono offline app local change push ar server change pull korte pare — kono custom sync logic chara. Idempotent change batch, monotonic server cursor, last-write-wins conflict resolution, ar soft-delete tombstone soho."
+  description: "ApiCoreX-এর offline-first data sync plugin। কোনো custom sync logic ছাড়াই যেকোনো offline অ্যাপ local change push আর server change pull করতে পারে এটা দিয়ে। Idempotent change batch, monotonic server cursor, last-write-wins conflict resolution, আর soft-delete tombstone — সবই আছে।"
   tech: ["Go", "PostgreSQL", "Offline-first"]
   repo: "https://github.com/msrsiddik/apicorex-sync"
   featured: true
 
 - name: "CineHub"
-  description: "dvdrental sample database er upor ekta Go service ja ekoi domain model ke REST (Fiber + GORM) ar GraphQL (gqlgen) — duitar maddhome expose kore. Porishkar service → repository → db architecture, graceful shutdown ar health check soho."
+  description: "dvdrental sample database-এর উপর বানানো একটা Go service, যেটা একই domain model REST (Fiber + GORM) আর GraphQL (gqlgen) — দুই মাধ্যমেই expose করে। Service → repository → db — পরিষ্কার architecture, সাথে graceful shutdown আর health check।"
   tech: ["Go", "Fiber", "GORM", "GraphQL", "PostgreSQL"]
   repo: "https://github.com/msrsiddik/cinehub"
   featured: false
 
 - name: "Attendance System"
-  description: "Java te banano ekta multi-application attendance platform — alada Admin, Desktop, Teacher ar Student client, sob ekta common backend share kore."
+  description: "Java দিয়ে বানানো multi-application attendance platform। Admin, Desktop, Teacher, Student — আলাদা আলাদা ক্লায়েন্ট, সব একটা common ব্যাকএন্ড শেয়ার করে।"
   tech: ["Java", "Desktop"]
   repo: "https://github.com/msrsiddik/AttendanceSystemAdmin"
   featured: false
 
 - name: "Hospital Management"
-  description: "Java te banano ekta hospital management desktop application — patient ar hospital workflow handle kore."
+  description: "Java-তে হাসপাতাল ম্যানেজমেন্টের একটা ডেস্কটপ অ্যাপ্লিকেশন — patient আর হাসপাতালের workflow হ্যান্ডেল করার জন্য।"
   tech: ["Java", "Desktop"]
   repo: "https://github.com/msrsiddik/HospitalManagement"
   featured: false

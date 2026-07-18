@@ -50,6 +50,11 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+html[lang="bn"],
+html[lang="bn"] * {
+  font-family: 'Noto Sans Bengali', var(--font), system-ui, -apple-system, sans-serif;
+}
+
 /* subtle radial glow at top */
 body::before {
   content: "";

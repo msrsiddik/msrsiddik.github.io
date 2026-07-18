@@ -1,10 +1,10 @@
 ---
-title: "Porichoy"
+title: "পরিচয়"
 headless: true
 ---
 
-Ami **Siddiqur Rahman**, ekjon full-stack developer. Backend e ami Go ar Java/Spring Boot niye kaj kori, ar frontend e React. Reliable system ar porishkar, useful interface banano amar focus.
+আমি **সিদ্দিকুর রহমান**, ফুল-স্ট্যাক ডেভেলপার। ব্যাকএন্ডে Go আর Java/Spring Boot নিয়ে কাজ করি, ফ্রন্টএন্ডে React। লক্ষ্যটা সহজ — সিস্টেম যেন ভেঙে না পড়ে, আর ইন্টারফেস যেন পরিষ্কার আর কাজের হয়।
 
-Gec koyek bochor dhore ami Orocube er team-er sathe point-of-sale ar online-ordering product e kaj korchi. Pashapashi backend service (REST + gRPC), Vaadin/Spring Boot diye internal tools, ar Android app niye kaj kori. Notun problem solve korte ar clean code likhte amar bhalo lage.
+গত কয়েক বছর ধরে Orocube-এর টিমের সাথে point-of-sale আর online-ordering প্রোডাক্ট নিয়েই বেশিরভাগ সময় কাটে। এর ফাঁকে ব্যাকএন্ড সার্ভিস (REST + gRPC), Vaadin/Spring Boot দিয়ে internal tools, আর Android অ্যাপ নিয়েও কাজ করা হয়। নতুন সমস্যায় মাথা ঘামাতে ভালোই লাগে, আর clean code লেখাটা তো একরকম অভ্যাসই হয়ে গেছে।
 
-Ekhon ami notun project ar opportunity nie kotha bolte agrohi — neeche email diye jogajog koro.
+নতুন প্রজেক্ট বা opportunity নিয়ে কথা বলতে আগ্রহী — নিচে ইমেইল দিয়ে যোগাযোগ করতে পারেন।
