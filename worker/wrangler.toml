@@ -1,0 +1,17 @@
+name = "msrportfolio-ai-chat"
+main = "src/index.js"
+compatibility_date = "2024-09-01"
+account_id = "92eafbdc5e13750b7a34bd77870ff28f"
+
+# Workers AI binding — no API key needed, bound to your Cloudflare account.
+[ai]
+binding = "AI"
+
+# Secrets (set via `wrangler secret put <NAME>`, never committed here):
+#   GEMINI_API_KEY  — Google AI Studio API key for Gemini
+#   HF_API_KEY      — HuggingFace Inference API token
+#
+# Vars (safe to keep here, not secret):
+[vars]
+ALLOWED_ORIGINS = "https://msrdev.top,https://www.msrdev.top,http://localhost:1313"
+CONTEXT_BASE_URL = "https://msrdev.top"

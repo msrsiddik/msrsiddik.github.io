@@ -72,3 +72,17 @@ enableRobotsTXT = true
 
 [taxonomies]
   tag = "tags"
+
+[outputs]
+  home = ["HTML", "RSS", "AICONTEXT"]
+
+[mediaTypes]
+  [mediaTypes."application/json"]
+    suffixes = ["json"]
+
+[outputFormats]
+  [outputFormats.AICONTEXT]
+    mediaType = "application/json"
+    baseName = "ai-context"
+    isPlainText = true
+    notAlternative = true

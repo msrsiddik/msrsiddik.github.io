@@ -422,8 +422,24 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
 .hero-prompt { color: var(--accent); }
 .hero-input-text { color: var(--text); white-space: pre; }
 .hero-caret { color: var(--accent); animation: blink 1s step-end infinite; }
-.hero-input-placeholder { color: var(--text-mute); }
 @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+/* The real chat input is hidden while the scripted intro or an in-flight
+   AI answer is driving the decorative typed-text span, and shown the rest
+   of the time so the visitor can type their own question. */
+.hero-input-field {
+  flex: 1; min-width: 0;
+  background: transparent; border: none; outline: none;
+  color: var(--text); font-family: var(--mono); font-size: .9rem;
+  caret-color: var(--accent);
+}
+.hero-input-field::placeholder { color: var(--text-mute); }
+.hero-input-field:disabled { opacity: .6; cursor: not-allowed; }
+.hero-input.is-busy .hero-input-field { display: none; }
+.hero-input:not(.is-busy) .hero-input-text,
+.hero-input:not(.is-busy) .hero-caret { display: none; }
+
+.chat-bubble.chat-error { border: 1px solid var(--border); }
 
 /* Mobile: chat sidebar collapsed by default, webview takes the full window */
 @media (max-width: 720px) {

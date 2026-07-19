@@ -399,6 +399,15 @@ if (themeToggle) {
   const chatLog = hero.querySelector('[data-chat-log]');
   const queueEl = hero.querySelector('[data-queue]');
 
+  // Set as soon as the visitor interacts with the real chat input, so the
+  // one-line greeting (see initAgentForCurrentPage below) knows to stay out
+  // of the way instead of appearing over their in-progress question.
+  let userStartedChat = false;
+  const chatInputEl = hero.querySelector('[data-chat-input]');
+  if (chatInputEl) {
+    chatInputEl.addEventListener('focus', () => { userStartedChat = true; }, { once: true });
+  }
+
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const rand = (a, b) => a + Math.random() * (b - a);
 
@@ -442,8 +451,18 @@ if (themeToggle) {
     return el;
   }
 
-  // Shared busy flag: only one Q&A (intro script or skill click) types at a time.
-  const busy = { active: false };
+  // Shared busy flag: only one Q&A (intro script, skill click, or real chat)
+  // types at a time. Setting it also toggles which of the decorative typed
+  // span / real chat input is visible in the input bar.
+  const heroInputBar = hero.querySelector('.hero-input');
+  const busy = {
+    _active: false,
+    get active() { return this._active; },
+    set active(v) {
+      this._active = v;
+      if (heroInputBar) heroInputBar.classList.toggle('is-busy', v);
+    },
+  };
 
   // Bumped on every SPA route swap. playTurn/runIntro check it to bail out if
   // the user navigated away mid-turn, so a stale intro doesn't keep typing
@@ -573,25 +592,17 @@ if (themeToggle) {
     return v;
   }
 
-  let introRanForNav = -1;
-
-  async function runIntro(script, myNav) {
-    await sleep(500); // brief pause before the chat conversation starts typing
-    for (const step of script) {
-      if (myNav !== navId) return;
-      await playTurn(step.q, step.a);
-    }
-  }
+  let greetedForNav = -1;
 
   // Called on initial load and after every SPA route swap. Only the home
-  // page's payload carries agent-script/skill-facts JSON; when present and
-  // not already played for this exact navigation, it kicks off the intro.
+  // page's payload carries agent-labels/skill-facts JSON; when present and
+  // not already shown for this exact navigation, it shows a one-line
+  // greeting (no scripted Q&A — real questions get real AI answers).
   function initAgentForCurrentPage() {
     if (reduced) return; // static fallback stays visible
 
-    let script, labelsData, skillFacts;
+    let labelsData, skillFacts;
     try {
-      script = parseJSON('agent-script');
       labelsData = parseJSON('agent-labels');
       skillFacts = parseJSON('skill-facts');
     } catch (_) {
@@ -601,21 +612,85 @@ if (themeToggle) {
     currentSkillFacts = skillFacts || {};
     bindSkillBadges();
 
-    if (!Array.isArray(script) || !script.length) return;
-    if (introRanForNav === navId) return; // already played for this page load
-    introRanForNav = navId;
+    if (greetedForNav === navId) return; // already shown for this page load
+    greetedForNav = navId;
     const myNav = navId;
+    const greeting = currentLabels.greeting;
+    if (!greeting) return;
 
-    // Start only once the hero is in view (perf) — on direct home loads the
-    // hero is typically already visible, so this fires almost immediately.
     const heroIO = new IntersectionObserver((entries, obs) => {
       if (entries[0].isIntersecting) {
         obs.disconnect();
-        if (myNav === navId) runIntro(script, myNav);
+        if (myNav === navId && !userStartedChat) {
+          sleep(500).then(() => {
+            if (myNav === navId && !userStartedChat) addBubble('agent', greeting);
+          });
+        }
       }
     }, { threshold: 0.4 });
     heroIO.observe(hero);
   }
 
   initAgentForCurrentPage();
+
+  // ===========================================================================
+  // Real AI chat. Posts the visitor's question to a Cloudflare Worker proxy
+  // (see /worker) which tries free-tier providers in order and returns a
+  // portfolio-grounded answer. Shares the chat log and `busy` flag with the
+  // skill-badge Q&A queue so the two never type into the log at the same time.
+  // ===========================================================================
+  const chatForm = hero.querySelector('[data-chat-form]');
+  const chatInput = chatInputEl;
+  let chatConfig = {};
+  try { chatConfig = parseJSON('chat-config') || {}; } catch (_) { chatConfig = {}; }
+
+  async function askAI(question) {
+    const myNav = navId;
+    busy.active = true;
+    addBubble('user', question);
+    await sleep(200);
+
+    const thinking = showThinking();
+
+    let answer, isError = false;
+    try {
+      if (!chatConfig.endpoint) throw new Error('no endpoint configured');
+      const res = await fetch(chatConfig.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question, lang: chatConfig.lang || 'en' }),
+      });
+      if (res.status === 429) {
+        answer = chatConfig.rateLimited || 'Rate limited, try again shortly.';
+        isError = true;
+      } else if (!res.ok) {
+        throw new Error('bad status ' + res.status);
+      } else {
+        const data = await res.json();
+        answer = data.answer;
+        if (!answer) throw new Error('empty answer');
+      }
+    } catch (_) {
+      answer = chatConfig.error || "I'm sincerely sorry, I'm unable to respond right now — please try again shortly.";
+      isError = true;
+    }
+
+    thinking.remove();
+    if (myNav !== navId) { busy.active = false; return; }
+
+    const bubble = addBubble('agent' + (isError ? ' chat-error' : ''), '');
+    await typeInto(bubble, answer, null);
+    busy.active = false;
+  }
+
+  if (chatForm && chatInput) {
+    chatForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (busy.active) return; // one turn (skill badge or real question) at a time
+      const question = chatInput.value.trim();
+      if (!question) return;
+      chatInput.value = '';
+      askAI(question);
+    });
+  }
 })();

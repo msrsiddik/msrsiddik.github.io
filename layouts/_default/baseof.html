@@ -60,22 +60,29 @@
           <div class="hero-chat-backdrop" data-chat-backdrop></div>
         </div>
 
-        <div class="hero-input" aria-hidden="true">
+        <form class="hero-input" data-chat-form>
           <span class="hero-prompt">›</span>
-          <span class="hero-input-text" data-input-text></span><span class="hero-caret" data-caret>▍</span>
-          <span class="hero-input-placeholder" data-input-placeholder>{{ i18n "hero_ask_placeholder" }}</span>
-        </div>
+          <span class="hero-input-text" data-input-text aria-hidden="true"></span><span class="hero-caret" data-caret aria-hidden="true">▍</span>
+          <input class="hero-input-field" type="text" data-chat-input name="question" autocomplete="off" maxlength="500"
+                 placeholder="{{ i18n "hero_ask_placeholder" }}" aria-label="{{ i18n "hero_ask_placeholder" }}" />
+        </form>
 
         {{ partial "header.html" . }}
       </div>
     </div>
 
+    <script id="chat-config" type="application/json">{{ dict
+      "endpoint" "https://msrportfolio-ai-chat.msrsiddik9.workers.dev"
+      "lang" .Site.Language.Lang
+      "sending" (i18n "hero_chat_sending")
+      "error" (i18n "hero_chat_error")
+      "rateLimited" (i18n "hero_chat_rate_limited")
+      | jsonify }}</script>
+
     {{ if .IsHome }}
     {{ $lang := .Site.Language.Lang }}
-    {{ $agent := index .Site.Data $lang "agent" }}
     {{ $skillFacts := index .Site.Data $lang "skill-facts" }}
-    <script id="agent-script" type="application/json">{{ $agent | jsonify }}</script>
-    <script type="application/json" id="agent-labels">{{ dict "thinking" (i18n "hero_thinking") "skillQuestion" (i18n "hero_skill_question") | jsonify }}</script>
+    <script type="application/json" id="agent-labels">{{ dict "thinking" (i18n "hero_thinking") "skillQuestion" (i18n "hero_skill_question") "greeting" (i18n "hero_greeting") | jsonify }}</script>
     <script id="skill-facts" type="application/json">{{ $skillFacts | jsonify }}</script>
     {{ end }}
   </section>

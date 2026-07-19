@@ -7,17 +7,25 @@ other = "ব্যাকএন্ড থেকে ফ্রন্টএন্ড
 [available]
 other = "কাজের জন্য উপলব্ধ"
 [hero_window_title]
-other = "msrdev.top — স্ক্রিপ্টেড ডেমো"
+other = "msrdev.top — AI চ্যাট"
 [hero_ask_placeholder]
 other = "আমার সম্পর্কে জিজ্ঞাসা করুন…"
 [hero_thinking]
 other = "ভাবছে"
 [hero_skill_question]
 other = "{skill} কী?"
+[hero_greeting]
+other = "হ্যালো! সিদ্দিকুর সম্পর্কে যা খুশি জিজ্ঞাসা করুন — অভিজ্ঞতা, প্রজেক্ট, বা স্কিল নিয়ে।"
 [hero_scripted_note]
-other = "এটা একটা স্ক্রিপ্টেড ওয়াকথ্রু, লাইভ AI না — অ্যাকশনে দেখতে যেকোনো স্কিল ব্যাজে ক্লিক করুন।"
+other = "উত্তরগুলো AI দিয়ে তৈরি, সিদ্দিকুরের আসল পোর্টফোলিও তথ্যের উপর ভিত্তি করে।"
 [hero_scripted_badge]
-other = "◆ স্ক্রিপ্টেড ডেমো"
+other = "◆ AI চ্যাট"
+[hero_chat_error]
+other = "আন্তরিকভাবে দুঃখিত, এই মুহূর্তে উত্তর দিতে পারছি না — একটু পরে আবার চেষ্টা করুন, অথবা সরাসরি ইমেইল করুন।"
+[hero_chat_rate_limited]
+other = "একসাথে অনেক প্রশ্ন হয়ে গেছে — এক মিনিট পর আবার চেষ্টা করুন।"
+[hero_chat_sending]
+other = "পাঠানো হচ্ছে…"
 [hero_maximize]
 other = "ম্যাক্সিমাইজ"
 [hero_toggle_chat]

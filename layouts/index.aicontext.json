@@ -1,0 +1,31 @@
+{{- $lang := .Site.Language.Lang -}}
+{{- $skills := index .Site.Data $lang "skills" -}}
+{{- $experience := index .Site.Data $lang "experience" -}}
+{{- $projects := index .Site.Data $lang "projects" -}}
+{{- $about := "" -}}
+{{- with .Site.GetPage "/about" -}}{{ $about = .RawContent | markdownify | plainify | htmlUnescape }}{{- end -}}
+
+{{- $skillLines := slice -}}
+{{- range $skills -}}
+  {{- $skillLines = $skillLines | append (printf "%s: %s" .category (delimit .items ", ")) -}}
+{{- end -}}
+
+{{- $expLines := slice -}}
+{{- range $experience -}}
+  {{- $expLines = $expLines | append (printf "%s at %s (%s). %s %s" .role .company .period .summary (delimit .highlights " ")) -}}
+{{- end -}}
+
+{{- $projLines := slice -}}
+{{- range $projects -}}
+  {{- $projLines = $projLines | append (printf "%s: %s Tech: %s" .name .description (delimit .tech ", ")) -}}
+{{- end -}}
+
+{{- dict
+  "about" (strings.TrimSpace $about)
+  "skills" $skillLines
+  "experience" $expLines
+  "projects" $projLines
+  "author" .Site.Params.author
+  "email" .Site.Params.email
+  | jsonify (dict "indent" "  ")
+-}}
