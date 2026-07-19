@@ -7,13 +7,17 @@ other = "I build products end-to-end, from backend to frontend — with Go, Java
 [available]
 other = "Available for work"
 [hero_window_title]
-other = "msrdev.top — agent"
+other = "msrdev.top — scripted demo"
 [hero_ask_placeholder]
 other = "Ask about me…"
 [hero_thinking]
 other = "thinking"
 [hero_skill_question]
 other = "What's {skill}?"
+[hero_scripted_note]
+other = "Scripted walkthrough, not a live AI — click a skill badge to see it in action."
+[hero_scripted_badge]
+other = "◆ scripted demo"
 [hero_maximize]
 other = "Maximize"
 [hero_toggle_chat]

@@ -375,6 +375,10 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
 
 /* Chat panel */
 .hero-chat { padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; }
+.hero-chat-note {
+  font-size: .68rem; line-height: 1.4; color: var(--text-mute);
+  border-bottom: 1px dashed var(--border); padding-bottom: .6rem; margin: 0 0 .6rem;
+}
 .hero-chat-log { display: flex; flex-direction: column; gap: .6rem; justify-content: flex-end; min-height: 100%; }
 .chat-bubble {
   font-family: var(--mono); font-size: .82rem; line-height: 1.5;

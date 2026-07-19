@@ -7,13 +7,17 @@ other = "ব্যাকএন্ড থেকে ফ্রন্টএন্ড
 [available]
 other = "কাজের জন্য উপলব্ধ"
 [hero_window_title]
-other = "msrdev.top — agent"
+other = "msrdev.top — স্ক্রিপ্টেড ডেমো"
 [hero_ask_placeholder]
 other = "আমার সম্পর্কে জিজ্ঞাসা করুন…"
 [hero_thinking]
 other = "ভাবছে"
 [hero_skill_question]
 other = "{skill} কী?"
+[hero_scripted_note]
+other = "এটা একটা স্ক্রিপ্টেড ওয়াকথ্রু, লাইভ AI না — অ্যাকশনে দেখতে যেকোনো স্কিল ব্যাজে ক্লিক করুন।"
+[hero_scripted_badge]
+other = "◆ স্ক্রিপ্টেড ডেমো"
 [hero_maximize]
 other = "ম্যাক্সিমাইজ"
 [hero_toggle_chat]
