@@ -664,6 +664,17 @@ if (themeToggle) {
         : '<svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M3.5 1.5h5l2.8 2.8v10.2h-7.8z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>';
     }
 
+    function updateSelection() {
+      [...list.children].forEach((li, i) => li.setAttribute('aria-selected', String(i === selectedIndex)));
+      const activeEl = list.children[selectedIndex];
+      if (activeEl) activeEl.scrollIntoView({ block: 'nearest' });
+    }
+
+    // Rebuilds the DOM only when the filtered set changes. Selection changes
+    // (from hover/arrow keys) just toggle aria-selected in place — replacing
+    // nodes on every mouseenter used to swap the hovered <li> out from under
+    // an in-progress click, so mousedown/mouseup landed on the parent <ul>
+    // and no click event ever fired.
     function render() {
       list.innerHTML = '';
       filtered.forEach((entry, i) => {
@@ -672,13 +683,12 @@ if (themeToggle) {
         li.setAttribute('role', 'option');
         li.setAttribute('aria-selected', String(i === selectedIndex));
         li.innerHTML = '<span class="cmdk-item-icon">' + iconFor(entry.type) + '</span><span>' + entry.label + '</span>';
-        li.addEventListener('mouseenter', () => { selectedIndex = i; render(); });
+        li.addEventListener('mouseenter', () => { selectedIndex = i; updateSelection(); });
         li.addEventListener('click', () => selectEntry(entry));
         list.appendChild(li);
       });
       emptyEl.hidden = filtered.length !== 0;
-      const activeEl = list.children[selectedIndex];
-      if (activeEl) activeEl.scrollIntoView({ block: 'nearest' });
+      updateSelection();
     }
 
     function filterEntries(query) {
