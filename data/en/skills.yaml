@@ -9,3 +9,5 @@
   items: ["Android (Kotlin/Java)"]
 - category: "Tooling & Infra"
   items: ["Docker", "Git", "CI/CD", "Linux"]
+- category: "AI Tools"
+  items: ["Claude Code", "GitHub Copilot"]

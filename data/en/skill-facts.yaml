@@ -141,3 +141,54 @@ Linux:
   - "Open source, endlessly configurable, and the default target for anything server-side."
   - "Most of my dev environment and every server I've deployed to has been some Linux distro under the hood."
   - "Knowing your way around a shell on Linux is one of those skills that quietly saves hours every week."
+
+"Claude Code":
+  - "An AI coding agent I run right in the terminal — it reads the codebase, makes edits, and runs commands instead of just suggesting snippets."
+  - "Handles a lot of the repetitive parts of coding — refactors, boilerplate, digging through unfamiliar code — so I can focus on the actual design decisions."
+  - "Feels less like autocomplete and more like pairing with someone who can actually execute the plan, not just describe it."
+  - "I use it for everything from quick bug fixes to multi-file refactors — it's become a normal part of how I ship code now."
+  - "The part that changed my workflow most: it can run tests and verify its own changes instead of me manually checking every edit."
+
+"GitHub Copilot":
+  - "Inline AI suggestions right in the editor — good for finishing boilerplate before I've even finished typing it."
+  - "Fast for the small stuff: repetitive patterns, test scaffolding, filling in the obvious next line."
+  - "Works quietly in the background of the editor, which makes it easy to just accept the good suggestions and ignore the rest."
+  - "Complements the heavier agentic tools well — Copilot for line-by-line flow, Claude Code for bigger multi-step changes."
+  - "One of the tools that made AI-assisted coding feel normal instead of novel."
+
+# Condensed hero pills combine two related skills into one badge —
+# these entries answer for the pill as a whole (see data/*/skills-highlights.yaml).
+"Java / Spring Boot":
+  - "My main backend combo — Java for the language, Spring Boot for getting a production-ready service running fast."
+  - "The JVM's reliability plus Spring's convention-over-configuration. Most of the POS and healthcare backends I've built run on this."
+  - "Verbose by reputation, but Spring Boot strips out most of the boilerplate that gave Java that reputation in the first place."
+  - "Dependency injection, embedded servers, sane defaults — this pairing is where most of my backend work actually lives."
+  - "Battle-tested combo for anything that needs to run in production for years without surprises."
+
+"React / TypeScript":
+  - "My default for frontend work — React for the UI, TypeScript so the codebase doesn't fall apart as it grows."
+  - "Component-based UI with a type system that catches mistakes before they ever reach the browser."
+  - "Hooks for state, TypeScript for safety. Refactoring a React app without types feels risky by comparison now."
+  - "The pairing I reach for whenever a project needs a real interface, not just a static page."
+  - "TypeScript's autocomplete plus React's component model makes large frontend codebases genuinely maintainable."
+
+"Docker & CI/CD":
+  - "Docker packages the app consistently, CI/CD ships it automatically — together they take most of the manual risk out of deploying."
+  - "Containers keep dev, staging, and production behaving the same way; pipelines catch problems before they reach any of them."
+  - "This combo turns 'deploy is a scary event' into 'deploy is just what happens when code merges.'"
+  - "GitHub Actions plus Docker actually builds and ships this very site — it's not just theory, I use this pairing daily."
+  - "Consistent environments and automated pipelines — the two things that make shipping software feel boring in a good way."
+
+"PostgreSQL / Redis":
+  - "My go-to data layer — PostgreSQL for anything that needs to be correct and durable, Redis for anything that needs to be fast."
+  - "Postgres handles the source of truth; Redis sits in front for caching, sessions, and rate limiting so the database isn't doing all the work."
+  - "Strong consistency where it matters, sub-millisecond reads where speed matters more — using both covers most backend needs."
+  - "I've paired these under everything from POS systems to sync engines. Reliable database, fast cache, rarely need a third option."
+  - "PostgreSQL for durability and complex queries, Redis for the hot path — a combination that scales well without much complexity."
+
+Android:
+  - "Native Android development — full access to platform APIs and the best performance you can get on the platform."
+  - "I've shipped POS and attendance apps this way — Kotlin now, though some of the codebases started in Java."
+  - "Direct access to hardware and OS-level features that cross-platform frameworks sometimes can't reach cleanly."
+  - "Jetpack libraries handle a lot of the platform complexity that used to be painful — lifecycle, navigation, data."
+  - "Kotlin makes Android development noticeably less verbose than the Java-only days."

@@ -141,3 +141,52 @@ Linux:
   - "Open source, ইচ্ছামতো configure করা যায়, আর server-side যেকোনো কিছুর জন্য default লক্ষ্য এটাই।"
   - "আমার বেশিরভাগ dev environment আর যত server-এ deploy করেছি, প্রায় সবকিছুর নিচেই কোনো না কোনো Linux distro।"
   - "Linux-এ shell চালাতে জানাটা এমন এক দক্ষতা যেটা চুপচাপ প্রতি সপ্তাহে অনেকটা সময় বাঁচিয়ে দেয়।"
+
+"Claude Code":
+  - "একটা AI coding agent যেটা terminal-এই চালাই — codebase পড়ে, edit করে, command চালায়, শুধু suggestion দিয়েই থেমে থাকে না।"
+  - "Coding-এর repetitive অংশগুলো — refactor, boilerplate, অচেনা code ঘেঁটে দেখা — অনেকটাই সামলে দেয়, তাই আসল design decision-এ মন দিতে পারি।"
+  - "Autocomplete-এর চেয়ে বেশি মনে হয় এমন কারো সাথে pair করা যে plan-টা describe না করে সত্যিই execute করে দিতে পারে।"
+  - "ছোট bug fix থেকে multi-file refactor — সবকিছুতেই ব্যবহার করি, এখন এটা code ship করার স্বাভাবিক অংশ হয়ে গেছে।"
+  - "Workflow-টা সবচেয়ে বেশি বদলেছে এই জায়গায়: নিজের change নিজেই test চালিয়ে verify করতে পারে, তাই প্রতিটা edit হাতে check করতে হয় না।"
+
+"GitHub Copilot":
+  - "Editor-এর ভেতরেই inline AI suggestion — ছোট boilerplate লেখা শেষ হওয়ার আগেই শেষ করে দেয়।"
+  - "ছোট কাজে দ্রুত — repetitive pattern, test scaffolding, পরের line-টা যেটা আন্দাজ করাই যায়।"
+  - "Editor-এর background-এ চুপচাপ কাজ করে, তাই ভালো suggestion accept করে বাকিটা ignore করাটা সহজ।"
+  - "ভারী agentic tool-গুলোর সাথে ভালো মানায় — line-by-line কাজের জন্য Copilot, বড় multi-step change-এর জন্য Claude Code।"
+  - "যে tool-গুলো AI-assisted coding-কে novelty না বানিয়ে স্বাভাবিক বানিয়ে দিয়েছে, তার একটা এটা।"
+
+"Java / Spring Boot":
+  - "আমার প্রধান ব্যাকএন্ড কম্বো — language হিসেবে Java, আর production-ready service দ্রুত চালু করার জন্য Spring Boot।"
+  - "JVM-এর reliability, সাথে Spring-এর convention-over-configuration। এখন পর্যন্ত বানানো বেশিরভাগ POS আর healthcare ব্যাকএন্ড এই combo-তেই চলে।"
+  - "Verbose বলে বদনাম আছে, কিন্তু Spring Boot সেই বদনামের বেশিরভাগ boilerplate-ই সরিয়ে দেয়।"
+  - "Dependency injection, embedded server, sensible default — আমার আসল ব্যাকএন্ড কাজের বেশিরভাগ এই combo-তেই হয়।"
+  - "বছরের পর বছর production-এ surprise ছাড়া চলতে পারে এমন কিছু বানাতে চাইলে এই কম্বো ভরসাযোগ্য।"
+
+"React / TypeScript":
+  - "Frontend কাজের জন্য আমার default — UI-এর জন্য React, আর codebase বড় হলেও ভেঙে না পড়ার জন্য TypeScript।"
+  - "Component-based UI, সাথে এমন type system যেটা browser-এ পৌঁছানোর আগেই ভুল ধরে ফেলে।"
+  - "State-এর জন্য Hooks, নিরাপত্তার জন্য TypeScript। Type ছাড়া এখন React app refactor করাটা ঝুঁকিপূর্ণ মনে হয়।"
+  - "যেকোনো project-এ আসল interface দরকার হলে — শুধু static page না — এই কম্বো-ই বেছে নিই।"
+  - "TypeScript-এর autocomplete, সাথে React-এর component model — বড় frontend codebase-কে সত্যিই maintainable রাখে।"
+
+"Docker & CI/CD":
+  - "Docker app-টা একইভাবে প্যাক করে, CI/CD সেটা automatic ship করে দেয় — দুটো মিলে deploy-এর বেশিরভাগ manual ঝুঁকি সরিয়ে দেয়।"
+  - "Container dev, staging, production-কে একইরকম রাখে; pipeline সমস্যাটা ওখানে পৌঁছানোর আগেই ধরে ফেলে।"
+  - "এই কম্বো 'deploy মানেই ভয়ের ইভেন্ট'-কে বদলে দেয় 'deploy মানে code merge হলে যা এমনিই হয়'-এ।"
+  - "GitHub Actions আর Docker মিলেই আসলে এই সাইটটা build আর ship করে — শুধু theory না, রোজ ব্যবহার করি।"
+  - "Consistent environment আর automated pipeline — এই দুইটাই software ship করাকে ভালো অর্থে boring বানিয়ে দেয়।"
+
+"PostgreSQL / Redis":
+  - "আমার প্রধান data layer — যেকিছু সঠিক আর durable হতে হবে তার জন্য PostgreSQL, যা দ্রুত হতে হবে তার জন্য Redis।"
+  - "Postgres হলো source of truth; Redis সামনে বসে caching, session, rate limiting সামলায় যাতে database-এর উপর সব চাপ না পড়ে।"
+  - "যেখানে দরকার সেখানে strong consistency, যেখানে speed বেশি matter করে সেখানে sub-millisecond read — দুটো মিলিয়েই বেশিরভাগ ব্যাকএন্ড দরকার মেটে।"
+  - "POS system থেকে sync engine পর্যন্ত সবকিছুর নিচে এই জুটি ব্যবহার করেছি। Reliable database, fast cache — তৃতীয় option দরকার পড়ে না বললেই চলে।"
+  - "Durability আর complex query-র জন্য PostgreSQL, hot path-এর জন্য Redis — বেশি জটিলতা ছাড়াই scale করা যায় এমন combo।"
+
+Android:
+  - "Native Android development — platform API-তে পুরো access, আর platform-এ যতটা performance পাওয়া সম্ভব ততটাই।"
+  - "এভাবেই POS আর attendance app বানিয়েছি — এখন Kotlin-এ, যদিও কিছু codebase শুরু হয়েছিল Java দিয়ে।"
+  - "Hardware আর OS-level feature-এ সরাসরি access, যেটা cross-platform framework অনেক সময় পরিষ্কারভাবে দিতে পারে না।"
+  - "Jetpack library-গুলো platform-এর অনেক জটিলতা সামলে দেয় যা আগে বেশ যন্ত্রণার ছিল — lifecycle, navigation, data।"
+  - "শুধু Java-নির্ভর দিনের তুলনায় Kotlin Android development-কে চোখে পড়ার মতো কম verbose করে দিয়েছে।"

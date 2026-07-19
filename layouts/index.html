@@ -1,6 +1,7 @@
 {{ define "main" }}
 {{ $lang := .Site.Language.Lang }}
 {{ $skills := index .Site.Data $lang "skills" }}
+{{ $skillHighlights := index .Site.Data $lang "skills-highlights" }}
 {{ $experience := index .Site.Data $lang "experience" }}
 {{ $projects := index .Site.Data $lang "projects" }}
 
@@ -15,7 +16,7 @@
   </div>
   <div class="wv-block" data-block="stack">
     <ul class="hero-stack">
-      {{ range $skills }}{{ range .items }}<li tabindex="0" role="button" data-skill="{{ . }}">{{ . }}</li>{{ end }}{{ end }}
+      {{ range $skillHighlights }}<li tabindex="0" role="button" data-skill="{{ . }}">{{ . }}</li>{{ end }}
     </ul>
   </div>
   <div class="wv-block" data-block="status">
@@ -24,7 +25,7 @@
     </div>
     <div class="hero-actions">
       <a class="btn btn-primary" href="#projects">{{ i18n "btn_projects" }}</a>
-      <a class="btn btn-ghost" href="mailto:{{ .Site.Params.email }}">{{ i18n "btn_contact" }}</a>
+      <a class="btn btn-ghost" href="#contact">{{ i18n "btn_contact" }}</a>
     </div>
   </div>
 </div>
@@ -47,7 +48,7 @@
           <div class="skill-group">
             <h4>{{ .category }}</h4>
             <ul>
-              {{ range .items }}<li>{{ . }}</li>{{ end }}
+              {{ range .items }}<li tabindex="0" role="button" data-skill="{{ . }}">{{ . }}</li>{{ end }}
             </ul>
           </div>
           {{ end }}
@@ -140,7 +141,35 @@
   <div class="container contact-inner">
     <h2>{{ i18n "contact_title" }}</h2>
     <p>{{ i18n "contact_text" }}</p>
-    <a class="btn btn-primary btn-lg" href="mailto:{{ .Site.Params.email }}">{{ .Site.Params.email }}</a>
+
+    <div class="contact-window">
+      <form class="contact-form" data-contact-form novalidate>
+        <input type="hidden" name="access_key" value="{{ .Site.Params.web3forms_key }}">
+        <input type="checkbox" name="botcheck" class="contact-honeypot" tabindex="-1" autocomplete="off">
+
+        <label class="contact-row">
+          <span class="contact-prompt">{{ i18n "contact_field_name" }}</span>
+          <input type="text" name="name" required placeholder="{{ i18n "contact_placeholder_name" }}" autocomplete="name">
+        </label>
+        <label class="contact-row">
+          <span class="contact-prompt">{{ i18n "contact_field_email" }}</span>
+          <input type="email" name="email" required placeholder="{{ i18n "contact_placeholder_email" }}" autocomplete="email">
+        </label>
+        <label class="contact-row contact-row-message">
+          <span class="contact-prompt">{{ i18n "contact_field_message" }}</span>
+          <textarea name="message" required placeholder="{{ i18n "contact_placeholder_message" }}" rows="4"></textarea>
+        </label>
+
+        <div class="contact-footer">
+          <span class="contact-status" data-contact-status role="status" aria-live="polite"></span>
+          <button type="submit" class="btn btn-primary contact-submit" data-contact-submit>
+            <span data-contact-submit-label>{{ i18n "contact_send" }}</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <a class="contact-mailto-fallback" href="mailto:{{ .Site.Params.email }}">{{ i18n "contact_mailto_fallback" }} {{ .Site.Params.email }}</a>
   </div>
 </section>
 

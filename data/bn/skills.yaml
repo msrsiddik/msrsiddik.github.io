@@ -9,3 +9,5 @@
   items: ["Android (Kotlin/Java)"]
 - category: "টুলিং ও ইনফ্রা"
   items: ["Docker", "Git", "CI/CD", "Linux"]
+- category: "এআই টুলস"
+  items: ["Claude Code", "GitHub Copilot"]

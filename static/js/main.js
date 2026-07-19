@@ -305,6 +305,7 @@ if (themeToggle) {
     bindRouterLinks(pageContent);
     initSectionBehavior();
     initAgentForCurrentPage();
+    bindContactForm();
     if (loading) loading.classList.add('is-hidden');
 
     const target = location.hash ? pageContent.querySelector(location.hash) : null;
@@ -575,7 +576,7 @@ if (themeToggle) {
   }
 
   function bindSkillBadges() {
-    pageContent.querySelectorAll('.hero-stack li[data-skill]').forEach((badge) => {
+    pageContent.querySelectorAll('.hero-stack li[data-skill], .skills li[data-skill]').forEach((badge) => {
       if (badge.dataset.skillBound) return;
       badge.dataset.skillBound = '1';
       const skill = badge.getAttribute('data-skill');
@@ -587,6 +588,61 @@ if (themeToggle) {
         }
       });
     });
+  }
+
+  // Submits the contact form to Web3Forms (https://web3forms.com) via fetch
+  // so the visitor never leaves the page. Falls back to the mailto link
+  // below the form if the request fails or the access key isn't configured.
+  function bindContactForm() {
+    const form = pageContent.querySelector('[data-contact-form]');
+    if (!form || form.dataset.contactBound) return;
+    form.dataset.contactBound = '1';
+
+    const submitBtn = form.querySelector('[data-contact-submit]');
+    const statusEl = form.querySelector('[data-contact-status]');
+    const submitLabel = submitBtn.querySelector('[data-contact-submit-label]');
+    const defaultLabel = submitLabel ? submitLabel.textContent : '';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (submitBtn.disabled) return;
+
+      const accessKey = form.querySelector('input[name="access_key"]').value;
+      if (!accessKey || accessKey === 'YOUR_WEB3FORMS_ACCESS_KEY') {
+        setStatus('error', currentLabels.contactError || 'Something went wrong. Try again, or email me directly.');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      if (submitLabel) submitLabel.textContent = currentLabels.contactSending || 'sending…';
+      setStatus('', '');
+
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+        const data = await res.json();
+        if (data.success) {
+          setStatus('success', currentLabels.contactSuccess || "Message sent — I'll get back to you soon.");
+          form.reset();
+        } else {
+          throw new Error(data.message || 'submit failed');
+        }
+      } catch (_) {
+        setStatus('error', currentLabels.contactError || 'Something went wrong. Try again, or email me directly.');
+      } finally {
+        submitBtn.disabled = false;
+        if (submitLabel) submitLabel.textContent = defaultLabel;
+      }
+    });
+
+    function setStatus(kind, text) {
+      if (!statusEl) return;
+      statusEl.textContent = text;
+      statusEl.className = 'contact-status' + (kind ? ' is-' + kind : '');
+    }
   }
 
   function parseJSON(id) {
@@ -637,6 +693,7 @@ if (themeToggle) {
   }
 
   initAgentForCurrentPage();
+  bindContactForm();
 
   // ===========================================================================
   // Command palette: click the titlebar search button, or press Cmd/Ctrl+K

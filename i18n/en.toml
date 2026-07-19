@@ -75,6 +75,28 @@ other = "All posts →"
 other = "Let's build something."
 [contact_text]
 other = "Want to talk about a project? Send an email — I reply fast."
+[contact_field_name]
+other = "name:"
+[contact_field_email]
+other = "email:"
+[contact_field_message]
+other = "message:"
+[contact_placeholder_name]
+other = "Your name"
+[contact_placeholder_email]
+other = "you@example.com"
+[contact_placeholder_message]
+other = "What are you building?"
+[contact_send]
+other = "send"
+[contact_sending]
+other = "sending…"
+[contact_success]
+other = "Message sent — I'll get back to you soon."
+[contact_error]
+other = "Something went wrong. Try again, or email me directly."
+[contact_mailto_fallback]
+other = "Prefer email? Reach me at"
 
 [blog_title]
 other = "Blog"

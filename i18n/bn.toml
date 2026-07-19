@@ -75,6 +75,28 @@ other = "সব লেখা →"
 other = "চলুন কিছু একটা তৈরি করি।"
 [contact_text]
 other = "কোনো প্রজেক্ট নিয়ে কথা বলতে চান? ইমেইল করে ফেলুন — reply পাবেন দ্রুতই।"
+[contact_field_name]
+other = "name:"
+[contact_field_email]
+other = "email:"
+[contact_field_message]
+other = "message:"
+[contact_placeholder_name]
+other = "আপনার নাম"
+[contact_placeholder_email]
+other = "you@example.com"
+[contact_placeholder_message]
+other = "কী বানাচ্ছেন?"
+[contact_send]
+other = "send"
+[contact_sending]
+other = "পাঠানো হচ্ছে…"
+[contact_success]
+other = "মেসেজ পাঠানো হয়েছে — শীঘ্রই যোগাযোগ করব।"
+[contact_error]
+other = "কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন, অথবা সরাসরি ইমেইল করুন।"
+[contact_mailto_fallback]
+other = "ইমেইল পছন্দ? যোগাযোগ করুন"
 
 [blog_title]
 other = "Blog"

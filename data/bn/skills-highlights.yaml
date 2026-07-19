@@ -1,0 +1,8 @@
+# Condensed pills shown in the hero. Full breakdown lives in skills.yaml
+# and renders in the About section.
+- "Go"
+- "Java / Spring Boot"
+- "React / TypeScript"
+- "Docker & CI/CD"
+- "PostgreSQL / Redis"
+- "Android"

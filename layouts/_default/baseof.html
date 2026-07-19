@@ -88,7 +88,7 @@
 
     {{ $lang := .Site.Language.Lang }}
     {{ $skillFacts := index .Site.Data $lang "skill-facts" }}
-    <script type="application/json" id="agent-labels">{{ dict "thinking" (i18n "hero_thinking") "skillQuestion" (i18n "hero_skill_question") "greeting" (i18n "hero_greeting") | jsonify }}</script>
+    <script type="application/json" id="agent-labels">{{ dict "thinking" (i18n "hero_thinking") "skillQuestion" (i18n "hero_skill_question") "greeting" (i18n "hero_greeting") "contactSending" (i18n "contact_sending") "contactSuccess" (i18n "contact_success") "contactError" (i18n "contact_error") | jsonify }}</script>
     <script id="skill-facts" type="application/json">{{ $skillFacts | jsonify }}</script>
 
     {{ $filesRoot := i18n "files_root" }}
