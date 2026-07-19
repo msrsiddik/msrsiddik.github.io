@@ -14,7 +14,7 @@ function corsHeaders(origin, allowedOrigins) {
   const allowed = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
   return {
     "Access-Control-Allow-Origin": allowed,
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
     "Vary": "Origin",
   };
@@ -129,6 +129,15 @@ export default {
 
     if (request.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: cors });
+    }
+
+    const url = new URL(request.url);
+    if (request.method === "GET" && url.pathname === "/health") {
+      // Cheap liveness check for the hero badge — confirms the Worker is
+      // deployed and has its AI binding, without spending inference quota
+      // on every page load. Real chat traffic exercises the actual providers.
+      const ok = !!env.AI;
+      return json({ ok }, ok ? 200 : 503, cors);
     }
 
     if (request.method !== "POST") {

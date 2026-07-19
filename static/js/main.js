@@ -72,7 +72,10 @@ if (themeToggle) {
     } catch (_) { /* storage unavailable (private mode, quota) — layout just won't persist */ }
   }
 
-  let layout = { ...loadLayout(), filesCollapsed: isMobile, chatCollapsed: isMobile };
+  // Files panel starts collapsed on every load (desktop and mobile alike) —
+  // it only opens automatically when the window is maximized, or whenever
+  // the visitor clicks the toggle themselves.
+  let layout = { ...loadLayout(), filesCollapsed: true, chatCollapsed: isMobile };
 
   function applyLayout() {
     if (heroBody) {
@@ -94,7 +97,9 @@ if (themeToggle) {
   const resetBtn = document.querySelector('[data-reset-layout]');
   if (maxBtn) {
     maxBtn.addEventListener('click', () => {
-      hero.classList.toggle('is-maximized');
+      const maximized = hero.classList.toggle('is-maximized');
+      layout.filesCollapsed = !maximized; // auto-show files when maximized, hide again when restored
+      applyLayout();
     });
   }
   applyLayout();
@@ -594,10 +599,10 @@ if (themeToggle) {
 
   let greetedForNav = -1;
 
-  // Called on initial load and after every SPA route swap. Only the home
-  // page's payload carries agent-labels/skill-facts JSON; when present and
-  // not already shown for this exact navigation, it shows a one-line
-  // greeting (no scripted Q&A — real questions get real AI answers).
+  // Called on initial load and after every SPA route swap. agent-labels and
+  // skill-facts are present in the shell on every page; when not already
+  // shown for this exact navigation, this shows a one-line greeting (no
+  // scripted Q&A — real questions get real AI answers).
   function initAgentForCurrentPage() {
     if (reduced) return; // static fallback stays visible
 
@@ -634,6 +639,116 @@ if (themeToggle) {
   initAgentForCurrentPage();
 
   // ===========================================================================
+  // Command palette: click the titlebar search button, or press Cmd/Ctrl+K
+  // anywhere, to fuzzy-filter pages/sections and skills and jump to one.
+  // Page entries route through the existing SPA loadPage(); skill entries
+  // reuse queueSkill() to open the chat panel and show the scripted fact.
+  // ===========================================================================
+  (function initCommandPalette() {
+    const trigger = hero.querySelector('[data-search-trigger]');
+    const backdrop = document.querySelector('[data-cmdk-backdrop]');
+    if (!trigger || !backdrop) return;
+    const input = backdrop.querySelector('[data-cmdk-input]');
+    const list = backdrop.querySelector('[data-cmdk-list]');
+    const emptyEl = backdrop.querySelector('[data-cmdk-empty]');
+
+    let entries = [];
+    try { entries = parseJSON('search-index') || []; } catch (_) { entries = []; }
+
+    let filtered = [];
+    let selectedIndex = 0;
+
+    function iconFor(type) {
+      return type === 'skill'
+        ? '<svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M4 2.5 1.5 8 4 13.5M12 2.5 14.5 8 12 13.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        : '<svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M3.5 1.5h5l2.8 2.8v10.2h-7.8z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>';
+    }
+
+    function render() {
+      list.innerHTML = '';
+      filtered.forEach((entry, i) => {
+        const li = document.createElement('li');
+        li.className = 'cmdk-item';
+        li.setAttribute('role', 'option');
+        li.setAttribute('aria-selected', String(i === selectedIndex));
+        li.innerHTML = '<span class="cmdk-item-icon">' + iconFor(entry.type) + '</span><span>' + entry.label + '</span>';
+        li.addEventListener('mouseenter', () => { selectedIndex = i; render(); });
+        li.addEventListener('click', () => selectEntry(entry));
+        list.appendChild(li);
+      });
+      emptyEl.hidden = filtered.length !== 0;
+      const activeEl = list.children[selectedIndex];
+      if (activeEl) activeEl.scrollIntoView({ block: 'nearest' });
+    }
+
+    function filterEntries(query) {
+      const q = query.trim().toLowerCase();
+      filtered = !q ? entries : entries.filter((e) => e.label.toLowerCase().includes(q));
+      selectedIndex = 0;
+      render();
+    }
+
+    function selectEntry(entry) {
+      close();
+      if (entry.type === 'skill') {
+        layout.chatCollapsed = false;
+        applyLayout();
+        queueSkill(entry.value);
+      } else if (entry.href) {
+        const url = new URL(entry.href, location.origin);
+        if (url.origin !== location.origin) { location.href = entry.href; return; }
+        const samePage = normalizePath(url.pathname) === normalizePath(location.pathname);
+        if (samePage && url.hash) {
+          const t = webview.querySelector(url.hash);
+          if (t) {
+            history.pushState({ spa: true }, '', url.pathname + url.hash);
+            t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            markActiveLinks();
+            return;
+          }
+        }
+        loadPage(entry.href);
+      }
+    }
+
+    function open() {
+      backdrop.hidden = false;
+      filterEntries('');
+      input.value = '';
+      input.focus();
+      document.addEventListener('keydown', onKeydown);
+    }
+
+    function close() {
+      backdrop.hidden = true;
+      document.removeEventListener('keydown', onKeydown);
+      // Hand focus back to the chat input (its default resting place) rather
+      // than the search trigger, so the visitor can keep typing right away.
+      if (chatInputEl && chatInputEl.offsetParent !== null) chatInputEl.focus({ preventScroll: true });
+      else trigger.focus();
+    }
+
+    function onKeydown(e) {
+      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key === 'ArrowDown') { e.preventDefault(); selectedIndex = Math.min(selectedIndex + 1, filtered.length - 1); render(); return; }
+      if (e.key === 'ArrowUp') { e.preventDefault(); selectedIndex = Math.max(selectedIndex - 1, 0); render(); return; }
+      if (e.key === 'Enter') { e.preventDefault(); if (filtered[selectedIndex]) selectEntry(filtered[selectedIndex]); }
+    }
+
+    trigger.addEventListener('click', open);
+    backdrop.addEventListener('mousedown', (e) => { if (e.target === backdrop) close(); });
+    input.addEventListener('input', () => filterEntries(input.value));
+
+    document.addEventListener('keydown', (e) => {
+      const isK = e.key === 'k' || e.key === 'K';
+      if (isK && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        if (backdrop.hidden) open(); else close();
+      }
+    });
+  })();
+
+  // ===========================================================================
   // Real AI chat. Posts the visitor's question to a Cloudflare Worker proxy
   // (see /worker) which tries free-tier providers in order and returns a
   // portfolio-grounded answer. Shares the chat log and `busy` flag with the
@@ -643,6 +758,27 @@ if (themeToggle) {
   const chatInput = chatInputEl;
   let chatConfig = {};
   try { chatConfig = parseJSON('chat-config') || {}; } catch (_) { chatConfig = {}; }
+
+  // Badge shows "Live" only once the Worker confirms it's actually up;
+  // "Offline" if the health check fails or times out.
+  const aiStatusEl = hero.querySelector('[data-ai-status]');
+  if (aiStatusEl && chatConfig.endpoint) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+    fetch(chatConfig.endpoint + '/health', { signal: controller.signal })
+      .then((res) => {
+        aiStatusEl.textContent = res.ok ? (chatConfig.liveLabel || 'Live') : (chatConfig.offlineLabel || 'Offline');
+        aiStatusEl.dataset.aiStatus = res.ok ? 'live' : 'offline';
+      })
+      .catch(() => {
+        aiStatusEl.textContent = chatConfig.offlineLabel || 'Offline';
+        aiStatusEl.dataset.aiStatus = 'offline';
+      })
+      .finally(() => clearTimeout(timeout));
+  } else if (aiStatusEl) {
+    aiStatusEl.textContent = chatConfig.offlineLabel || 'Offline';
+    aiStatusEl.dataset.aiStatus = 'offline';
+  }
 
   async function askAI(question) {
     const myNav = navId;
@@ -691,6 +827,51 @@ if (themeToggle) {
       if (!question) return;
       chatInput.value = '';
       askAI(question);
+    });
+  }
+
+  // ===========================================================================
+  // Focus management: the chat input holds keyboard focus by default, so a
+  // visitor can start typing a question immediately. It only gives that up
+  // once the visitor deliberately focuses another *typeable* field (a real
+  // text input/textarea/select) — clicking a link, button, or skill badge is
+  // a momentary action, not an ongoing intent to type elsewhere, so those
+  // don't suppress the auto-focus.
+  // ===========================================================================
+  if (chatInput) {
+    const isTypeable = (el) =>
+      !!el && el !== chatInput &&
+      (el.tagName === 'TEXTAREA' || el.tagName === 'SELECT' ||
+        (el.tagName === 'INPUT' && !['button', 'submit', 'checkbox', 'radio'].includes(el.type)));
+
+    function refocusChatInput() {
+      if (isTypeable(document.activeElement)) return;
+      if (chatInput.offsetParent === null) return; // hidden (busy, or panel collapsed)
+      if (document.activeElement !== chatInput) chatInput.focus({ preventScroll: true });
+    }
+
+    // Claim focus once the field is actually visible, right after load. Some
+    // browsers ignore a focus() call made in the very first frame before the
+    // document is fully settled, so retry a couple of times shortly after.
+    requestAnimationFrame(refocusChatInput);
+    setTimeout(refocusChatInput, 150);
+    setTimeout(refocusChatInput, 600);
+
+    // Reclaim focus whenever the input bar's busy state clears (a skill
+    // badge's scripted answer finished typing, or a real AI answer finished)
+    // and the visitor isn't mid-typing in some other real field.
+    if (heroInputBar) {
+      const busyObserver = new MutationObserver(() => {
+        if (!heroInputBar.classList.contains('is-busy')) refocusChatInput();
+      });
+      busyObserver.observe(heroInputBar, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    // After any click that doesn't land on a typeable field (links, buttons,
+    // skill badges, empty space), return focus to the chat input once the
+    // click's own handlers (routing, queueing a skill, etc.) have run.
+    document.addEventListener('click', () => {
+      setTimeout(refocusChatInput, 0);
     });
   }
 })();

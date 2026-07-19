@@ -18,8 +18,18 @@ other = "{skill} কী?"
 other = "হ্যালো! সিদ্দিকুর সম্পর্কে যা খুশি জিজ্ঞাসা করুন — অভিজ্ঞতা, প্রজেক্ট, বা স্কিল নিয়ে।"
 [hero_scripted_note]
 other = "উত্তরগুলো AI দিয়ে তৈরি, সিদ্দিকুরের আসল পোর্টফোলিও তথ্যের উপর ভিত্তি করে।"
-[hero_scripted_badge]
-other = "◆ AI চ্যাট"
+[hero_ai_checking]
+other = "◆ চেক করা হচ্ছে…"
+[hero_ai_live]
+other = "◆ Live"
+[hero_ai_offline]
+other = "◆ Offline"
+[hero_search_placeholder]
+other = "ফাইল, সেকশন, স্কিল খুঁজুন…"
+[hero_search_shortcut_hint]
+other = "⌘K"
+[hero_search_empty]
+other = "কিছু পাওয়া যায়নি।"
 [hero_chat_error]
 other = "আন্তরিকভাবে দুঃখিত, এই মুহূর্তে উত্তর দিতে পারছি না — একটু পরে আবার চেষ্টা করুন, অথবা সরাসরি ইমেইল করুন।"
 [hero_chat_rate_limited]
