@@ -54,8 +54,22 @@ function buildSystemPrompt(context, lang) {
     `\n\n--- Skills ---\n${(context.skills || []).join("\n")}`,
     `\n\n--- Experience ---\n${(context.experience || []).join("\n")}`,
     `\n\n--- Projects ---\n${(context.projects || []).join("\n")}`,
-    `\n\n--- Contact ---\nEmail: ${context.email}`,
   ];
+  if ((context.github_repos || []).length) {
+    parts.push(`\n\n--- GitHub Repositories ---\n${context.github_repos.join("\n")}`);
+  }
+  if ((context.education || []).length) {
+    parts.push(`\n\n--- Education ---\n${context.education.join("\n")}`);
+  }
+  if ((context.certifications || []).length) {
+    parts.push(`\n\n--- Certifications ---\n${context.certifications.join("\n")}`);
+  }
+  if (context.availability) {
+    parts.push(`\n\n--- Availability ---\n${context.availability}`);
+  }
+  const contactLines = [`Email: ${context.email}`];
+  if (context.whatsapp) contactLines.push(`WhatsApp: ${context.whatsapp}`);
+  parts.push(`\n\n--- Contact ---\n${contactLines.join("\n")}`);
   return parts.join("");
 }
 

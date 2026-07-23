@@ -10,9 +10,11 @@ enableRobotsTXT = true
   # Language-neutral params. Translatable text lives in i18n/*.toml.
   author = "Siddiqur Rahman"
   email = "msrsiddik2@gmail.com"
+  whatsapp = "8801774470711"
 
   # Social links — replace the placeholder handles/URLs with your real ones.
   github = "https://github.com/msrsiddik"
+  github_user = "msrsiddik"
   linkedin = "https://www.linkedin.com/in/msrsiddik"
   twitter = "https://x.com/msrsiddik"
 

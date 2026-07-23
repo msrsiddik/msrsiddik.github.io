@@ -20,12 +20,44 @@
   {{- $projLines = $projLines | append (printf "%s: %s Tech: %s" .name .description (delimit .tech ", ")) -}}
 {{- end -}}
 
+{{/* Public GitHub repos, fetched at build time. Skips forks and the site/
+     portfolio repos so the assistant only cites Siddiqur's own project work. */}}
+{{- $repoLines := slice -}}
+{{- $ghUser := .Site.Params.github_user | default "msrsiddik" -}}
+{{- $skipRepos := slice "msrsiddik.github.io" "portfolio" -}}
+{{- $ghURL := printf "https://api.github.com/users/%s/repos?per_page=100&sort=updated&type=owner" $ghUser -}}
+{{- with try (resources.GetRemote $ghURL) -}}
+  {{- with .Err -}}
+    {{- warnf "ai-context: GitHub repo fetch failed: %s" . -}}
+  {{- else with .Value -}}
+    {{- $repos := .Content | transform.Unmarshal -}}
+    {{- range $repos -}}
+      {{- if and (not .fork) (not (in $skipRepos .name)) -}}
+        {{- $desc := cond (ne .description nil) (string .description) "" -}}
+        {{- $lang := cond (ne .language nil) (string .language) "" -}}
+        {{- $topics := "" -}}
+        {{- with .topics -}}{{- $topics = delimit . ", " -}}{{- end -}}
+        {{- $line := printf "%s (%s)" .name $lang -}}
+        {{- if $desc -}}{{- $line = printf "%s: %s" $line $desc -}}{{- end -}}
+        {{- if $topics -}}{{- $line = printf "%s Topics: %s." $line $topics -}}{{- end -}}
+        {{- $line = printf "%s Repo: %s" $line .html_url -}}
+        {{- $repoLines = $repoLines | append (strings.TrimSpace $line) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
 {{- dict
   "about" (strings.TrimSpace $about)
   "skills" $skillLines
   "experience" $expLines
   "projects" $projLines
+  "github_repos" $repoLines
+  "certifications" (slice "Certificate in Mobile Application Development — Android, BITM (BASIS Institute of Technology & Management), 2019. A three-month training program under the Skills for Employment Investment Program (SEIP), Government of Bangladesh.")
+  "education" (slice "BSc in Computer Science and Engineering, Dhaka International University, 2020.")
+  "availability" "Based in Dhaka, Bangladesh and open to remote roles. Available to join after a standard notice period."
   "author" .Site.Params.author
   "email" .Site.Params.email
+  "whatsapp" (printf "https://wa.me/%s" (.Site.Params.whatsapp | default ""))
   | jsonify (dict "indent" "  ")
 -}}

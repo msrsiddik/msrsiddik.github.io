@@ -115,6 +115,8 @@ other = "Message sent — I'll get back to you soon."
 other = "Something went wrong. Try again, or email me directly."
 [contact_mailto_fallback]
 other = "Prefer email? Reach me at"
+[contact_whatsapp]
+other = "Message me on WhatsApp"
 
 [blog_title]
 other = "Blog"

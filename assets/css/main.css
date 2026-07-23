@@ -914,6 +914,11 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
   font-family: var(--mono); font-size: .82rem; color: var(--text-mute);
 }
 .contact-mailto-fallback:hover { color: var(--accent); }
+.contact-whatsapp {
+  display: block; text-align: center; margin-top: .5rem;
+  font-family: var(--mono); font-size: .82rem; color: var(--text-mute);
+}
+.contact-whatsapp:hover { color: var(--accent); }
 
 /* ---------- Prose (blog) ---------- */
 .back-link { font-family: var(--mono); font-size: .85rem; color: var(--text-dim); }

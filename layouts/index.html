@@ -247,6 +247,9 @@
     </div>
 
     <a class="contact-mailto-fallback" href="mailto:{{ .Site.Params.email }}">{{ i18n "contact_mailto_fallback" }} {{ .Site.Params.email }}</a>
+    {{ with .Site.Params.whatsapp }}
+    <a class="contact-whatsapp" href="https://wa.me/{{ . }}" target="_blank" rel="noopener">{{ i18n "contact_whatsapp" }}</a>
+    {{ end }}
   </div>
 </section>
 
