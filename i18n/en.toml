@@ -66,6 +66,8 @@ other = "Settings"
 other = "About"
 [about_title]
 other = "About this site"
+[about_author]
+other = "Author"
 [about_build_time]
 other = "Last built"
 [about_version]

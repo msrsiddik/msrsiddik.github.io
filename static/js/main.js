@@ -167,6 +167,19 @@ if (themeToggle) {
   const aboutToggle = document.querySelector('[data-about-toggle]');
   const aboutModal = document.querySelector('[data-about-modal]');
   const aboutClose = document.querySelector('[data-about-close]');
+  // The server renders the build time in its own (build-server) timezone;
+  // reformat it here in the visitor's local timezone once the page loads.
+  const buildTimeEl = document.querySelector('[data-build-time]');
+  if (buildTimeEl) {
+    const iso = buildTimeEl.getAttribute('data-build-time');
+    const d = new Date(iso);
+    if (!isNaN(d)) {
+      buildTimeEl.textContent = d.toLocaleString(undefined, {
+        year: 'numeric', month: 'short', day: 'numeric',
+        hour: '2-digit', minute: '2-digit',
+      });
+    }
+  }
   function openAboutModal() {
     closeSettingsMenu();
     if (aboutModal) aboutModal.hidden = false;

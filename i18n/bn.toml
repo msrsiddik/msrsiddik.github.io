@@ -66,6 +66,8 @@ other = "Settings"
 other = "About"
 [about_title]
 other = "সাইট সম্পর্কে"
+[about_author]
+other = "লেখক"
 [about_build_time]
 other = "সর্বশেষ বিল্ড"
 [about_version]
