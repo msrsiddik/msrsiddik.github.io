@@ -148,8 +148,12 @@
   <!-- GSAP powers the "How I Work" scroll-story; self-hosted, loaded before
        main.js so window.gsap / window.ScrollTrigger are ready. Deferred, so
        they never block first paint. -->
-  <script src="{{ "js/gsap.min.js" | relURL }}" defer></script>
-  <script src="{{ "js/ScrollTrigger.min.js" | relURL }}" defer></script>
-  <script src="{{ "js/main.js" | relURL }}" defer></script>
+  {{/* Cache-busted with the build time so a deploy always forces browsers to
+       fetch the latest main.js — stale cached JS previously kept old chat
+       logic (JSON parsing) running against the new SSE-streaming Worker. */}}
+  {{ $v := .Site.Params.buildID | default now.Unix }}
+  <script src="{{ "js/gsap.min.js" | relURL }}?v={{ $v }}" defer></script>
+  <script src="{{ "js/ScrollTrigger.min.js" | relURL }}?v={{ $v }}" defer></script>
+  <script src="{{ "js/main.js" | relURL }}?v={{ $v }}" defer></script>
 </body>
 </html>
