@@ -132,7 +132,7 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
 /* ---------- Settings menu + About modal ---------- */
 .statusbar-settings { position: relative; display: flex; }
 .settings-menu {
-  position: absolute; bottom: calc(100% + 8px); right: 0; z-index: 50;
+  position: absolute; bottom: calc(100% + 8px); right: 0; z-index: 210;
   min-width: 170px; padding: .35rem; border-radius: 8px;
   background: var(--surface-2); border: 1px solid var(--border);
   box-shadow: 0 8px 24px rgba(0,0,0,.35);
@@ -161,22 +161,8 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
   box-shadow: 0 20px 60px rgba(0,0,0,.45);
   animation: bubble-in .18s ease both;
 }
-.about-modal-header {
-  display: flex; align-items: center; gap: .8rem;
-  padding: .9rem 1.1rem; border-bottom: 1px solid var(--border);
-}
-.about-modal-header h2 { font-size: .92rem; font-weight: 700; color: var(--text-dim); margin: 0; }
-.about-modal-close {
-  display: inline-flex; align-items: center; gap: 7px;
-  background: none; border: 0; cursor: pointer; padding: 2px;
-}
-.traffic-dot {
-  width: 12px; height: 12px; border-radius: 50%;
-  background: #5c5c5c; transition: filter .1s ease;
-}
-.about-modal-close:hover .traffic-dot-close { background: #ff5f57; }
-.about-modal-close:hover .traffic-dot-min { background: #febc2e; }
-.about-modal-close:hover .traffic-dot-max { background: #28c840; }
+.about-modal-header { border-radius: 11px 11px 0 0; }
+.about-modal-header .hero-title { font-weight: 700; color: var(--text-dim); }
 .about-modal-body { padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: .6rem; }
 .about-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .about-label { font-family: var(--mono); font-size: .78rem; color: var(--text-mute); }

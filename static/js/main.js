@@ -1284,15 +1284,23 @@ if (themeToggle) {
 
     btn.addEventListener('click', () => {
       if (!pendingText) return;
-      if (chatInput.offsetParent === null) { // chat panel collapsed (mobile) — open it
-        if (chatToggle) chatToggle.click();
-      }
+      const wasCollapsed = chatInput.offsetParent === null;
+      if (wasCollapsed && chatToggle) chatToggle.click(); // panel was closed — open it
+
       const existing = chatInput.value.trim();
       chatInput.value = existing ? `${existing} ${pendingText}` : pendingText;
       hideBtn();
       window.getSelection().removeAllRanges();
-      chatInput.focus();
-      chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
+
+      // After opening a previously-collapsed panel, give layout/inert changes
+      // one frame to settle before focusing — focusing synchronously in the
+      // same tick can silently no-op while the panel is still transitioning.
+      const focusInput = () => {
+        chatInput.focus();
+        chatInput.setSelectionRange(chatInput.value.length, chatInput.value.length);
+      };
+      if (wasCollapsed) requestAnimationFrame(() => requestAnimationFrame(focusInput));
+      else focusInput();
     });
   })();
 

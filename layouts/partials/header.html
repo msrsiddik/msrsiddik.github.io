@@ -57,13 +57,11 @@
 <!-- About modal: version/build info, opened from the settings menu above. -->
 <div class="about-modal-backdrop" data-about-modal hidden>
   <div class="about-modal" role="dialog" aria-modal="true" aria-labelledby="about-modal-title">
-    <div class="about-modal-header">
-      <button type="button" class="about-modal-close" data-about-close aria-label="{{ i18n "about_close" }}" title="{{ i18n "about_close" }}">
-        <span class="traffic-dot traffic-dot-close" aria-hidden="true"></span>
-        <span class="traffic-dot traffic-dot-min" aria-hidden="true"></span>
-        <span class="traffic-dot traffic-dot-max" aria-hidden="true"></span>
-      </button>
-      <h2 id="about-modal-title">{{ i18n "about_title" }}</h2>
+    <div class="about-modal-header hero-titlebar">
+      <button type="button" class="tl tl-red" data-about-close aria-label="{{ i18n "about_close" }}" title="{{ i18n "about_close" }}"></button>
+      <span class="tl tl-yellow" aria-hidden="true"></span>
+      <span class="tl tl-green" aria-hidden="true"></span>
+      <h2 id="about-modal-title" class="hero-title">{{ i18n "about_title" }}</h2>
     </div>
     <div class="about-modal-body">
       <div class="about-row">
