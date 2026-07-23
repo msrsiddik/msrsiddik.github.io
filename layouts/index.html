@@ -41,7 +41,7 @@
     <div class="about-grid">
       <div class="about-text">
         {{ with .Site.GetPage "/about" }}{{ .Content }}{{ end }}
-        <a class="btn btn-ghost about-resume-btn" href="/Siddiqur-Rahman-Resume.pdf" target="_blank" rel="noopener" download>{{ i18n "btn_resume" }}</a>
+        <a class="btn btn-ghost about-resume-btn" href="/Siddiqur-Rahman-Resume.pdf" target="_blank" rel="noopener">{{ i18n "btn_resume" }}</a>
       </div>
       <aside class="about-side">
         <h3>{{ i18n "sec_skills" }}</h3>
