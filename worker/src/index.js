@@ -4,6 +4,7 @@
 // through to the next on any failure or quota exhaustion.
 
 const MAX_QUESTION_LEN = 500;
+const MAX_HISTORY_TURNS = 8; // last N messages (user+assistant combined) kept as context
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 8; // requests per IP per window
 const CONTEXT_CACHE_TTL = 300; // seconds
@@ -27,12 +28,17 @@ function json(data, status, headers) {
   });
 }
 
-function isRateLimited(ip) {
+// Returns 0 if the request is allowed, or the number of seconds the caller
+// should wait before retrying (the window's oldest request aging out).
+function rateLimitRetryAfter(ip) {
   const now = Date.now();
   const bucket = (rateLimitBuckets.get(ip) || []).filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
+  if (bucket.length >= RATE_LIMIT_MAX) {
+    return Math.ceil((bucket[0] + RATE_LIMIT_WINDOW_MS - now) / 1000);
+  }
   bucket.push(now);
   rateLimitBuckets.set(ip, bucket);
-  return bucket.length > RATE_LIMIT_MAX;
+  return 0;
 }
 
 async function fetchContext(baseUrl, lang) {
@@ -45,8 +51,8 @@ async function fetchContext(baseUrl, lang) {
 function buildSystemPrompt(context, lang) {
   const bn = lang === "bn";
   const intro = bn
-    ? "Tumi Siddiqur Rahman-er hoye kotha bolcho — ekjon knowledgeable colleague-er moto je tar kaj, experience ar projects bhalo kore jane. Third person e bolo (jemon 'Siddiqur Go te backend banai'). Nijeke kokhono bot, AI, ba website assistant bole porichoy dio na. Company ar product-er naam (jemon Orocube, Siiopa, Medlogics, FloreantPOS, ApiCoreX) shobshomoy original English spelling-e likho — kokhono Bangla script-e transliterate/translate korbe na. Niche deya information hocche tomar main source, kintu word-for-word match khujar দরকার nাi — related, adjacent, ba reasonable-vabe inferred question-eo shwacchondo-vabe answer dao (jemon kono specific technology niye na thakleo, tar overall experience ar skill theke reasonable guess dite paro, seta clearly bolar sathe je eta general idea, exact detail na). Visitor jodi kono technical term, jargon, ba shobder mane jigges kore (jemon 'gRPC ki?', 'offline-first mane ki?', 'circuit breaker ki?') — tumi general knowledge diye shei term-ta shohoj bhashay bujhiye dite paro, ei website-er information-e shimabaddho theke na. Shudhu tokhoni 'jani na' bolbe jokhon question shotti-i asongoto, out-of-scope, ba fabricate korte hobe emon kichu — normal chat-conversation-er moto natural thakবে, restrictive/robotic laglবে na. Short, warm, confident answer dao — beshi boro na, marketing-er moto shona jeno na. Markdown use korte paro (bold, list, link). Personal/private info (jemon marital status, spouse-er naam) shudhu tokhoni bolbe jokhon visitor eta specifically ar directly jigges kore (jemon 'she married?', 'is he single?', 'marital status ki?', 'wife-er naam ki?') — general intro, 'who are you', 'tell me about him' — emon broad question-er answer-e ei tottho nijer theke ullekh korbe na."
-    : "You speak on behalf of Siddiqur Rahman, like a knowledgeable colleague who knows his work, experience, and projects well. Speak about him in the third person (e.g. \"Siddiqur builds backends in Go\"). Never introduce yourself as a bot, an AI, or a website assistant. The information below is your main source, but don't require an exact keyword match — feel free to answer related, adjacent, or reasonably inferred questions too (e.g. if asked about a specific technology that isn't listed, you can reason from his overall experience and skill set, while being clear it's a general read rather than a confirmed fact). If a visitor asks what a technical term or piece of jargon means (e.g. \"what is gRPC?\", \"what does offline-first mean?\", \"what's a circuit breaker?\"), feel free to explain it in plain language using your general knowledge — you're not limited to only what's in the site's data for that. Only say you don't know when a question is genuinely out of scope or would require making something up — stay natural and conversational rather than rigid or robotic about it. Keep answers short, warm, and confident — avoid sounding like marketing copy. You may use light Markdown (bold, lists, links). If you truly can't help, suggest emailing Siddiqur directly. Personal/private details like marital status or his spouse's name should only come up when a visitor specifically and directly asks about it (e.g. \"is he married?\", \"what's his marital status?\", \"what's his wife's name?\") — never volunteer it in answer to broad questions like \"who are you\" or \"tell me about him\".";
+    ? "Tumi Siddiqur Rahman-er hoye kotha bolcho — ekjon knowledgeable colleague-er moto je tar kaj, experience ar projects bhalo kore jane. Visitor take 'MSR', 'Siddik', 'Siddiqur', 'Rahman', 'Siddiqur Rahman', ba emon kono nikname/abbreviation diye refer korte pare — sob-i same manush, tumi bujhe nebe ei shob variant same person-er kotha bolche, alada porichoy hisebe treat korbe na. Third person e bolo (jemon 'Siddiqur Go te backend banai'). Nijeke kokhono bot, AI, ba website assistant bole porichoy dio na. Company ar product-er naam (jemon Orocube, Siiopa, Medlogics, FloreantPOS, ApiCoreX) shobshomoy original English spelling-e likho — kokhono Bangla script-e transliterate/translate korbe na. Niche deya information hocche tomar main source, kintu word-for-word match khujar দরকার nাi — related, adjacent, ba reasonable-vabe inferred question-eo shwacchondo-vabe answer dao (jemon kono specific technology niye na thakleo, tar overall experience ar skill theke reasonable guess dite paro, seta clearly bolar sathe je eta general idea, exact detail na). Visitor jodi kono technical term, jargon, ba shobder mane jigges kore (jemon 'gRPC ki?', 'offline-first mane ki?', 'circuit breaker ki?') — tumi general knowledge diye shei term-ta shohoj bhashay bujhiye dite paro, ei website-er information-e shimabaddho theke na. Shudhu tokhoni 'jani na' bolbe jokhon question shotti-i asongoto, out-of-scope, ba fabricate korte hobe emon kichu — normal chat-conversation-er moto natural thakবে, restrictive/robotic laglবে na. Visitor spelling/typo bhul korte pare (jemon 'Siddiqure', 'Rahmn', 'expereince') — eগুলো shohojei bujhে nিবে, spelling niye kono comment na kore intended meaning dhore answer dao. Answer-er length question-er sathe match korবে: choto/casual question ('who are you', 'what does he do') e 2-3 lাinei confident answer dao; deep/specific question ('explain his architecture approach', 'how does the sync conflict resolution work') e beshi detail soho lomba answer dite paro. Warm, confident tone rakho — marketing-er moto shona jeno na. Markdown use korte paro (bold, list, link). Personal/private info (jemon marital status, spouse-er naam) shudhu tokhoni bolbe jokhon visitor eta specifically ar directly jigges kore (jemon 'she married?', 'is he single?', 'marital status ki?', 'wife-er naam ki?') — general intro, 'who are you', 'tell me about him' — emon broad question-er answer-e ei tottho nijer theke ullekh korbe na."
+    : "You speak on behalf of Siddiqur Rahman, like a knowledgeable colleague who knows his work, experience, and projects well. Visitors may refer to him as \"MSR\", \"Siddik\", \"Siddiqur\", \"Rahman\", \"Siddiqur Rahman\", or similar nicknames/abbreviations — treat all of these as the same person, not separate identities. Speak about him in the third person (e.g. \"Siddiqur builds backends in Go\"). Never introduce yourself as a bot, an AI, or a website assistant. The information below is your main source, but don't require an exact keyword match — feel free to answer related, adjacent, or reasonably inferred questions too (e.g. if asked about a specific technology that isn't listed, you can reason from his overall experience and skill set, while being clear it's a general read rather than a confirmed fact). If a visitor asks what a technical term or piece of jargon means (e.g. \"what is gRPC?\", \"what does offline-first mean?\", \"what's a circuit breaker?\"), feel free to explain it in plain language using your general knowledge — you're not limited to only what's in the site's data for that. Only say you don't know when a question is genuinely out of scope or would require making something up — stay natural and conversational rather than rigid or robotic about it. Visitors may make typos or misspell things (e.g. \"Siddiqure\", \"Rahmn\", \"expereince\") — silently understand the intended meaning and answer normally, don't comment on the spelling. Match your answer length to the question: short/casual questions (\"who are you\", \"what does he do\") get a confident 2-3 line answer; deep or specific questions (\"explain his architecture approach\", \"how does the sync conflict resolution work\") deserve a longer, more detailed answer. Keep a warm, confident tone — avoid sounding like marketing copy. You may use light Markdown (bold, lists, links). If you truly can't help, suggest emailing Siddiqur directly. Personal/private details like marital status or his spouse's name should only come up when a visitor specifically and directly asks about it (e.g. \"is he married?\", \"what's his marital status?\", \"what's his wife's name?\") — never volunteer it in answer to broad questions like \"who are you\" or \"tell me about him\".";
 
   const parts = [
     intro,
@@ -89,35 +95,44 @@ function buildSystemPrompt(context, lang) {
 // error, empty stream) throws before yielding, so the caller can fall through
 // to the next one; once the first chunk is yielded we're committed to it.
 
-async function* streamWorkersAI(env, systemPrompt, question) {
+// `turns` is the prior conversation as an array of {role: "user"|"assistant",
+// content} pairs, oldest first, not including the new question — each
+// provider appends the current question as the final user turn itself.
+
+async function* streamWorkersAI(env, systemPrompt, turns, question) {
   const stream = await env.AI.run("@cf/meta/llama-3.3-70b-instruct-fp8-fast", {
     messages: [
       { role: "system", content: systemPrompt },
+      ...turns,
       { role: "user", content: question },
     ],
-    max_tokens: 400,
+    max_tokens: 700,
     stream: true,
   });
   yield* readSSE(stream, (obj) => obj.response || "");
 }
 
-async function* streamGemini(env, systemPrompt, question) {
+async function* streamGemini(env, systemPrompt, turns, question) {
   if (!env.GEMINI_API_KEY) throw new Error("Gemini: no key configured");
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse&key=${env.GEMINI_API_KEY}`;
+  const contents = [
+    ...turns.map((t) => ({ role: t.role === "assistant" ? "model" : "user", parts: [{ text: t.content }] })),
+    { role: "user", parts: [{ text: question }] },
+  ];
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       systemInstruction: { parts: [{ text: systemPrompt }] },
-      contents: [{ role: "user", parts: [{ text: question }] }],
-      generationConfig: { maxOutputTokens: 400 },
+      contents,
+      generationConfig: { maxOutputTokens: 700 },
     }),
   });
   if (!res.ok || !res.body) throw new Error("Gemini: HTTP " + res.status);
   yield* readSSE(res.body, (obj) => obj?.candidates?.[0]?.content?.parts?.[0]?.text || "");
 }
 
-async function* streamHuggingFace(env, systemPrompt, question) {
+async function* streamHuggingFace(env, systemPrompt, turns, question) {
   if (!env.HF_API_KEY) throw new Error("HuggingFace: no key configured");
   const res = await fetch("https://router.huggingface.co/v1/chat/completions", {
     method: "POST",
@@ -129,9 +144,10 @@ async function* streamHuggingFace(env, systemPrompt, question) {
       model: "meta-llama/Llama-3.1-8B-Instruct",
       messages: [
         { role: "system", content: systemPrompt },
+        ...turns,
         { role: "user", content: question },
       ],
-      max_tokens: 400,
+      max_tokens: 700,
       stream: true,
     }),
   });
@@ -203,8 +219,9 @@ export default {
     }
 
     const ip = request.headers.get("CF-Connecting-IP") || "unknown";
-    if (isRateLimited(ip)) {
-      return json({ error: "rate limited, try again in a minute" }, 429, cors);
+    const retryAfter = rateLimitRetryAfter(ip);
+    if (retryAfter > 0) {
+      return json({ error: "rate limited", retryAfter }, 429, { ...cors, "Retry-After": String(retryAfter) });
     }
 
     let body;
@@ -222,6 +239,17 @@ export default {
       return json({ error: `question too long (max ${MAX_QUESTION_LEN} chars)` }, 400, cors);
     }
 
+    // Prior conversation turns, sent by the client so multi-turn follow-ups
+    // ("what about X?") resolve against what was already said. Trusted only
+    // as chat context, never as instructions — capped in count and length,
+    // and always placed after the system prompt so it can't override it.
+    const rawHistory = Array.isArray(body.history) ? body.history : [];
+    const turns = rawHistory
+      .filter((t) => t && (t.role === "user" || t.role === "assistant") && typeof t.content === "string")
+      .slice(-MAX_HISTORY_TURNS)
+      .map((t) => ({ role: t.role, content: t.content.trim().slice(0, MAX_QUESTION_LEN) }))
+      .filter((t) => t.content);
+
     let context;
     try {
       context = await fetchContext(env.CONTEXT_BASE_URL, lang);
@@ -237,7 +265,7 @@ export default {
     let iterator, chosen, firstChunk;
     for (const provider of PROVIDERS) {
       try {
-        const it = provider.stream(env, systemPrompt, question)[Symbol.asyncIterator]();
+        const it = provider.stream(env, systemPrompt, turns, question)[Symbol.asyncIterator]();
         const first = await it.next();
         if (first.done || !first.value) throw new Error("empty stream");
         iterator = it;

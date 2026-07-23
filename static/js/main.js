@@ -747,6 +747,14 @@ if (themeToggle) {
   // into a chat log that no longer matches the page in the webview.
   let navId = 0;
 
+  // Real AI conversation memory: {role, content} pairs sent back to the
+  // Worker with each new question so follow-ups ("what about X?") resolve
+  // against what was already said. In-memory only (page-load scoped) — not
+  // persisted, and not touched by the scripted intro/skill-badge Q&A, which
+  // is a separate, canned conversation.
+  const MAX_CHAT_HISTORY = 16; // messages (8 user+assistant turns)
+  const chatHistory = [];
+
   async function playTurn(question, answer, opts) {
     opts = opts || {};
     const myNav = navId;
@@ -1135,13 +1143,17 @@ if (themeToggle) {
       const res = await fetch(chatConfig.endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question, lang: chatConfig.lang || 'en' }),
+        body: JSON.stringify({ question, lang: chatConfig.lang || 'en', history: chatHistory }),
       });
       if (res.status === 429) {
         thinking.remove();
         if (myNav === navId) {
+          let retryAfter = 60;
+          try { retryAfter = (await res.json()).retryAfter || retryAfter; } catch (_) { /* use the default above */ }
+          const template = chatConfig.rateLimited || 'Rate limited, try again in {seconds}s.';
+          const message = template.replace('{seconds}', retryAfter);
           const b = addBubble('agent chat-error', '');
-          await typeInto(b, chatConfig.rateLimited || 'Rate limited, try again shortly.', null);
+          await typeInto(b, message, null);
         }
         busy.active = false;
         return;
@@ -1195,6 +1207,11 @@ if (themeToggle) {
         }
       } else if (streamError) {
         bubble.classList.add('chat-error');
+      } else {
+        // Only remember successful turns — an error bubble isn't something
+        // the model should see as its own prior output on the next question.
+        chatHistory.push({ role: 'user', content: question }, { role: 'assistant', content: raw });
+        if (chatHistory.length > MAX_CHAT_HISTORY) chatHistory.splice(0, chatHistory.length - MAX_CHAT_HISTORY);
       }
     } catch (_) {
       thinking.remove();
