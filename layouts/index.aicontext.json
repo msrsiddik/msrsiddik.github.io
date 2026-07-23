@@ -56,8 +56,16 @@
   "certifications" (slice "Certificate in Mobile Application Development — Android, BITM (BASIS Institute of Technology & Management), 2019. A three-month training program under the Skills for Employment Investment Program (SEIP), Government of Bangladesh.")
   "education" (slice "BSc in Computer Science and Engineering, Dhaka International University, 2020.")
   "availability" "Based in Dhaka, Bangladesh and open to remote roles. Available to join after a standard notice period."
+  "maritalStatus" "Married"
+  "spouseName" "Toyaba Islam"
   "author" .Site.Params.author
   "email" .Site.Params.email
   "whatsapp" (printf "https://wa.me/%s" (.Site.Params.whatsapp | default ""))
+  "social" (dict
+    "github" .Site.Params.github
+    "linkedin" .Site.Params.linkedin
+    "twitter" .Site.Params.twitter
+    "facebook" .Site.Params.facebook
+  )
   | jsonify (dict "indent" "  ")
 -}}

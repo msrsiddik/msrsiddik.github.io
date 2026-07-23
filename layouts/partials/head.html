@@ -28,7 +28,7 @@
   "url" .Site.BaseURL
   "email" (printf "mailto:%s" .Site.Params.email)
   "image" (absURL "avatar.jpg")
-  "sameAs" (slice .Site.Params.github .Site.Params.linkedin .Site.Params.twitter)
+  "sameAs" (slice .Site.Params.github .Site.Params.linkedin .Site.Params.twitter .Site.Params.facebook)
   "address" (dict "@type" "PostalAddress" "addressCountry" "BD")
   | jsonify (dict "noHTMLEscape" true) | safeJS }}</script>
 {{ end }}

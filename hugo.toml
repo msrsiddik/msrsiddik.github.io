@@ -17,6 +17,7 @@ enableRobotsTXT = true
   github_user = "msrsiddik"
   linkedin = "https://www.linkedin.com/in/msrsiddik"
   twitter = "https://x.com/msrsiddik"
+  facebook = "https://facebook.com/0MSR1"
 
   # Contact form submit endpoint — get a free access key at https://web3forms.com
   web3forms_key = "6f095088-f64b-43e8-a819-69b63740f7f0"
