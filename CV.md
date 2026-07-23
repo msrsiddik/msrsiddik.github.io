@@ -73,7 +73,6 @@ A Go service over the dvdrental sample database, exposing the same domain model 
 - **Frontend:** React, TypeScript, HTML/CSS, Tailwind
 - **Mobile:** Android (Kotlin/Java)
 - **Tooling & Infra:** Docker, Git, CI/CD, Linux
-- **AI Tools:** Claude Code, GitHub Copilot
 
 ---
 
