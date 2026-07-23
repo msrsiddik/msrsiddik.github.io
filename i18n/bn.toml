@@ -40,6 +40,8 @@ other = "⌘K"
 other = "কিছু পাওয়া যায়নি।"
 [hero_chat_error]
 other = "কিছু একটা সমস্যা হয়েছে। একটু পরে আবার চেষ্টা করুন, অথবা Siddiqur-কে সরাসরি ইমেইল বা WhatsApp করুন।"
+[hero_select_ask]
+other = "এটা নিয়ে AI-কে জিজ্ঞেস করুন"
 [hero_chat_rate_limited]
 other = "একসাথে অনেক প্রশ্ন হয়ে গেছে — এক মিনিট পর আবার চেষ্টা করুন।"
 [hero_chat_sending]
