@@ -60,6 +60,18 @@ other = "Resize file explorer"
 other = "Resize chat panel"
 [reset_layout]
 other = "Reset panel layout"
+[settings_menu]
+other = "Settings"
+[settings_about]
+other = "About"
+[about_title]
+other = "About this site"
+[about_build_time]
+other = "Last built"
+[about_version]
+other = "Version"
+[about_close]
+other = "Close"
 
 [btn_projects]
 other = "View Projects"

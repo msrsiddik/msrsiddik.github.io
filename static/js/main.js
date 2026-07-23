@@ -134,7 +134,51 @@ if (themeToggle) {
       layout = { ...DEFAULT_LAYOUT, filesCollapsed: isMobile, chatCollapsed: isMobile };
       applyLayout();
       saveLayout(layout);
+      closeSettingsMenu();
     });
+  }
+
+  // --- Settings menu (status bar gear icon) -------------------------------
+  const settingsToggle = document.querySelector('[data-settings-toggle]');
+  const settingsMenu = document.querySelector('[data-settings-menu]');
+  function closeSettingsMenu() {
+    if (!settingsMenu) return;
+    settingsMenu.hidden = true;
+    if (settingsToggle) settingsToggle.setAttribute('aria-expanded', 'false');
+  }
+  if (settingsToggle && settingsMenu) {
+    settingsToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const willOpen = settingsMenu.hidden;
+      settingsMenu.hidden = !willOpen;
+      settingsToggle.setAttribute('aria-expanded', String(willOpen));
+    });
+    document.addEventListener('click', (e) => {
+      if (!settingsMenu.hidden && !settingsMenu.contains(e.target) && e.target !== settingsToggle) {
+        closeSettingsMenu();
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !settingsMenu.hidden) closeSettingsMenu();
+    });
+  }
+
+  // --- About modal ---------------------------------------------------------
+  const aboutToggle = document.querySelector('[data-about-toggle]');
+  const aboutModal = document.querySelector('[data-about-modal]');
+  const aboutClose = document.querySelector('[data-about-close]');
+  function openAboutModal() {
+    closeSettingsMenu();
+    if (aboutModal) aboutModal.hidden = false;
+  }
+  function closeAboutModal() {
+    if (aboutModal) aboutModal.hidden = true;
+  }
+  if (aboutToggle) aboutToggle.addEventListener('click', openAboutModal);
+  if (aboutClose) aboutClose.addEventListener('click', closeAboutModal);
+  if (aboutModal) {
+    aboutModal.addEventListener('click', (e) => { if (e.target === aboutModal) closeAboutModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !aboutModal.hidden) closeAboutModal(); });
   }
 
   // --- Drag-to-resize the file panel and chat panel -----------------------

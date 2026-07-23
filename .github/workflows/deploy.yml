@@ -41,6 +41,7 @@ jobs:
       - name: Build with Hugo
         env:
           HUGO_ENVIRONMENT: production
+          HUGO_PARAMS_COMMITHASH: ${{ github.sha }}
         run: |
           hugo \
             --gc --minify \
