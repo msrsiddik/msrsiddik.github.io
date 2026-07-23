@@ -139,17 +139,26 @@ if (themeToggle) {
   }
 
   // --- Settings menu (status bar gear icon) -------------------------------
+  // Moved to a <body> child (like the select-to-ask button) so it renders in
+  // its own top-level stacking context: nested inside .hero-window, this
+  // menu's absolute position competed with the chat drawer's — which has its
+  // own z-index and, despite this menu's much higher one, wasn't guaranteed
+  // to lose, since z-index only compares within a shared stacking context.
   const settingsToggle = document.querySelector('[data-settings-toggle]');
   const settingsMenu = document.querySelector('[data-settings-menu]');
-  function closeSettingsMenu() {
-    if (!settingsMenu) return;
-    settingsMenu.hidden = true;
-    if (settingsToggle) settingsToggle.setAttribute('aria-expanded', 'false');
-  }
   if (settingsToggle && settingsMenu) {
+    document.body.appendChild(settingsMenu);
+
+    function positionSettingsMenu() {
+      const rect = settingsToggle.getBoundingClientRect();
+      settingsMenu.style.right = (window.innerWidth - rect.right) + 'px';
+      settingsMenu.style.bottom = (window.innerHeight - rect.top + 8) + 'px';
+    }
+
     settingsToggle.addEventListener('click', (e) => {
       e.stopPropagation();
       const willOpen = settingsMenu.hidden;
+      if (willOpen) positionSettingsMenu();
       settingsMenu.hidden = !willOpen;
       settingsToggle.setAttribute('aria-expanded', String(willOpen));
     });
@@ -161,6 +170,11 @@ if (themeToggle) {
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && !settingsMenu.hidden) closeSettingsMenu();
     });
+    window.addEventListener('resize', () => { if (!settingsMenu.hidden) positionSettingsMenu(); });
+  }
+  function closeSettingsMenu() {
+    if (settingsMenu) settingsMenu.hidden = true;
+    if (settingsToggle) settingsToggle.setAttribute('aria-expanded', 'false');
   }
 
   // --- About modal ---------------------------------------------------------

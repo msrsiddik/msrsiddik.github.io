@@ -131,8 +131,16 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
 
 /* ---------- Settings menu + About modal ---------- */
 .statusbar-settings { position: relative; display: flex; }
+/* Rendered `position: fixed` (not absolute-inside-.hero-window) and moved to
+   a <body> child in JS: .hero-window's flex children each stack in their own
+   layer, so an absolutely-positioned menu nested inside the status bar was
+   getting buried under the chat panel despite a much higher z-index — that
+   only compares within a shared stacking context, and this menu and the
+   chat drawer didn't share one. Fixed positioning + a body-level parent
+   sidesteps the whole ambiguity. JS sets left/top to anchor it to the
+   toggle button each time it opens. */
 .settings-menu {
-  position: absolute; bottom: calc(100% + 8px); right: 0; z-index: 210;
+  position: fixed; z-index: 210;
   min-width: 170px; padding: .35rem; border-radius: 8px;
   background: var(--surface-2); border: 1px solid var(--border);
   box-shadow: 0 8px 24px rgba(0,0,0,.35);
@@ -1031,6 +1039,10 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
 @media (max-width: 560px) {
   .statusbar-branch { display: none; }
   .statusbar-sep { display: none; }
+  /* "Get in touch" already exists as a hero CTA — drop the duplicate
+     status-bar link on narrow screens so theme/lang/settings, which have
+     no equivalent elsewhere, don't get pushed off-screen. */
+  .statusbar-cta { display: none; }
   /* The 440px orbit scaled down to fit narrow screens; labels are dropped
      at this size rather than shrunk further — mono text under ~9px reads
      as noise, not information. Dots + the fixed marker + the center card
