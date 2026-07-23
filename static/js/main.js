@@ -76,6 +76,8 @@ if (themeToggle) {
   // it only opens automatically when the window is maximized, or whenever
   // the visitor clicks the toggle themselves.
   let layout = { ...loadLayout(), filesCollapsed: true, chatCollapsed: isMobile };
+  const filesPanelEl = hero.querySelector('[data-files-panel]');
+  const chatPanelEl = hero.querySelector('[data-chat-panel]');
 
   function applyLayout() {
     if (heroBody) {
@@ -84,8 +86,20 @@ if (themeToggle) {
     }
     hero.classList.toggle('is-files-collapsed', layout.filesCollapsed);
     hero.classList.toggle('is-chat-collapsed', layout.chatCollapsed);
+    // Mirror classes the mobile-drawer CSS keys off of — kept positive
+    // (is-*-expanded) rather than :not(.is-*-collapsed) so a pre-JS page
+    // load (no classes present yet) never matches the "open" rule. See the
+    // comment above .hero-files in main.css for why that inversion mattered.
+    hero.classList.toggle('is-files-expanded', !layout.filesCollapsed);
+    hero.classList.toggle('is-chat-expanded', !layout.chatCollapsed);
     if (filesToggle) filesToggle.setAttribute('aria-expanded', String(!layout.filesCollapsed));
     if (chatToggle) chatToggle.setAttribute('aria-expanded', String(!layout.chatCollapsed));
+    // Collapsed panels shrink to width:0/opacity:0 (not display:none), so
+    // their contents stay in the tab order and can even hold focus unless
+    // explicitly excluded — `inert` does that (and, unlike aria-hidden,
+    // never conflicts with a focused descendant).
+    if (filesPanelEl) filesPanelEl.toggleAttribute('inert', layout.filesCollapsed);
+    if (chatPanelEl) chatPanelEl.toggleAttribute('inert', layout.chatCollapsed);
   }
 
   // --- Window controls (maximize / chat + file panel toggles) ------------
@@ -391,6 +405,145 @@ if (themeToggle) {
       );
       sectionsWithIds.forEach((el) => tabIO.observe(el));
     }
+
+    // "How I Work" — SDLC as a self-running orbit loop.
+    setupProcessOrbit();
+  }
+
+  // GSAP animates a marker gliding around a ring of SDLC stages, forever —
+  // pausing briefly at each node while its detail card is shown at center.
+  // Starts automatically once the section scrolls into view, pauses when it
+  // scrolls back out (no point animating off-screen). Falls back to a plain
+  // always-visible vertical list when motion is reduced, GSAP didn't load,
+  // or there isn't room to draw a circle (narrow viewports).
+  let processTimeline = null;
+  let processVisibilityIO = null;
+  function setupProcessOrbit() {
+    if (processTimeline) { processTimeline.kill(); processTimeline = null; }
+    if (processVisibilityIO) { processVisibilityIO.disconnect(); processVisibilityIO = null; }
+
+    const section = pageContent.querySelector('[data-process-section]');
+    if (!section) return;
+    section.classList.remove('process-section--orbit');
+
+    const canEnhance = !reduced &&
+      window.matchMedia('(min-width: 320px)').matches &&
+      window.gsap;
+    if (!canEnhance) return;
+
+    const orbit = section.querySelector('[data-process-orbit]');
+    const dial = section.querySelector('[data-process-dial]');
+    const nodes = section.querySelectorAll('[data-process-node]');
+    const cards = section.querySelectorAll('[data-process-center-card]');
+    if (!orbit || !dial || nodes.length < 2) return;
+
+    section.classList.add('process-section--orbit');
+
+    const gsap = window.gsap;
+    const stepCount = nodes.length;
+    // Only the center card changes — the ring's dots/labels stay neutral so
+    // nothing that looks "lit" ever visibly travels around the circle. The
+    // one fixed thing (the marker) is the one thing that stays lit.
+    const setActive = (idx) => {
+      cards.forEach((c) => c.classList.toggle('is-active', parseInt(c.getAttribute('data-index')) === idx));
+    };
+    setActive(0);
+
+    // Node 0 sits at angle 0 (translateX with no rotation = pointing right),
+    // which is exactly where the fixed marker is — so dial rotation 0
+    // already lines node 0 up under the pointer with no offset needed.
+    // Node i sits at +i*step in the dial's own (unrotated) frame, so to
+    // bring it back around to the fixed marker at absolute 0 the dial has
+    // to rotate *counter-clockwise* by that same amount — i.e. negative.
+    gsap.set(dial, { rotation: 0 });
+    orbit.style.setProperty('--dial-rotation', '0deg');
+    const tl = gsap.timeline({ repeat: -1, paused: true });
+    tl.addLabel('stage0', 0);
+    for (let i = 1; i <= stepCount; i++) {
+      const angle = -(360 / stepCount) * i;
+      tl.to(dial, {
+        rotation: angle,
+        duration: 0.9,
+        ease: 'power2.inOut',
+        onUpdate: () => orbit.style.setProperty('--dial-rotation', gsap.getProperty(dial, 'rotation') + 'deg'),
+        onComplete: () => setActive(i % stepCount),
+      }, '+=1.4'); // pause at the previous node before gliding to this one
+      // Label the moment this tween finishes — i.e. the resting point where
+      // stage (i % stepCount) is under the marker — so a dot click can jump
+      // straight there with tl.tweenTo() instead of animating a competing,
+      // standalone tween on the same target (which GSAP's timeline was
+      // silently winning against, leaving clicks with no visible effect).
+      // The i === stepCount lap (wrapping back to stage 0) is skipped:
+      // "stage0" already labels position 0, and re-adding it here would
+      // silently move that label to the end of the timeline instead (GSAP
+      // labels are unique by name) — every click to stage 0 would then
+      // spin almost a full loop instead of landing instantly.
+      if (i < stepCount) tl.addLabel('stage' + i);
+    }
+    processTimeline = tl;
+
+    // Scroll-visibility auto-pauses/resumes the loop, but only while the
+    // visitor hasn't taken manual control via the pause button — once they
+    // have, their choice wins until they press it again.
+    let userPaused = false;
+    let sectionVisible = false;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          sectionVisible = e.isIntersecting;
+          if (userPaused) return;
+          if (sectionVisible) tl.play(); else tl.pause();
+        });
+      },
+      { root: webview, threshold: 0.3 }
+    );
+    io.observe(section);
+    processVisibilityIO = io;
+
+    const playToggle = section.querySelector('[data-process-play-toggle]');
+    function setPaused(next) {
+      userPaused = next;
+      if (userPaused) {
+        tl.pause();
+      } else if (sectionVisible) {
+        tl.play();
+      }
+      if (playToggle) {
+        playToggle.dataset.state = userPaused ? 'paused' : 'playing';
+        playToggle.setAttribute('aria-label', userPaused ? playToggle.dataset.labelPlay : playToggle.dataset.labelPause);
+      }
+    }
+
+    if (playToggle) {
+      playToggle.hidden = false;
+      playToggle.dataset.state = 'playing';
+      playToggle.setAttribute('aria-label', playToggle.dataset.labelPause);
+      if (!playToggle.dataset.processPlayBound) {
+        playToggle.dataset.processPlayBound = '1';
+        playToggle.addEventListener('click', () => setPaused(!userPaused));
+      }
+    }
+
+    // Clicking a dot jumps straight to that stage using the timeline's own
+    // tweenTo() — a standalone gsap.to() on the same target (dial.rotation)
+    // silently lost to the timeline's own tweens (paused:true lives on the
+    // timeline, not on each child tween, so GSAP still treated them as
+    // live and overwrote the one-off tween), so scrubbing the existing
+    // timeline to a label is what actually moves the ring on click.
+    nodes.forEach((node, idx) => {
+      const dotBtn = node.querySelector('[data-process-node-btn]');
+      if (!dotBtn || dotBtn.dataset.processNodeBound) return;
+      dotBtn.dataset.processNodeBound = '1';
+      dotBtn.addEventListener('click', () => {
+        setPaused(true);
+        tl.tweenTo('stage' + idx, {
+          duration: 0.6,
+          ease: 'power2.inOut',
+          onComplete: () => setActive(idx),
+        });
+      });
+    });
   }
 
   initSectionBehavior();
@@ -418,7 +571,7 @@ if (themeToggle) {
   const rand = (a, b) => a + Math.random() * (b - a);
 
   function scrollChatToBottom() {
-    const scroller = chatLog.parentElement; // .hero-chat, the scrollable element
+    const scroller = chatLog.parentElement; // .hero-chat-scroll, the scrollable element
     scroller.scrollTop = scroller.scrollHeight;
   }
 
@@ -886,6 +1039,27 @@ if (themeToggle) {
     busy.active = false;
   }
 
+  // Suggested-question chips: clicking one asks it for real, then the whole
+  // suggestion block goes away — it only exists to get the first question
+  // going. Manually asking a question dismisses it too.
+  const suggestionsEl = hero.querySelector('[data-chat-suggestions]');
+  function dismissSuggestions() {
+    if (suggestionsEl) suggestionsEl.classList.add('is-dismissed');
+  }
+  if (suggestionsEl) {
+    suggestionsEl.querySelectorAll('.hero-suggestion').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (busy.active) return;
+        userStartedChat = true;
+        dismissSuggestions();
+        askAI(btn.textContent.trim());
+      });
+    });
+    // The chat log's min-height pushes everything below the fold until the
+    // panel is scrolled; start at the bottom so the chips greet the visitor.
+    requestAnimationFrame(scrollChatToBottom);
+  }
+
   if (chatForm && chatInput) {
     chatForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -893,6 +1067,7 @@ if (themeToggle) {
       const question = chatInput.value.trim();
       if (!question) return;
       chatInput.value = '';
+      dismissSuggestions();
       askAI(question);
     });
   }
@@ -934,11 +1109,20 @@ if (themeToggle) {
       busyObserver.observe(heroInputBar, { attributes: true, attributeFilter: ['class'] });
     }
 
-    // After any click that doesn't land on a typeable field (links, buttons,
-    // skill badges, empty space), return focus to the chat input once the
-    // click's own handlers (routing, queueing a skill, etc.) have run.
-    document.addEventListener('click', () => {
-      setTimeout(refocusChatInput, 0);
+    // Redirect the *first keystroke* into the chat input when nothing else
+    // has focus — not every click. Refocusing on every click used to fight
+    // text selection (mouseup on selected body text is a click too, and
+    // stealing focus right after collapses the selection), so this only
+    // reacts to the visitor actually starting to type.
+    document.addEventListener('keydown', (e) => {
+      if (isTypeable(document.activeElement)) return; // already typing somewhere real
+      if (chatInput.offsetParent === null) return; // chat panel hidden/collapsed
+      if (e.metaKey || e.ctrlKey || e.altKey) return; // shortcuts, not typing
+      if (e.key.length !== 1) return; // letters/digits/symbols only — not Tab, Escape, arrows, etc.
+
+      chatInput.focus({ preventScroll: true });
+      chatInput.value += e.key; // focus() alone would eat this keystroke
+      e.preventDefault();
     });
   }
 })();

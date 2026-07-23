@@ -11,10 +11,27 @@
 <meta property="og:description" content="{{ .Description | default (i18n "tagline") }}">
 <meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}">
 <meta property="og:url" content="{{ .Permalink }}">
-{{ if .Params.image }}<meta property="og:image" content="{{ .Params.image | absURL }}">{{ else }}<meta property="og:image" content="{{ "images/og-default.svg" | absURL }}">{{ end }}
+{{ if .Params.image }}<meta property="og:image" content="{{ .Params.image | absURL }}">{{ else }}<meta property="og:image" content="{{ "images/og-default.png" | absURL }}">{{ end }}
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="canonical" href="{{ .Permalink }}">
+
+<!-- Structured data: person card for search engines (home page only) -->
+{{ if .IsHome }}
+<script type="application/ld+json">{{ dict
+  "@context" "https://schema.org"
+  "@type" "Person"
+  "name" .Site.Params.author
+  "jobTitle" (i18n "role")
+  "url" .Site.BaseURL
+  "email" (printf "mailto:%s" .Site.Params.email)
+  "image" (absURL "avatar.jpg")
+  "sameAs" (slice .Site.Params.github .Site.Params.linkedin .Site.Params.twitter)
+  "address" (dict "@type" "PostalAddress" "addressCountry" "BD")
+  | jsonify (dict "noHTMLEscape" true) | safeJS }}</script>
+{{ end }}
 
 <!-- hreflang: tell search engines about language alternates -->
 {{ if .IsTranslated }}
@@ -25,7 +42,12 @@
 {{ end }}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Fonts load async (media=print → all on load) so text renders immediately
+     in the fallback font instead of blocking first paint on Google Fonts. -->
+{{ $fontsHref := "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" }}
+<link rel="preload" href="{{ $fontsHref }}" as="style">
+<link href="{{ $fontsHref }}" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="{{ $fontsHref }}" rel="stylesheet"></noscript>
 
 {{ $style := resources.Get "css/main.css" | resources.Minify | resources.Fingerprint }}
 <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
@@ -35,6 +57,7 @@
 
 <noscript><style>
   .hero-loading { display: none; }
+  .section, .skill-group li { opacity: 1 !important; transform: none !important; animation: none !important; }
 </style></noscript>
 
 <!-- Theme initialization (runs before page renders) -->

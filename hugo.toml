@@ -43,6 +43,10 @@ enableRobotsTXT = true
     pageRef = "/#about"
     weight = 10
   [[languages.en.menus.main]]
+    name = "Process"
+    pageRef = "/#process"
+    weight = 15
+  [[languages.en.menus.main]]
     name = "Experience"
     pageRef = "/#experience"
     weight = 20
@@ -60,6 +64,10 @@ enableRobotsTXT = true
     name = "পরিচয়"
     pageRef = "/#about"
     weight = 10
+  [[languages.bn.menus.main]]
+    name = "প্রসেস"
+    pageRef = "/#process"
+    weight = 15
   [[languages.bn.menus.main]]
     name = "অভিজ্ঞতা"
     pageRef = "/#experience"

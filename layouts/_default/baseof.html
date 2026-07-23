@@ -55,11 +55,27 @@
           </div>
 
           <div class="hero-resizer" data-resizer="chat" role="separator" aria-orientation="vertical" aria-label="{{ i18n "resize_chat" }}" tabindex="0"></div>
-          <!-- CHAT / AGENT PANEL (a slide-in drawer on mobile) -->
-          <div class="hero-chat" data-chat-panel aria-hidden="true">
-            <p class="hero-chat-note">{{ i18n "hero_scripted_note" }}</p>
-            <div class="hero-chat-log" data-chat-log></div>
-            <div class="hero-queue" data-queue></div>
+          <!-- CHAT / AGENT PANEL (a slide-in drawer on mobile). No
+               aria-hidden here: the chat input can legitimately receive
+               focus (the keydown-to-focus behavior in main.js, or a screen
+               reader tabbing in) even while the panel is visually
+               collapsed/off-screen, and aria-hidden on an ancestor of a
+               focused element is invalid ARIA — Chrome logs and blocks it. -->
+          <div class="hero-chat" data-chat-panel>
+            <!-- Everything that can grow/scroll lives in here; the input
+                 form below is a flex sibling, so it always sits at the
+                 panel's bottom whether this scrolls or not. -->
+            <div class="hero-chat-scroll" data-chat-scroll>
+              <p class="hero-chat-note">{{ i18n "hero_scripted_note" }}</p>
+              <div class="hero-chat-log" data-chat-log></div>
+              <div class="hero-suggestions" data-chat-suggestions>
+                <p class="hero-suggestions-label">{{ i18n "hero_suggestions_label" }}</p>
+                <button type="button" class="hero-suggestion">{{ i18n "hero_suggestion_1" }}</button>
+                <button type="button" class="hero-suggestion">{{ i18n "hero_suggestion_2" }}</button>
+                <button type="button" class="hero-suggestion">{{ i18n "hero_suggestion_3" }}</button>
+              </div>
+              <div class="hero-queue" data-queue></div>
+            </div>
 
             <form class="hero-input" data-chat-form>
               <span class="hero-prompt">›</span>
@@ -98,6 +114,7 @@
     {{ $pageEntries := slice
       (dict "type" "page" "label" (printf "%s/home.tsx" $filesRoot) "href" ("/" | relLangURL))
       (dict "type" "page" "label" (printf "%s/about.tsx" $filesRoot) "href" ("/#about" | relLangURL))
+      (dict "type" "page" "label" (printf "%s/process.tsx" $filesRoot) "href" ("/#process" | relLangURL))
       (dict "type" "page" "label" (printf "%s/experience.tsx" $filesRoot) "href" ("/#experience" | relLangURL))
       (dict "type" "page" "label" (printf "%s/projects.tsx" $filesRoot) "href" ("/#projects" | relLangURL))
       (dict "type" "page" "label" (printf "%s/blog/index.md" $filesRoot) "href" ("/blog" | relLangURL))
@@ -128,6 +145,11 @@
     </div>
   </div>
 
+  <!-- GSAP powers the "How I Work" scroll-story; self-hosted, loaded before
+       main.js so window.gsap / window.ScrollTrigger are ready. Deferred, so
+       they never block first paint. -->
+  <script src="{{ "js/gsap.min.js" | relURL }}" defer></script>
+  <script src="{{ "js/ScrollTrigger.min.js" | relURL }}" defer></script>
   <script src="{{ "js/main.js" | relURL }}" defer></script>
 </body>
 </html>

@@ -10,6 +10,14 @@ other = "কাজের জন্য উপলব্ধ"
 other = "msrdev.top — AI চ্যাট"
 [hero_ask_placeholder]
 other = "আমার সম্পর্কে জিজ্ঞাসা করুন…"
+[hero_suggestions_label]
+other = "জিজ্ঞেস করে দেখুন:"
+[hero_suggestion_1]
+other = "উনি কী কী বানিয়েছেন?"
+[hero_suggestion_2]
+other = "ওনার মূল স্ট্যাক কী?"
+[hero_suggestion_3]
+other = "উনি কি এখন কাজের জন্য available?"
 [hero_thinking]
 other = "ভাবছে"
 [hero_skill_question]
@@ -55,6 +63,8 @@ other = "প্যানেল লেআউট রিসেট করুন"
 other = "প্রজেক্ট দেখুন"
 [btn_contact]
 other = "যোগাযোগ করুন"
+[btn_resume]
+other = "সিভি ডাউনলোড"
 [nav_contact]
 other = "যোগাযোগ"
 
@@ -62,6 +72,14 @@ other = "যোগাযোগ"
 other = "পরিচয়"
 [sec_skills]
 other = "দক্ষতা"
+[sec_process]
+other = "কীভাবে কাজ করি"
+[process_subtitle]
+other = "প্রথম requirement থেকে শুরু করে ship হওয়া, support-সহ একটা প্রোডাক্ট পর্যন্ত।"
+[process_pause]
+other = "অ্যানিমেশন থামান"
+[process_play]
+other = "অ্যানিমেশন চালান"
 [sec_experience]
 other = "অভিজ্ঞতা"
 [sec_projects]

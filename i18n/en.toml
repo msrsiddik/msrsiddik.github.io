@@ -10,6 +10,14 @@ other = "Available for work"
 other = "msrdev.top — AI chat"
 [hero_ask_placeholder]
 other = "Ask about me…"
+[hero_suggestions_label]
+other = "Try asking:"
+[hero_suggestion_1]
+other = "What has he built?"
+[hero_suggestion_2]
+other = "What's his main stack?"
+[hero_suggestion_3]
+other = "Is he available for work?"
 [hero_thinking]
 other = "thinking"
 [hero_skill_question]
@@ -55,6 +63,8 @@ other = "Reset panel layout"
 other = "View Projects"
 [btn_contact]
 other = "Get in touch"
+[btn_resume]
+other = "Download CV"
 [nav_contact]
 other = "Contact"
 
@@ -62,6 +72,14 @@ other = "Contact"
 other = "About"
 [sec_skills]
 other = "Skills"
+[sec_process]
+other = "How I Work"
+[process_subtitle]
+other = "From first requirement to a shipped, supported product."
+[process_pause]
+other = "Pause animation"
+[process_play]
+other = "Play animation"
 [sec_experience]
 other = "Experience"
 [sec_projects]

@@ -4,6 +4,7 @@
 {{ $skillHighlights := index .Site.Data $lang "skills-highlights" }}
 {{ $experience := index .Site.Data $lang "experience" }}
 {{ $projects := index .Site.Data $lang "projects" }}
+{{ $process := index .Site.Data $lang "process" }}
 
 <div class="wv-hero">
   <div class="wv-block" data-block="name">
@@ -40,6 +41,7 @@
     <div class="about-grid">
       <div class="about-text">
         {{ with .Site.GetPage "/about" }}{{ .Content }}{{ end }}
+        <a class="btn btn-ghost about-resume-btn" href="/Siddiqur-Rahman-Resume.pdf" target="_blank" rel="noopener" download>{{ i18n "btn_resume" }}</a>
       </div>
       <aside class="about-side">
         <h3>{{ i18n "sec_skills" }}</h3>
@@ -58,11 +60,86 @@
   </div>
 </section>
 
-<!-- EXPERIENCE -->
-<section id="experience" class="section section-alt">
+<!-- PROCESS: SDLC as an orbit — a marker glides node to node around a ring,
+     forever, because the lifecycle isn't a straight line: handover feeds
+     back into the next round of requirements. GSAP animates the marker;
+     a static ring + vertical list is the no-JS / reduced-motion fallback. -->
+{{ $stepCount := len $process }}
+<section id="process" class="section section-alt process-section" data-process-section data-process-count="{{ $stepCount }}">
   <div class="container">
     <div class="section-head">
       <span class="section-index">02</span>
+      <h2>{{ i18n "sec_process" }}</h2>
+      <button type="button" class="process-play-toggle" data-process-play-toggle
+        aria-label="{{ i18n "process_pause" }}" data-label-pause="{{ i18n "process_pause" }}" data-label-play="{{ i18n "process_play" }}" hidden>
+        <svg class="process-play-icon-pause" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><rect x="3" y="2.5" width="3.2" height="11" rx=".5" fill="currentColor"/><rect x="9.8" y="2.5" width="3.2" height="11" rx=".5" fill="currentColor"/></svg>
+        <svg class="process-play-icon-play" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 2.5v11l9-5.5-9-5.5z" fill="currentColor"/></svg>
+      </button>
+    </div>
+    <p class="process-subtitle">{{ i18n "process_subtitle" }}</p>
+
+    <div class="process-orbit-wrap">
+      <div class="process-orbit" data-process-orbit style="--step-count: {{ $stepCount }}">
+        <!-- Rotates as a whole: the ring + every node swing past the fixed
+             marker on the right, like a dial turning past a pointer. Each
+             node's label counter-rotates against the dial's *live* spin
+             (via --dial-rotation, updated every frame from JS) on top of
+             its own fixed --angle, so the text always reads upright even
+             mid-turn. -->
+        <div class="process-orbit-dial" data-process-dial>
+          <svg class="process-orbit-ring" viewBox="0 0 400 400" aria-hidden="true">
+            <circle cx="200" cy="200" r="164" />
+          </svg>
+          {{ range $i, $step := $process }}
+          {{ $angle := mul (div 360.0 $stepCount) $i }}
+          <div class="process-node" data-process-node data-index="{{ $i }}" style="--angle: {{ $angle }}deg">
+            <button type="button" class="process-node-dot" data-process-node-btn aria-label="{{ $step.title }}"></button>
+            <span class="process-node-label">{{ $step.title }}</span>
+          </div>
+          {{ end }}
+        </div>
+
+        <!-- Fixed pointer — never rotates, so it always marks "current". -->
+        <span class="process-orbit-marker" aria-hidden="true"></span>
+
+        <div class="process-orbit-center" data-process-center>
+          {{ range $i, $step := $process }}
+          <div class="process-center-card{{ if eq $i 0 }} is-active{{ end }}" data-process-center-card data-index="{{ $i }}">
+            <span class="process-center-index">{{ printf "%02d" (add $i 1) }}</span>
+            <div class="process-center-head">
+              {{ partial "process-icon.html" $step.icon }}
+              <h3 class="process-center-title">{{ $step.title }}</h3>
+            </div>
+            <p class="process-center-desc">{{ $step.desc }}</p>
+          </div>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Fallback content: same steps, plain list. Hidden once the orbit
+         takes over; screen readers and no-JS visitors get this instead. -->
+    <ol class="process-list-fallback" data-process-fallback>
+      {{ range $i, $step := $process }}
+      <li class="process-list-item">
+        <span class="process-list-index">{{ printf "%02d" (add $i 1) }}</span>
+        {{ partial "process-icon.html" $step.icon }}
+        <div>
+          <h3 class="process-list-title">{{ $step.title }}</h3>
+          <p class="process-list-desc">{{ $step.desc }}</p>
+          {{ with $step.details }}<p class="process-list-detail">{{ . }}</p>{{ end }}
+        </div>
+      </li>
+      {{ end }}
+    </ol>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-index">03</span>
       <h2>{{ i18n "sec_experience" }}</h2>
     </div>
     <ol class="timeline">
@@ -85,10 +162,10 @@
 </section>
 
 <!-- PROJECTS -->
-<section id="projects" class="section">
+<section id="projects" class="section section-alt">
   <div class="container">
     <div class="section-head">
-      <span class="section-index">03</span>
+      <span class="section-index">04</span>
       <h2>{{ i18n "sec_projects" }}</h2>
     </div>
     <div class="projects-grid">
@@ -115,10 +192,10 @@
 {{ $posts := where site.RegularPages "Section" "blog" }}
 {{ $posts = $posts.ByDate.Reverse }}
 {{ if $posts }}
-<section id="writing" class="section section-alt">
+<section id="writing" class="section">
   <div class="container">
     <div class="section-head">
-      <span class="section-index">04</span>
+      <span class="section-index">05</span>
       <h2>{{ i18n "sec_writing" }}</h2>
       <a class="section-more" href="{{ "/blog" | relLangURL }}">{{ i18n "all_posts" }}</a>
     </div>
