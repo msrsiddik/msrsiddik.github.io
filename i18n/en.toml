@@ -39,7 +39,7 @@ other = "⌘K"
 [hero_search_empty]
 other = "No matches."
 [hero_chat_error]
-other = "I'm sincerely sorry, I'm unable to respond right now — please try again shortly, or email me directly."
+other = "Something went wrong on my end. Please try again in a moment, or reach Siddiqur directly by email or WhatsApp."
 [hero_chat_rate_limited]
 other = "Too many questions at once — give it a minute and try again."
 [hero_chat_sending]

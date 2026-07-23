@@ -598,6 +598,54 @@ if (themeToggle) {
     return el;
   }
 
+  // Minimal, dependency-free Markdown for AI answers. HTML is escaped first so
+  // model output can never inject markup; then a small set of inline and block
+  // patterns (bold, italic, inline code, links, unordered lists, paragraphs)
+  // are turned into safe tags. Links are forced to open in a new tab.
+  function escapeHTML(s) {
+    return s.replace(/[&<>"']/g, (c) => (
+      { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+    ));
+  }
+
+  function renderInline(s) {
+    return s
+      .replace(/`([^`]+)`/g, (_, c) => `<code>${c}</code>`)
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>')
+      .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+        '<a href="$2" target="_blank" rel="noopener">$1</a>')
+      .replace(/(^|[\s(])((?:https?:\/\/)[^\s<)]+)/g,
+        '$1<a href="$2" target="_blank" rel="noopener">$2</a>');
+  }
+
+  function renderMarkdown(src) {
+    const lines = escapeHTML(src).split('\n');
+    const out = [];
+    let list = null;      // accumulating <li> items
+    let para = [];        // accumulating paragraph lines
+    const flushPara = () => {
+      if (para.length) { out.push(`<p>${renderInline(para.join(' '))}</p>`); para = []; }
+    };
+    const flushList = () => {
+      if (list) { out.push(`<ul>${list.join('')}</ul>`); list = null; }
+    };
+    for (const line of lines) {
+      const item = line.match(/^\s*[-*]\s+(.*)$/);
+      if (item) {
+        flushPara();
+        (list = list || []).push(`<li>${renderInline(item[1])}</li>`);
+      } else if (!line.trim()) {
+        flushPara(); flushList();
+      } else {
+        flushList();
+        para.push(line);
+      }
+    }
+    flushPara(); flushList();
+    return out.join('');
+  }
+
   let currentLabels = {};
 
   function showThinking() {
@@ -1008,7 +1056,9 @@ if (themeToggle) {
 
     const thinking = showThinking();
 
-    let answer, isError = false;
+    // Consume the Worker's SSE stream, appending tokens to the bubble as they
+    // arrive for a real live-typing effect. Falls back to a plain error bubble
+    // if the request never starts or dies before any text lands.
     try {
       if (!chatConfig.endpoint) throw new Error('no endpoint configured');
       const res = await fetch(chatConfig.endpoint, {
@@ -1017,25 +1067,72 @@ if (themeToggle) {
         body: JSON.stringify({ question, lang: chatConfig.lang || 'en' }),
       });
       if (res.status === 429) {
-        answer = chatConfig.rateLimited || 'Rate limited, try again shortly.';
-        isError = true;
-      } else if (!res.ok) {
-        throw new Error('bad status ' + res.status);
-      } else {
-        const data = await res.json();
-        answer = data.answer;
-        if (!answer) throw new Error('empty answer');
+        thinking.remove();
+        if (myNav === navId) {
+          const b = addBubble('agent chat-error', '');
+          await typeInto(b, chatConfig.rateLimited || 'Rate limited, try again shortly.', null);
+        }
+        busy.active = false;
+        return;
+      }
+      if (!res.ok || !res.body) throw new Error('bad status ' + res.status);
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      let raw = '';       // accumulated markdown source
+      let bubble = null;  // created lazily on first delta
+      let streamError = false;
+
+      const handleEvent = (event, data) => {
+        if (event === 'delta' && data.text) {
+          if (!bubble) { thinking.remove(); bubble = addBubble('agent', ''); }
+          raw += data.text;
+          bubble.innerHTML = renderMarkdown(raw);
+          scrollChatToBottom();
+        } else if (event === 'error') {
+          streamError = true;
+        }
+      };
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (myNav !== navId) { reader.cancel(); busy.active = false; return; }
+        buffer += decoder.decode(value, { stream: true });
+        let sep;
+        while ((sep = buffer.indexOf('\n\n')) !== -1) {
+          const block = buffer.slice(0, sep);
+          buffer = buffer.slice(sep + 2);
+          let event = 'message', payload = '';
+          block.split('\n').forEach((line) => {
+            if (line.startsWith('event:')) event = line.slice(6).trim();
+            else if (line.startsWith('data:')) payload += line.slice(5).trim();
+          });
+          if (!payload) continue;
+          let data; try { data = JSON.parse(payload); } catch (_) { continue; }
+          handleEvent(event, data);
+        }
+      }
+
+      thinking.remove();
+      if (!bubble) {
+        // No text ever arrived (all providers down, or an error event only).
+        if (myNav === navId) {
+          const b = addBubble('agent chat-error', '');
+          await typeInto(b, chatConfig.error || "Something went wrong on my end. Please try again in a moment, or reach Siddiqur directly by email or WhatsApp.", null);
+        }
+      } else if (streamError) {
+        bubble.classList.add('chat-error');
       }
     } catch (_) {
-      answer = chatConfig.error || "I'm sincerely sorry, I'm unable to respond right now — please try again shortly.";
-      isError = true;
+      thinking.remove();
+      if (myNav === navId) {
+        const b = addBubble('agent chat-error', '');
+        await typeInto(b, chatConfig.error || "Something went wrong on my end. Please try again in a moment, or reach Siddiqur directly by email or WhatsApp.", null);
+      }
     }
 
-    thinking.remove();
-    if (myNav !== navId) { busy.active = false; return; }
-
-    const bubble = addBubble('agent' + (isError ? ' chat-error' : ''), '');
-    await typeInto(bubble, answer, null);
     busy.active = false;
   }
 
