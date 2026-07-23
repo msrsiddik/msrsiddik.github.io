@@ -755,6 +755,12 @@ if (themeToggle) {
   const MAX_CHAT_HISTORY = 16; // messages (8 user+assistant turns)
   const chatHistory = [];
 
+  // Must match SUGGESTIONS_DELIMITER in worker/src/index.js — the Worker's
+  // system prompt tells the model to append follow-up questions after this
+  // marker, which gets stripped from the rendered answer and turned into
+  // clickable chips instead.
+  const SUGGESTIONS_DELIMITER = '###SUGGESTIONS###';
+
   async function playTurn(question, answer, opts) {
     opts = opts || {};
     const myNav = navId;
@@ -1127,6 +1133,34 @@ if (themeToggle) {
     aiStatusEl.dataset.aiStatus = 'offline';
   }
 
+  // Renders the model's suggested follow-up questions (the text after
+  // SUGGESTIONS_DELIMITER, one per line) as clickable chips right after the
+  // answer bubble. Clicking one asks it and removes the whole chip row —
+  // like the initial hero-suggestions block, these only exist to suggest
+  // the next question, not to persist as UI chrome.
+  function renderFollowUps(block) {
+    if (!block) return;
+    const questions = block.split('\n').map((s) => s.replace(/^[-*\d.)\s]+/, '').trim()).filter(Boolean).slice(0, 3);
+    if (!questions.length) return;
+
+    const row = document.createElement('div');
+    row.className = 'hero-followups';
+    questions.forEach((q) => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'hero-suggestion hero-followup-chip';
+      chip.textContent = q;
+      chip.addEventListener('click', () => {
+        if (busy.active) return;
+        row.remove();
+        askAI(q);
+      });
+      row.appendChild(chip);
+    });
+    chatLog.appendChild(row);
+    scrollChatToBottom();
+  }
+
   async function askAI(question) {
     const myNav = navId;
     busy.active = true;
@@ -1163,7 +1197,7 @@ if (themeToggle) {
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let buffer = '';
-      let raw = '';       // accumulated markdown source
+      let raw = '';       // accumulated markdown source, may include the suggestions tail
       let bubble = null;  // created lazily on first delta
       let streamError = false;
 
@@ -1171,7 +1205,11 @@ if (themeToggle) {
         if (event === 'delta' && data.text) {
           if (!bubble) { thinking.remove(); bubble = addBubble('agent', ''); }
           raw += data.text;
-          bubble.innerHTML = renderMarkdown(raw);
+          // Never render the delimiter/suggestions tail as part of the
+          // answer bubble — it's stripped out and turned into chips once
+          // the stream finishes (see below).
+          const visible = raw.split(SUGGESTIONS_DELIMITER)[0];
+          bubble.innerHTML = renderMarkdown(visible);
           scrollChatToBottom();
         } else if (event === 'error') {
           streamError = true;
@@ -1208,10 +1246,13 @@ if (themeToggle) {
       } else if (streamError) {
         bubble.classList.add('chat-error');
       } else {
+        const [answerText, suggestionsBlock] = raw.split(SUGGESTIONS_DELIMITER);
         // Only remember successful turns — an error bubble isn't something
-        // the model should see as its own prior output on the next question.
-        chatHistory.push({ role: 'user', content: question }, { role: 'assistant', content: raw });
+        // the model should see as its own prior output on the next question,
+        // and the suggestions tail isn't part of what it actually "said".
+        chatHistory.push({ role: 'user', content: question }, { role: 'assistant', content: answerText.trim() });
         if (chatHistory.length > MAX_CHAT_HISTORY) chatHistory.splice(0, chatHistory.length - MAX_CHAT_HISTORY);
+        renderFollowUps(suggestionsBlock);
       }
     } catch (_) {
       thinking.remove();

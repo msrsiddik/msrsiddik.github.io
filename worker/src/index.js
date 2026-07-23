@@ -5,6 +5,7 @@
 
 const MAX_QUESTION_LEN = 500;
 const MAX_HISTORY_TURNS = 8; // last N messages (user+assistant combined) kept as context
+const SUGGESTIONS_DELIMITER = "###SUGGESTIONS###";
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 8; // requests per IP per window
 const CONTEXT_CACHE_TTL = 300; // seconds
@@ -87,6 +88,11 @@ function buildSystemPrompt(context, lang) {
   if (social.twitter) contactLines.push(`Twitter/X: ${social.twitter}`);
   if (social.facebook) contactLines.push(`Facebook: ${social.facebook}`);
   parts.push(`\n\n--- Contact ---\n${contactLines.join("\n")}`);
+
+  const suggestionInstruction = bn
+    ? `\n\nProti answer-er ekdom sheshe, notun line-e, exactly ei format-e 2-3 ta natural follow-up question suggest korবে (visitor er point of view theke, jemon visitor nijei jigges korbe): "${SUGGESTIONS_DELIMITER}" tarpor প্রতিটা প্রশ্ন আলাদা লাইনে। Ei suggestion-gulo age jা jigges hoyeche tার sathe related hobe kিন্তু duplicate na, ar chat-e already deya information ache emon kono topic e based hobe. Answer-er বডিতে ei delimiter ba suggestions kokhono mention korbe na — শুধু একদম শেষে।`
+    : `\n\nAt the very end of every answer, on a new line, suggest 2-3 natural follow-up questions (phrased from the visitor's point of view, as if they were asking) in exactly this format: "${SUGGESTIONS_DELIMITER}" followed by each question on its own line. These should be related to what was just discussed but not duplicate it, and grounded in information actually available in this context. Never mention the delimiter or suggestions anywhere in the body of the answer — only at the very end.`;
+  parts.push(suggestionInstruction);
   return parts.join("");
 }
 
@@ -249,6 +255,12 @@ export default {
       .slice(-MAX_HISTORY_TURNS)
       .map((t) => ({ role: t.role, content: t.content.trim().slice(0, MAX_QUESTION_LEN) }))
       .filter((t) => t.content);
+
+    // Lightweight visibility into what visitors actually ask — no storage
+    // added, just structured console output visible in the Cloudflare
+    // dashboard's real-time Worker logs (Workers & Pages -> this Worker ->
+    // Logs). Good enough to spot patterns without adding a KV/D1 binding.
+    console.log(JSON.stringify({ event: "chat_question", lang, question, hasHistory: turns.length > 0 }));
 
     let context;
     try {

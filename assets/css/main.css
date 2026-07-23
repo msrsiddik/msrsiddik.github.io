@@ -591,6 +591,13 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; ma
   outline: none;
 }
 
+/* Follow-up chips the model suggests after each answer, appended to the
+   chat log itself (not the one-time hero-suggestions intro block). */
+.hero-followups {
+  display: flex; flex-direction: column; align-items: flex-start; gap: .4rem;
+  margin-top: -.2rem;
+}
+
 /* Queued skill-question chips */
 .hero-queue { display: flex; flex-wrap: wrap; gap: .4rem; padding-top: .5rem; }
 .hero-queue:empty { display: none; padding-top: 0; }
